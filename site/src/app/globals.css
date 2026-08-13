@@ -1,0 +1,86 @@
+@import "tailwindcss";
+
+:root {
+  --color-ink: #08161f;
+  --color-void: #010101;
+  --color-paper: #ffffff;
+  --color-accent: #e88f4f;
+  --color-mist: #aab4bd;
+  --color-line: #1c2b35;
+}
+
+@theme inline {
+  --color-ink: var(--color-ink);
+  --color-void: var(--color-void);
+  --color-paper: var(--color-paper);
+  --color-accent: var(--color-accent);
+  --color-mist: var(--color-mist);
+  --color-line: var(--color-line);
+
+  --font-sans: "Roboto", Arial, Helvetica, sans-serif;
+
+  --animate-fade-up: fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-fade-in: fade-in 1.1s ease-out forwards;
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-ink);
+  color: var(--color-paper);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+/* Reveal-on-scroll base state; JS adds .is-visible when in view */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-void);
+}
