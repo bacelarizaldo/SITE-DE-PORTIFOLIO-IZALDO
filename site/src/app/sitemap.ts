@@ -2,8 +2,9 @@ import type { MetadataRoute } from "next";
 import { getAllProjects } from "@/content/projects";
 import { siteConfig } from "@/lib/site-config";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const projectEntries = getAllProjects().map((project) => ({
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const projects = await getAllProjects();
+  const projectEntries = projects.map((project) => ({
     url: `${siteConfig.url}/portfolio/${project.slug}`,
     lastModified: new Date(),
   }));

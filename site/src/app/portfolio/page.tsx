@@ -10,8 +10,10 @@ export const metadata: Metadata = {
     "Trabalhos de Izaldo Bacelar (IB Films) em produção audiovisual: filmes para empresas, eventos, casamentos, redes sociais e fotografia.",
 };
 
-export default function PortfolioPage() {
-  const projects = getAllProjects();
+export const revalidate = 60;
+
+export default async function PortfolioPage() {
+  const projects = await getAllProjects();
 
   return (
     <>

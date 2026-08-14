@@ -12,8 +12,11 @@ import { whatsappHref } from "@/lib/site-config";
 
 type Params = { slug: string };
 
-export function generateStaticParams(): Params[] {
-  return getAllProjects().map((p) => ({ slug: p.slug }));
+export const revalidate = 60;
+
+export async function generateStaticParams(): Promise<Params[]> {
+  const projects = await getAllProjects();
+  return projects.map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({
@@ -22,7 +25,7 @@ export async function generateMetadata({
   params: Promise<Params>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const project = getProjectBySlug(slug);
+  const project = await getProjectBySlug(slug);
   if (!project) return {};
   return {
     title: project.title,
@@ -32,12 +35,12 @@ export async function generateMetadata({
 
 export default async function ProjectPage({ params }: { params: Promise<Params> }) {
   const { slug } = await params;
-  const project = getProjectBySlug(slug);
+  const project = await getProjectBySlug(slug);
   if (!project) notFound();
 
-  const all = getAllProjects();
+  const all = await getAllProjects();
   const idx = all.findIndex((p) => p.slug === project.slug);
-  const next = all[(idx + 1) % all.length];
+  const next = all.length > 0 ? all[(idx + 1) % all.length] : undefined;
 
   return (
     <>
@@ -110,15 +113,19 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
 
         <section className="border-t border-line">
           <div className="mx-auto max-w-[1600px] px-6 md:px-10 py-16 md:py-24 flex flex-col md:flex-row md:items-end md:justify-between gap-8">
-            <div>
-              <p className="text-sm text-mist mb-2">Próximo projeto</p>
-              <Link
-                href={`/portfolio/${next.slug}`}
-                className="text-3xl md:text-5xl font-black tracking-tight hover:text-accent transition-colors"
-              >
-                {next.title} →
-              </Link>
-            </div>
+            {next && next.slug !== project.slug ? (
+              <div>
+                <p className="text-sm text-mist mb-2">Próximo projeto</p>
+                <Link
+                  href={`/portfolio/${next.slug}`}
+                  className="text-3xl md:text-5xl font-black tracking-tight hover:text-accent transition-colors"
+                >
+                  {next.title} →
+                </Link>
+              </div>
+            ) : (
+              <div />
+            )}
             <a
               href={whatsappHref}
               target="_blank"

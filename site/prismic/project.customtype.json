@@ -1,0 +1,106 @@
+{
+  "Main": {
+    "uid": {
+      "type": "UID",
+      "config": {
+        "label": "UID",
+        "placeholder": "identificador-do-projeto (aparece na URL)"
+      }
+    },
+    "title": {
+      "type": "Text",
+      "config": {
+        "label": "Título",
+        "placeholder": "Nome do projeto"
+      }
+    },
+    "client": {
+      "type": "Text",
+      "config": {
+        "label": "Cliente",
+        "placeholder": "Nome do cliente"
+      }
+    },
+    "category": {
+      "type": "Select",
+      "config": {
+        "label": "Categoria",
+        "options": ["empresas", "redes-sociais", "eventos", "casamentos", "fotografia"],
+        "default_value": "empresas"
+      }
+    },
+    "year": {
+      "type": "Number",
+      "config": {
+        "label": "Ano"
+      }
+    },
+    "thumbnail": {
+      "type": "Image",
+      "config": {
+        "label": "Thumbnail",
+        "constraint": {},
+        "thumbnails": []
+      }
+    },
+    "cover_video": {
+      "type": "Link",
+      "config": {
+        "label": "Vídeo de capa",
+        "select": "media"
+      }
+    },
+    "description": {
+      "type": "StructuredText",
+      "config": {
+        "label": "Descrição",
+        "multi": "paragraph,strong,em",
+        "placeholder": "Contexto, objetivo e o que foi produzido."
+      }
+    },
+    "services": {
+      "type": "Group",
+      "config": {
+        "label": "Serviços",
+        "fields": {
+          "service": {
+            "type": "Text",
+            "config": {
+              "label": "Serviço",
+              "placeholder": "Ex: Direção, Captação, Edição"
+            }
+          }
+        }
+      }
+    },
+    "gallery": {
+      "type": "Group",
+      "config": {
+        "label": "Galeria",
+        "fields": {
+          "image": {
+            "type": "Image",
+            "config": {
+              "label": "Imagem",
+              "constraint": {},
+              "thumbnails": []
+            }
+          }
+        }
+      }
+    },
+    "featured": {
+      "type": "Boolean",
+      "config": {
+        "label": "Destaque na Home",
+        "default_value": false
+      }
+    },
+    "order": {
+      "type": "Number",
+      "config": {
+        "label": "Ordem de exibição"
+      }
+    }
+  }
+}

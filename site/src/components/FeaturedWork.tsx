@@ -5,8 +5,8 @@ import { categoryLabels } from "@/content/types";
 import SectionReveal from "./SectionReveal";
 import PlaceholderTag from "./PlaceholderTag";
 
-export default function FeaturedWork() {
-  const projects = getFeaturedProjects();
+export default async function FeaturedWork() {
+  const projects = await getFeaturedProjects();
 
   return (
     <section id="trabalhos" className="bg-ink py-24 md:py-36">
@@ -25,6 +25,12 @@ export default function FeaturedWork() {
             Ver portfólio completo →
           </Link>
         </SectionReveal>
+
+        {projects.length === 0 && (
+          <p className="text-sm text-mist">
+            Os primeiros trabalhos estão a caminho — em breve por aqui.
+          </p>
+        )}
 
         <div className="flex flex-col gap-20 md:gap-32">
           {projects.map((project, i) => (
