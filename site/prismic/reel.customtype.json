@@ -1,0 +1,32 @@
+{
+  "Main": {
+    "video": {
+      "type": "Link",
+      "config": {
+        "label": "Vídeo (vertical)",
+        "select": "media"
+      }
+    },
+    "thumbnail": {
+      "type": "Image",
+      "config": {
+        "label": "Capa (poster do vídeo)",
+        "constraint": {},
+        "thumbnails": []
+      }
+    },
+    "caption": {
+      "type": "Text",
+      "config": {
+        "label": "Legenda curta (opcional)",
+        "placeholder": "Ex: Bastidores — campanha X"
+      }
+    },
+    "link": {
+      "type": "Link",
+      "config": {
+        "label": "Link externo (opcional, ex: post no Instagram)"
+      }
+    }
+  }
+}

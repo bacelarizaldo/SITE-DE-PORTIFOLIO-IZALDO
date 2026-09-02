@@ -8,7 +8,7 @@ export default function Services() {
       <div className="mx-auto max-w-[1600px] px-6 md:px-10">
         <SectionReveal className="mb-16 md:mb-20 flex items-baseline justify-between gap-4 md:gap-6">
           <div className="flex items-baseline gap-4 md:gap-6">
-            <span className="text-sm text-accent tracking-[0.2em]">03</span>
+            <span className="text-sm text-accent tracking-[0.2em]">04</span>
             <h2 className="text-3xl md:text-5xl font-black tracking-tight">
               O que <span className="text-mist">eu faço.</span>
             </h2>

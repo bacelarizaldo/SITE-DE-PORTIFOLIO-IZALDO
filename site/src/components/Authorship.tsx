@@ -6,7 +6,7 @@ export default function Authorship() {
       <div className="mx-auto max-w-[1600px] px-6 md:px-10">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 items-start">
           <SectionReveal className="md:col-span-4 flex items-baseline gap-4 md:gap-6">
-            <span className="text-sm text-accent tracking-[0.2em]">02</span>
+            <span className="text-sm text-accent tracking-[0.2em]">03</span>
             <h2 className="text-3xl md:text-5xl font-black tracking-tight">
               Quem <span className="text-mist">assina.</span>
             </h2>

@@ -84,3 +84,21 @@ body {
   background: var(--color-accent);
   color: var(--color-void);
 }
+
+/* Esteira de vídeos — rolagem contínua, pausa no hover/foco. */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee-track {
+  animation: marquee 38s linear infinite;
+  will-change: transform;
+}
+.marquee-track:hover,
+.marquee-track:focus-within {
+  animation-play-state: paused;
+}

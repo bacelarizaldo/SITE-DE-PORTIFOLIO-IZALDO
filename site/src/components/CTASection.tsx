@@ -8,7 +8,7 @@ export default function CTASection() {
 
       <div className="relative mx-auto max-w-[1600px] px-6 md:px-10 text-center">
         <SectionReveal>
-          <p className="text-sm text-accent tracking-[0.2em] mb-6">05 — Contato</p>
+          <p className="text-sm text-accent tracking-[0.2em] mb-6">06 — Contato</p>
           <h2 className="text-4xl md:text-7xl font-black tracking-tight max-w-4xl mx-auto leading-[1.02]">
             Vamos fazer seu próximo projeto <span className="text-mist">valer a pena assistir.</span>
           </h2>

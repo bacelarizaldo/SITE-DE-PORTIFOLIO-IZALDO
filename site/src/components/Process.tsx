@@ -13,7 +13,7 @@ export default function Process() {
     <section id="processo" className="bg-void py-24 md:py-36 border-y border-line">
       <div className="mx-auto max-w-[1600px] px-6 md:px-10">
         <SectionReveal className="mb-16 md:mb-24 flex items-baseline gap-4 md:gap-6">
-          <span className="text-sm text-accent tracking-[0.2em]">04</span>
+          <span className="text-sm text-accent tracking-[0.2em]">05</span>
           <h2 className="text-3xl md:text-5xl font-black tracking-tight">
             Como <span className="text-mist">funciona.</span>
           </h2>
