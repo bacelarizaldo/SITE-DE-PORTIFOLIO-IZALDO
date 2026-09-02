@@ -4,8 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
-import PlaceholderTag from "@/components/PlaceholderTag";
 import SectionReveal from "@/components/SectionReveal";
+import ProjectHeroMedia from "@/components/ProjectHeroMedia";
 import { getAllProjects, getProjectBySlug } from "@/content/projects";
 import { categoryLabels } from "@/content/types";
 import { whatsappHref } from "@/lib/site-config";
@@ -74,17 +74,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
             </div>
           </div>
 
-          <div className="relative mt-12 md:mt-16 aspect-[16/9] w-full bg-void">
-            <Image
-              src={project.thumbnail}
-              alt={`${project.title} — ${project.client}`}
-              fill
-              sizes="100vw"
-              priority
-              className="object-cover"
-            />
-            {project.placeholder && <PlaceholderTag className="absolute top-6 left-6" />}
-          </div>
+          <ProjectHeroMedia project={project} />
         </section>
 
         <section className="mx-auto max-w-[1600px] px-6 md:px-10 py-16 md:py-24">

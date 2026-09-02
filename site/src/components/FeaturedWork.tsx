@@ -1,9 +1,7 @@
-import Image from "next/image";
 import Link from "next/link";
 import { getFeaturedProjects } from "@/content/projects";
-import { categoryLabels } from "@/content/types";
 import SectionReveal from "./SectionReveal";
-import PlaceholderTag from "./PlaceholderTag";
+import FeaturedWorkList from "./FeaturedWorkList";
 
 export default async function FeaturedWork() {
   const projects = await getFeaturedProjects();
@@ -32,45 +30,7 @@ export default async function FeaturedWork() {
           </p>
         )}
 
-        <div className="flex flex-col gap-20 md:gap-32">
-          {projects.map((project, i) => (
-            <SectionReveal
-              key={project.slug}
-              className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-10 items-center"
-            >
-              <Link
-                href={`/portfolio/${project.slug}`}
-                className={`md:col-span-8 relative aspect-[16/10] overflow-hidden bg-void block group ${
-                  i % 2 === 1 ? "md:order-2" : ""
-                }`}
-              >
-                <Image
-                  src={project.thumbnail}
-                  alt={`${project.title} — ${project.client}`}
-                  fill
-                  sizes="(min-width: 768px) 66vw, 100vw"
-                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-                />
-                {project.placeholder && (
-                  <PlaceholderTag className="absolute top-4 left-4" />
-                )}
-              </Link>
-
-              <div className={`md:col-span-4 ${i % 2 === 1 ? "md:order-1" : ""}`}>
-                <p className="text-xs tracking-[0.2em] text-accent uppercase mb-3">
-                  {categoryLabels[project.category]} · {project.year}
-                </p>
-                <Link href={`/portfolio/${project.slug}`}>
-                  <h3 className="text-2xl md:text-3xl font-bold mb-2 hover:text-accent transition-colors">
-                    {project.title}
-                  </h3>
-                </Link>
-                <p className="text-sm text-mist mb-4">{project.client}</p>
-                <p className="text-sm text-paper/70 leading-relaxed">{project.description}</p>
-              </div>
-            </SectionReveal>
-          ))}
-        </div>
+        <FeaturedWorkList projects={projects} />
 
         <Link
           href="/portfolio"

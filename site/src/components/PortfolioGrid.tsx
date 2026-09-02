@@ -1,12 +1,12 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import type { Project, ProjectCategory } from "@/content/types";
 import { categoryLabels } from "@/content/types";
 import SectionReveal from "./SectionReveal";
-import PlaceholderTag from "./PlaceholderTag";
+import FeaturedWorkCard from "./FeaturedWorkCard";
+import ProjectVideoModal from "./ProjectVideoModal";
 
 type Filter = ProjectCategory | "todos";
 
@@ -17,6 +17,7 @@ export default function PortfolioGrid({ projects }: { projects: Project[] }) {
   }, [projects]);
 
   const [filter, setFilter] = useState<Filter>("todos");
+  const [active, setActive] = useState<Project | null>(null);
 
   const filtered = useMemo(
     () => (filter === "todos" ? projects : projects.filter((p) => p.category === filter)),
@@ -55,21 +56,11 @@ export default function PortfolioGrid({ projects }: { projects: Project[] }) {
             key={project.slug}
             className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-10 items-center"
           >
-            <Link
-              href={`/portfolio/${project.slug}`}
-              className={`md:col-span-8 relative aspect-[16/10] overflow-hidden bg-void block group ${
-                i % 2 === 1 ? "md:order-2" : ""
-              }`}
-            >
-              <Image
-                src={project.thumbnail}
-                alt={`${project.title} — ${project.client}`}
-                fill
-                sizes="(min-width: 768px) 66vw, 100vw"
-                className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-              />
-              {project.placeholder && <PlaceholderTag className="absolute top-4 left-4" />}
-            </Link>
+            <FeaturedWorkCard
+              project={project}
+              reversed={i % 2 === 1}
+              onOpenVideo={setActive}
+            />
 
             <div className={`md:col-span-4 ${i % 2 === 1 ? "md:order-1" : ""}`}>
               <p className="text-xs tracking-[0.2em] text-accent uppercase mb-3">
@@ -90,6 +81,8 @@ export default function PortfolioGrid({ projects }: { projects: Project[] }) {
           <p className="text-sm text-mist">Nenhum projeto nessa categoria ainda.</p>
         )}
       </div>
+
+      <ProjectVideoModal project={active} onClose={() => setActive(null)} />
     </div>
   );
 }

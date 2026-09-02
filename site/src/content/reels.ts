@@ -9,15 +9,29 @@ export type Reel = {
   link?: string;
 };
 
+// Aceita tanto os nomes de campo originais quanto os que o usuário acabou
+// criando manualmente no painel do Prismic (ex: "vertical" em vez de "video").
+function pick(data: Record<string, unknown>, keys: string[]): unknown {
+  for (const key of keys) {
+    if (data[key] !== undefined && data[key] !== null) return data[key];
+  }
+  return undefined;
+}
+
+const VIDEO_KEYS = ["video", "vertical", "video_vertical"];
+const THUMBNAIL_KEYS = ["thumbnail", "capa", "cover"];
+const CAPTION_KEYS = ["caption", "legenda_curta", "legenda curta", "legenda"];
+const LINK_KEYS = ["link", "link_externo", "link externo"];
+
 function mapDoc(doc: prismic.PrismicDocument): Reel {
   const data = doc.data as Record<string, unknown>;
 
-  const thumbnailField = data.thumbnail as prismic.ImageField | undefined;
+  const thumbnailField = pick(data, THUMBNAIL_KEYS) as prismic.ImageField | undefined;
 
-  const rawVideo = data.video as prismic.LinkField | prismic.LinkField[] | undefined;
+  const rawVideo = pick(data, VIDEO_KEYS) as prismic.LinkField | prismic.LinkField[] | undefined;
   const videoField = Array.isArray(rawVideo) ? rawVideo[0] : rawVideo;
 
-  const rawLink = data.link as prismic.LinkField | prismic.LinkField[] | undefined;
+  const rawLink = pick(data, LINK_KEYS) as prismic.LinkField | prismic.LinkField[] | undefined;
   const linkField = Array.isArray(rawLink) ? rawLink[0] : rawLink;
 
   return {
@@ -27,7 +41,7 @@ function mapDoc(doc: prismic.PrismicDocument): Reel {
       videoField && videoField.link_type === "Media"
         ? (videoField as prismic.FilledLinkToMediaField).url
         : undefined,
-    caption: (data.caption as string) || undefined,
+    caption: (pick(data, CAPTION_KEYS) as string) || undefined,
     link:
       linkField && linkField.link_type === "Web"
         ? (linkField as prismic.FilledLinkToWebField).url
