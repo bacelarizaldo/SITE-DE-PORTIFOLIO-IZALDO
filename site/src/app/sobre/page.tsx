@@ -6,6 +6,7 @@ import PlaceholderTag from "@/components/PlaceholderTag";
 import SectionReveal from "@/components/SectionReveal";
 import { equipment } from "@/content/equipment";
 import { whatsappHref } from "@/lib/site-config";
+import { getSiteSettings } from "@/content/settings";
 
 export const metadata: Metadata = {
   title: "Sobre",
@@ -13,7 +14,11 @@ export const metadata: Metadata = {
     "Izaldo Bacelar é filmmaker e fotógrafo à frente da IB Films, em Recife — direção, fotografia, cinematografia e edição em uma só visão.",
 };
 
-export default function SobrePage() {
+export const revalidate = 60;
+
+export default async function SobrePage() {
+  const { sobrePhoto } = await getSiteSettings();
+
   return (
     <>
       <Nav />
@@ -23,14 +28,14 @@ export default function SobrePage() {
             <SectionReveal className="md:col-span-5">
               <div className="relative aspect-[4/5] bg-void">
                 <Image
-                  src="/placeholders/portrait.jpg"
+                  src={sobrePhoto || "/placeholders/portrait.jpg"}
                   alt="Izaldo Bacelar"
                   fill
                   sizes="(min-width: 768px) 40vw, 100vw"
                   className="object-cover"
                   priority
                 />
-                <PlaceholderTag className="absolute top-4 left-4" />
+                {!sobrePhoto && <PlaceholderTag className="absolute top-4 left-4" />}
               </div>
             </SectionReveal>
 

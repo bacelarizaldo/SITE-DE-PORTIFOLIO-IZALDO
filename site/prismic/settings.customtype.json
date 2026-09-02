@@ -1,0 +1,27 @@
+{
+  "Main": {
+    "hero_image": {
+      "type": "Image",
+      "config": {
+        "label": "Imagem do Hero (Home)",
+        "constraint": {},
+        "thumbnails": []
+      }
+    },
+    "hero_video": {
+      "type": "Link",
+      "config": {
+        "label": "Vídeo do Hero (Home) — opcional, tem prioridade sobre a imagem",
+        "select": "media"
+      }
+    },
+    "sobre_photo": {
+      "type": "Image",
+      "config": {
+        "label": "Foto da página Sobre",
+        "constraint": {},
+        "thumbnails": []
+      }
+    }
+  }
+}

@@ -1,22 +1,47 @@
 import Image from "next/image";
 import { whatsappHref } from "@/lib/site-config";
+import { getSiteSettings } from "@/content/settings";
 
-export default function Hero() {
+export default async function Hero() {
+  const { heroImage, heroVideo } = await getSiteSettings();
+
   return (
     <section className="relative min-h-[100svh] flex flex-col justify-end overflow-hidden bg-void">
-      {/* Fundo — reservado para vídeo/imagem real. Por enquanto, tratamento
-          gráfico com o símbolo da marca em baixa opacidade. Trocar por
-          <video> autoplay/muted/loop quando o material chegar. */}
       <div className="absolute inset-0" aria-hidden>
-        <div className="absolute inset-0 bg-gradient-to-b from-void via-ink to-ink" />
-        <Image
-          src="/brand/symbol-white.svg"
-          alt=""
-          width={900}
-          height={660}
-          className="absolute -right-24 top-1/2 -translate-y-1/2 w-[70vw] max-w-[900px] opacity-[0.05]"
-          priority
-        />
+        {heroVideo ? (
+          <video
+            src={heroVideo}
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        ) : heroImage ? (
+          <Image
+            src={heroImage}
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
+        ) : (
+          <>
+            {/* Fallback enquanto não há foto/vídeo cadastrado no Prismic
+                (Configurações do site → Imagem/Vídeo do Hero). */}
+            <div className="absolute inset-0 bg-gradient-to-b from-void via-ink to-ink" />
+            <Image
+              src="/brand/symbol-white.svg"
+              alt=""
+              width={900}
+              height={660}
+              className="absolute -right-24 top-1/2 -translate-y-1/2 w-[70vw] max-w-[900px] opacity-[0.05]"
+              priority
+            />
+          </>
+        )}
+        <div className="absolute inset-0 bg-gradient-to-b from-void/70 via-ink/40 to-ink" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,_rgba(232,143,79,0.08),_transparent_60%)]" />
       </div>
 
