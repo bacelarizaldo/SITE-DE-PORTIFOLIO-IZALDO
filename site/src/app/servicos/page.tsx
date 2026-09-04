@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   title: "Serviços",
   description:
     "Filmes para empresas, conteúdo para redes sociais, eventos, casamentos e fotografia — direção, captação e edição com Izaldo Bacelar (IB Films) em Recife.",
+  alternates: { canonical: "/servicos" },
 };
 
 export default function ServicosPage() {

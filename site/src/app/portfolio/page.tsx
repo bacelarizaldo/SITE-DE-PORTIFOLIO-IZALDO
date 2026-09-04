@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "Portfólio",
   description:
     "Trabalhos de Izaldo Bacelar (IB Films) em produção audiovisual: filmes para empresas, eventos, casamentos, redes sociais e fotografia.",
+  alternates: { canonical: "/portfolio" },
 };
 
 export const revalidate = 60;

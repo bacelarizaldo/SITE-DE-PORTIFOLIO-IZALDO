@@ -27,9 +27,32 @@ export async function generateMetadata({
   const { slug } = await params;
   const project = await getProjectBySlug(slug);
   if (!project) return {};
+
+  const description =
+    project.description ||
+    `${project.title} — ${categoryLabels[project.category]} produzido por Izaldo Bacelar (IB Films).`;
+
   return {
     title: project.title,
-    description: project.description,
+    description,
+    alternates: { canonical: `/portfolio/${project.slug}` },
+    openGraph: {
+      type: "article",
+      title: project.title,
+      description,
+      images: project.thumbnail
+        ? [{ url: project.thumbnail, width: 1920, height: 1080, alt: project.title }]
+        : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: project.title,
+      description,
+      images: project.thumbnail ? [project.thumbnail] : undefined,
+    },
+    // Projetos ainda com material placeholder não devem ser indexados
+    // como trabalho real até o conteúdo verdadeiro entrar no ar.
+    robots: project.placeholder ? { index: false, follow: true } : undefined,
   };
 }
 

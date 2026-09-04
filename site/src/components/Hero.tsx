@@ -11,10 +11,12 @@ export default async function Hero() {
         {heroVideo ? (
           <video
             src={heroVideo}
+            poster={heroImage}
             autoPlay
             muted
             loop
             playsInline
+            preload="auto"
             className="absolute inset-0 h-full w-full object-cover"
           />
         ) : heroImage ? (
@@ -24,7 +26,7 @@ export default async function Hero() {
             fill
             priority
             sizes="100vw"
-            className="object-cover"
+            className="object-cover object-[78%_28%] md:object-center"
           />
         ) : (
           <>

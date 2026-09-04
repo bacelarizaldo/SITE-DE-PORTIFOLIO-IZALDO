@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   title: "Contato",
   description:
     "Fale com Izaldo Bacelar (IB Films) sobre o seu próximo projeto audiovisual em Recife ou em qualquer lugar do Brasil.",
+  alternates: { canonical: "/contato" },
 };
 
 export default function ContatoPage() {

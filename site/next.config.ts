@@ -14,6 +14,8 @@ const nextConfig: NextConfig = {
         hostname: "images.prismic.io",
       },
     ],
+    // AVIF primeiro (menor payload), com fallback pra WebP.
+    formats: ["image/avif", "image/webp"],
   },
 };
 

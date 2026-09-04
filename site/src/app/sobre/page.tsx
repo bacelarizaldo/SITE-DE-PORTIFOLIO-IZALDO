@@ -12,6 +12,7 @@ export const metadata: Metadata = {
   title: "Sobre",
   description:
     "Izaldo Bacelar é filmmaker e fotógrafo à frente da IB Films, em Recife — direção, fotografia, cinematografia e edição em uma só visão.",
+  alternates: { canonical: "/sobre" },
 };
 
 export const revalidate = 60;
