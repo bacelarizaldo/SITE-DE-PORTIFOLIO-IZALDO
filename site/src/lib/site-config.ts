@@ -5,7 +5,7 @@ export const siteConfig = {
   brand: "IB Films",
   title: "Izaldo Bacelar | IB Films — Filmmaker & Fotógrafo em Recife",
   description:
-    "Izaldo Bacelar é filmmaker e fotógrafo à frente da IB Films, produzindo filmes e conteúdo audiovisual para marcas, empresas, eventos e casamentos em Recife e todo o Brasil.",
+    "Izaldo Bacelar é filmmaker e fotógrafo à frente da IB Films — filmes e fotografia para marcas, empresas, eventos e casamentos em Recife e no Brasil.",
   url: "https://www.izaldobacelar.com",
   location: "Recife, Pernambuco — Brasil",
   instagram: "https://instagram.com/izaldobacelar",

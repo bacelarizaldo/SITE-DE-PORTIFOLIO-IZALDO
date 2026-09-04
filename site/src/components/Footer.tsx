@@ -46,9 +46,8 @@ export default function Footer() {
       </div>
 
       <div className="border-t border-line">
-        <div className="mx-auto max-w-[1600px] px-6 md:px-10 py-6 flex flex-col md:flex-row gap-2 justify-between text-xs text-mist/60">
+        <div className="mx-auto max-w-[1600px] px-6 md:px-10 py-6 text-xs text-mist/60">
           <p>© {year} Izaldo Bacelar — IB Films. Todos os direitos reservados.</p>
-          <p>Design &amp; identidade: Diego Henrique</p>
         </div>
       </div>
     </footer>

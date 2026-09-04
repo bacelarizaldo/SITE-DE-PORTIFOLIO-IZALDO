@@ -7,7 +7,7 @@ import { getAllProjects } from "@/content/projects";
 export const metadata: Metadata = {
   title: "Portfólio",
   description:
-    "Trabalhos de Izaldo Bacelar (IB Films) em produção audiovisual: filmes para empresas, eventos, casamentos, redes sociais e fotografia.",
+    "Trabalhos de Izaldo Bacelar (IB Films) em produção audiovisual: filmes para empresas, eventos, casamentos, redes sociais e fotografia, em Recife e no Brasil.",
   alternates: { canonical: "/portfolio" },
 };
 
