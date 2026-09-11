@@ -62,3 +62,16 @@ export async function getLatestReels(limit = 10): Promise<Reel[]> {
     return [];
   }
 }
+
+// Todos os reels publicados, sem limite — usado na página /portfolio.
+export async function getAllReels(): Promise<Reel[]> {
+  try {
+    const docs = await client.getAllByType("reel", {
+      orderings: [{ field: "document.last_publication_date", direction: "desc" }],
+    });
+    return docs.map(mapDoc).filter((r) => r.video);
+  } catch (err) {
+    console.warn("[prismic] não foi possível buscar reels:", err);
+    return [];
+  }
+}
