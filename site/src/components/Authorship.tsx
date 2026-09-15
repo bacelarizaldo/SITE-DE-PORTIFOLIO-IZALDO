@@ -9,29 +9,32 @@ export default async function Authorship() {
   return (
     <section className="bg-void py-24 md:py-36 border-y border-line">
       <div className="mx-auto max-w-[1600px] px-6 md:px-10">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 items-start">
-          <SectionReveal className="md:col-span-4 flex flex-col gap-8">
-            <div className="flex items-baseline gap-4 md:gap-6">
-              <span className="text-sm text-accent tracking-[0.2em]">03</span>
-              <h2 className="text-3xl md:text-5xl font-black tracking-tight">
-                Quem <span className="text-mist">assina.</span>
-              </h2>
-            </div>
+        <SectionReveal className="mb-12 md:mb-16 flex items-baseline gap-4 md:gap-6">
+          <span className="text-sm text-accent tracking-[0.2em]">03</span>
+          <h2 className="text-3xl md:text-5xl font-black tracking-tight">
+            Quem <span className="text-mist">assina.</span>
+          </h2>
+        </SectionReveal>
 
-            {sobrePhoto && (
-              <div className="relative w-[140px] md:w-[180px] aspect-[3/4] bg-ink">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 items-start">
+          {sobrePhoto && (
+            <SectionReveal className="md:col-span-4">
+              <div className="relative aspect-[4/5] bg-ink">
                 <Image
                   src={sobrePhoto}
                   alt="Izaldo Bacelar, filmmaker e fotógrafo em Recife"
                   fill
-                  sizes="180px"
+                  sizes="(min-width: 768px) 33vw, 90vw"
                   className="object-cover"
                 />
               </div>
-            )}
-          </SectionReveal>
+            </SectionReveal>
+          )}
 
-          <SectionReveal delay={100} className="md:col-span-7 md:col-start-6">
+          <SectionReveal
+            delay={100}
+            className={sobrePhoto ? "md:col-span-7 md:col-start-6" : "md:col-span-8"}
+          >
             <p className="text-xl md:text-3xl font-medium leading-snug text-paper/90 max-w-2xl">
               Izaldo Bacelar é filmmaker e fotógrafo à frente da IB Films.
               Formado em engenharia da computação, encontrou na imagem sua

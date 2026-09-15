@@ -25,13 +25,12 @@ export default async function PortfolioPage() {
         <div className="mx-auto max-w-[1600px] px-6 md:px-10">
           <h1 className="text-4xl md:text-6xl font-black tracking-tight mb-4">Portfólio.</h1>
           <p className="text-base md:text-lg text-paper/60 max-w-xl mb-16 md:mb-24">
-            Uma seleção curada de trabalhos — direção, fotografia e edição em
-            cada projeto.
+            Reels para redes sociais e tráfego pago, e filmes institucionais
+            completos — cada projeto pensado antes de ser filmado.
           </p>
-          <PortfolioGrid projects={projects} />
 
           {reels.length > 0 && (
-            <div className="mt-24 md:mt-36 pt-16 md:pt-24 border-t border-line">
+            <div className="mb-24 md:mb-36">
               <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4">
                 Reels & <span className="text-mist">conteúdo para redes.</span>
               </h2>
@@ -42,6 +41,17 @@ export default async function PortfolioPage() {
               <ReelsPortfolioGrid reels={reels} />
             </div>
           )}
+
+          <div className={reels.length > 0 ? "pt-16 md:pt-24 border-t border-line" : ""}>
+            <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4">
+              Filmes <span className="text-mist">institucionais.</span>
+            </h2>
+            <p className="text-base md:text-lg text-paper/60 max-w-xl mb-12 md:mb-16">
+              Uma seleção curada de trabalhos — direção, fotografia e edição
+              em cada projeto.
+            </p>
+            <PortfolioGrid projects={projects} />
+          </div>
         </div>
       </main>
       <Footer />
