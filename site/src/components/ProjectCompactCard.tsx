@@ -91,7 +91,7 @@ export default function ProjectCompactCard({
 
       <div>
         <p className="text-[10px] tracking-[0.15em] text-accent uppercase mb-1">
-          {categoryLabels[project.category]}
+          {project.client || categoryLabels[project.category]}
         </p>
         <Link
           href={`/portfolio/${project.slug}`}

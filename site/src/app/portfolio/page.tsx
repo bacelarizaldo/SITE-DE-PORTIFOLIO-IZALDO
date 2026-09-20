@@ -23,28 +23,16 @@ export default async function PortfolioPage() {
       <Nav />
       <main className="pt-40 pb-24 md:pb-36">
         <div className="mx-auto max-w-[1600px] px-6 md:px-10">
-          <h1 className="text-4xl md:text-6xl font-black tracking-tight mb-4">Portfólio.</h1>
-          <p className="text-base md:text-lg text-paper/60 max-w-xl mb-16 md:mb-24">
-            Reels para redes sociais e tráfego pago, e filmes institucionais
-            completos — cada projeto pensado antes de ser filmado.
+          <h1 className="text-6xl md:text-9xl font-black tracking-tighter mb-6 text-center">Portfólio.</h1>
+          <p className="text-base md:text-lg text-paper/60 max-w-xl mx-auto text-center mb-16 md:mb-24">
+            Todos os trabalhos que desenvolvi: filmes institucionais e
+            conteúdo para redes sociais — cada projeto pensado antes de ser
+            filmado.
           </p>
 
-          {reels.length > 0 && (
-            <div className="mb-24 md:mb-36">
-              <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4">
-                Reels & <span className="text-mist">conteúdo para redes.</span>
-              </h2>
-              <p className="text-base md:text-lg text-paper/60 max-w-xl mb-12 md:mb-16">
-                Boa parte da produção atual é pensada pro feed e pro tráfego
-                pago — vídeos verticais para redes sociais e campanhas.
-              </p>
-              <ReelsPortfolioGrid reels={reels} />
-            </div>
-          )}
-
-          <div className={reels.length > 0 ? "pt-16 md:pt-24 border-t border-line" : ""}>
-            <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4">
-              Filmes <span className="text-mist">institucionais.</span>
+          <div>
+            <h2 className="text-xl md:text-3xl font-bold tracking-tight mb-3">
+              Vídeos <span className="text-mist">institucionais.</span>
             </h2>
             <p className="text-base md:text-lg text-paper/60 max-w-xl mb-12 md:mb-16">
               Uma seleção curada de trabalhos — direção, fotografia e edição
@@ -52,6 +40,19 @@ export default async function PortfolioPage() {
             </p>
             <PortfolioGrid projects={projects} />
           </div>
+
+          {reels.length > 0 && (
+            <div className="mt-24 md:mt-36 pt-16 md:pt-24 border-t border-line">
+              <h2 className="text-xl md:text-3xl font-bold tracking-tight mb-3">
+                Reels & <span className="text-mist">conteúdo para redes.</span>
+              </h2>
+              <p className="text-base md:text-lg text-paper/60 max-w-xl mb-12 md:mb-16">
+                Vídeos verticais pensados para o feed, as redes sociais e o
+                tráfego pago.
+              </p>
+              <ReelsPortfolioGrid reels={reels} />
+            </div>
+          )}
         </div>
       </main>
       <Footer />
