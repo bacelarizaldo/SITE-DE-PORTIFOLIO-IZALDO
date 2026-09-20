@@ -1,7 +1,7 @@
-import { getLatestReels } from "@/content/reels";
+import { getAllReels } from "@/content/reels";
 import ReelsMarquee from "./ReelsMarquee";
 
 export default async function LatestReels() {
-  const reels = await getLatestReels();
+  const reels = await getAllReels();
   return <ReelsMarquee reels={reels} />;
 }

@@ -70,7 +70,7 @@ export async function getAllProjects(): Promise<Project[]> {
 
 export async function getFeaturedProjects(): Promise<Project[]> {
   const all = await getAllProjects();
-  return all.filter((p) => p.featured);
+  return all.filter((p) => p.featured).slice(0, 4);
 }
 
 export async function getProjectBySlug(slug: string): Promise<Project | undefined> {

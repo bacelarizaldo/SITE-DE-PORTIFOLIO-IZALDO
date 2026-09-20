@@ -76,23 +76,13 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
             </Link>
 
             <div className="mt-8 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-10">
-              <div className="md:col-span-8">
+              <div className="md:col-span-12">
                 <p className="text-xs tracking-[0.2em] text-accent uppercase mb-4">
                   {categoryLabels[project.category]} · {project.year}
                 </p>
                 <h1 className="text-4xl md:text-6xl font-black tracking-tight mb-6">
                   {project.title}
                 </h1>
-              </div>
-              <div className="md:col-span-3 md:col-start-10 flex flex-col gap-4 text-sm">
-                <div>
-                  <p className="text-mist mb-1">Cliente</p>
-                  <p className="text-paper/90">{project.client}</p>
-                </div>
-                <div>
-                  <p className="text-mist mb-1">Serviços</p>
-                  <p className="text-paper/90">{project.services.join(", ")}</p>
-                </div>
               </div>
             </div>
           </div>
@@ -101,22 +91,27 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
         </section>
 
         <section className="mx-auto max-w-[1600px] px-6 md:px-10 py-16 md:py-24">
-          <SectionReveal className="max-w-2xl">
-            <p className="text-lg md:text-2xl text-paper/80 leading-relaxed">
+          <SectionReveal>
+            <p className="text-lg md:text-2xl text-paper/80 leading-relaxed text-center">
               {project.description}
             </p>
           </SectionReveal>
 
           {project.gallery.length > 0 && (
-            <div className="mt-16 md:mt-24 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+            <div className="mt-16 md:mt-24 columns-2 md:columns-3 gap-3 md:gap-4">
               {project.gallery.map((src, i) => (
-                <SectionReveal key={src + i} delay={i * 80} className="relative aspect-[4/3] bg-void">
+                <SectionReveal
+                  key={src + i}
+                  delay={(i % 3) * 80}
+                  className="mb-3 md:mb-4 break-inside-avoid bg-void"
+                >
                   <Image
                     src={src}
                     alt={`${project.title} — imagem ${i + 1}`}
-                    fill
-                    sizes="(min-width: 768px) 50vw, 100vw"
-                    className="object-cover"
+                    width={0}
+                    height={0}
+                    sizes="(min-width: 768px) 33vw, 50vw"
+                    className="w-full h-auto"
                   />
                 </SectionReveal>
               ))}
