@@ -62,6 +62,29 @@ body {
   opacity: 1;
   transform: translateY(0);
 }
+.reveal > * {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.is-visible > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal.is-visible > :nth-child(2) { transition-delay: 70ms; }
+.reveal.is-visible > :nth-child(3) { transition-delay: 140ms; }
+.reveal.is-visible > :nth-child(4) { transition-delay: 210ms; }
+.reveal.is-visible > :nth-child(5) { transition-delay: 280ms; }
+.reveal a.group,
+.reveal button.group {
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s ease;
+}
+.reveal a.group:hover,
+.reveal a.group:focus-visible,
+.reveal button.group:hover,
+.reveal button.group:focus-visible {
+  transform: translateY(-4px);
+}
 
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -71,6 +94,17 @@ body {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
+  }
+  .reveal > * {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .reveal a.group:hover,
+  .reveal a.group:focus-visible,
+  .reveal button.group:hover,
+  .reveal button.group:focus-visible {
+    transform: none !important;
   }
   * {
     animation-duration: 0.01ms !important;
