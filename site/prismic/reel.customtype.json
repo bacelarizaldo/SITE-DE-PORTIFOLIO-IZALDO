@@ -22,6 +22,20 @@
         "placeholder": "Ex: Bastidores — campanha X"
       }
     },
+    "client": {
+      "type": "Text",
+      "config": {
+        "label": "Cliente (para agrupar o feed)",
+        "placeholder": "Ex: Oxe iPhone"
+      }
+    },
+    "recurring_content": {
+      "type": "Boolean",
+      "config": {
+        "label": "Conteúdo recorrente (exibir na landing)",
+        "default_value": false
+      }
+    },
     "link": {
       "type": "Link",
       "config": {

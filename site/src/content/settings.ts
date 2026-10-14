@@ -5,6 +5,7 @@ export type SiteSettings = {
   heroImage?: string;
   heroVideo?: string;
   sobrePhoto?: string;
+  recurringContentVideo?: string;
 };
 
 // Busca o documento singleton "settings" no Prismic (Home hero, foto da
@@ -17,6 +18,13 @@ export async function getSiteSettings(): Promise<SiteSettings> {
 
     const heroImageField = data.hero_image as prismic.ImageField | undefined;
     const sobrePhotoField = data.sobre_photo as prismic.ImageField | undefined;
+    const rawRecurringContentVideo = data.recurring_content_video as
+      | prismic.LinkField
+      | prismic.LinkField[]
+      | undefined;
+    const recurringContentVideoField = Array.isArray(rawRecurringContentVideo)
+      ? rawRecurringContentVideo[0]
+      : rawRecurringContentVideo;
     const rawHeroVideo = data.hero_video as
       | prismic.LinkField
       | prismic.LinkField[]
@@ -30,6 +38,10 @@ export async function getSiteSettings(): Promise<SiteSettings> {
           ? (heroVideoField as prismic.FilledLinkToMediaField).url
           : undefined,
       sobrePhoto: sobrePhotoField?.url || undefined,
+      recurringContentVideo:
+        recurringContentVideoField && recurringContentVideoField.link_type === "Media"
+          ? (recurringContentVideoField as prismic.FilledLinkToMediaField).url
+          : undefined,
     };
   } catch (err) {
     console.warn("[prismic] não foi possível buscar settings:", err);

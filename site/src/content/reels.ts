@@ -7,6 +7,8 @@ export type Reel = {
   thumbnail?: string;
   caption?: string;
   link?: string;
+  client?: string;
+  recurringContent?: boolean;
 };
 
 // Aceita tanto os nomes de campo originais quanto os que o usuário acabou
@@ -22,6 +24,8 @@ const VIDEO_KEYS = ["video", "vertical", "video_vertical"];
 const THUMBNAIL_KEYS = ["thumbnail", "capa", "cover"];
 const CAPTION_KEYS = ["caption", "legenda_curta", "legenda curta", "legenda"];
 const LINK_KEYS = ["link", "link_externo", "link externo"];
+const CLIENT_KEYS = ["client", "cliente"];
+const RECURRING_KEYS = ["recurring_content", "conteudo_recorrente"];
 
 function mapDoc(doc: prismic.PrismicDocument): Reel {
   const data = doc.data as Record<string, unknown>;
@@ -42,6 +46,8 @@ function mapDoc(doc: prismic.PrismicDocument): Reel {
         ? (videoField as prismic.FilledLinkToMediaField).url
         : undefined,
     caption: (pick(data, CAPTION_KEYS) as string) || undefined,
+    client: (pick(data, CLIENT_KEYS) as string | undefined)?.trim() || undefined,
+    recurringContent: Boolean(pick(data, RECURRING_KEYS)),
     link:
       linkField && linkField.link_type === "Web"
         ? (linkField as prismic.FilledLinkToWebField).url

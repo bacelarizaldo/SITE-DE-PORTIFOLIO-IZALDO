@@ -22,6 +22,13 @@
         "constraint": {},
         "thumbnails": []
       }
+    },
+    "recurring_content_video": {
+      "type": "Link",
+      "config": {
+        "label": "Vídeo da página Conteúdo Recorrente",
+        "select": "media"
+      }
     }
   }
 }
