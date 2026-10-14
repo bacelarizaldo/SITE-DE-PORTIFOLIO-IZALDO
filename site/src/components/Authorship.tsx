@@ -47,7 +47,7 @@ export default async function Authorship() {
             </p>
             <p className="mt-4 text-sm text-mist max-w-xl leading-relaxed">
               Baseado em Recife, Pernambuco, atende projetos em todo o Brasil
-              há mais de quatro anos.
+              há mais de seis anos.
             </p>
 
             <Link

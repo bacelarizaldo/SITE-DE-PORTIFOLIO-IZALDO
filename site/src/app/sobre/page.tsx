@@ -51,7 +51,7 @@ export default async function SobrePage() {
               <SectionReveal delay={100} className="space-y-5 text-base md:text-lg text-paper/75 leading-relaxed max-w-xl">
                 <p>
                   Formado em engenharia da computação, encontrou na imagem
-                  sua linguagem. Há mais de quatro anos produz filmes e
+                  sua linguagem. Há mais de seis anos produz filmes e
                   fotografias para empresas, marcas, profissionais, eventos,
                   casamentos e projetos institucionais.
                 </p>
