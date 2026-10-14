@@ -645,7 +645,7 @@ Google Drive · Pasta do mês
     .then(function (data) {
       var settings = data.settings || {};
 
-      var aboutPhoto = sizedImage(settings.sobrePhoto, 1200);
+      var aboutPhoto = sizedImage(settings.recurringContentAboutPhoto, 1200);
       var portrait = document.getElementById('lp-about-photo');
       if (portrait && aboutPhoto) portrait.src = aboutPhoto;
 

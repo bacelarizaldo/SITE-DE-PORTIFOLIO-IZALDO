@@ -23,6 +23,14 @@
         "thumbnails": []
       }
     },
+    "recurring_content_about_photo": {
+      "type": "Image",
+      "config": {
+        "label": "Foto da seção Sobre (LP Conteúdo Recorrente)",
+        "constraint": {},
+        "thumbnails": []
+      }
+    },
     "recurring_content_video": {
       "type": "Link",
       "config": {

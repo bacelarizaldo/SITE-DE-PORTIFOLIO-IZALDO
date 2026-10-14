@@ -5,6 +5,7 @@ export type SiteSettings = {
   heroImage?: string;
   heroVideo?: string;
   sobrePhoto?: string;
+  recurringContentAboutPhoto?: string;
   recurringContentVideo?: string;
 };
 
@@ -18,6 +19,9 @@ export async function getSiteSettings(): Promise<SiteSettings> {
 
     const heroImageField = data.hero_image as prismic.ImageField | undefined;
     const sobrePhotoField = data.sobre_photo as prismic.ImageField | undefined;
+    const recurringContentAboutPhotoField = data.recurring_content_about_photo as
+      | prismic.ImageField
+      | undefined;
     const rawRecurringContentVideo = data.recurring_content_video as
       | prismic.LinkField
       | prismic.LinkField[]
@@ -38,6 +42,7 @@ export async function getSiteSettings(): Promise<SiteSettings> {
           ? (heroVideoField as prismic.FilledLinkToMediaField).url
           : undefined,
       sobrePhoto: sobrePhotoField?.url || undefined,
+      recurringContentAboutPhoto: recurringContentAboutPhotoField?.url || undefined,
       recurringContentVideo:
         recurringContentVideoField && recurringContentVideoField.link_type === "Media"
           ? (recurringContentVideoField as prismic.FilledLinkToMediaField).url

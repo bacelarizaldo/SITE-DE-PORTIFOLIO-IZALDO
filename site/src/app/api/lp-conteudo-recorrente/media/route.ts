@@ -18,7 +18,7 @@ export async function GET() {
 
   return Response.json({
     settings: {
-      sobrePhoto: settings.sobrePhoto,
+      recurringContentAboutPhoto: settings.recurringContentAboutPhoto,
       recurringContentVideo: settings.recurringContentVideo,
     },
     clientFeeds: Array.from(reelsByClient, ([client, clientReels]) => ({
