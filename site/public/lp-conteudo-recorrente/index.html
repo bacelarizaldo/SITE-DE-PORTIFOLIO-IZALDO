@@ -263,7 +263,7 @@ Google Drive · Pasta do mês
 </div>
 <div id="client-feed-grid" class="g2" style="gap: 24px; align-items: stretch">
 
-<article class="card" style="padding: 24px; display: flex; flex-direction: column; gap: 20px; background: #0F151D">
+<article data-client="oxe-iphone" class="card" style="padding: 24px; display: flex; flex-direction: column; gap: 20px; background: #0F151D">
 <div style="display: flex; align-items: center; gap: 14px">
 <div style="width: 56px; height: 56px; border-radius: 50%; padding: 2px; background: linear-gradient(135deg, #E88F4F, #C2416B); flex-shrink: 0">
 <div style="width: 100%; height: 100%; border-radius: 50%; background: #0F151D; display: flex; align-items: center; justify-content: center; font-family: 'Chakra Petch', sans-serif; font-weight: 700; font-size: 15px; color: #F7C948">Oxe</div>
@@ -278,7 +278,7 @@ Google Drive · Pasta do mês
 <div><strong class="disp" style="font-size: 20px; color: #FFFFFF">288 mil</strong> seguidores</div>
 <div><strong class="disp" style="font-size: 20px; color: #FFFFFF">1,2 mi</strong> views em um vídeo</div>
 </div>
-<div class="g3" style="gap: 4px">
+<div class="g3 feed-tiles" style="gap: 4px">
 <a class="tile" href="https://www.instagram.com/oxeiphonepe/reel/DecNkB6RSta/" aria-label="Abrir Reel da Oxe iPhone no Instagram"><img src="img/oxe0.jpg" alt=""></a>
 <a class="tile" href="https://www.instagram.com/oxeiphonepe/reel/DeaDp8oJWDW/" aria-label="Abrir Reel da Oxe iPhone no Instagram"><img src="img/oxe1.jpg" alt=""></a>
 <a class="tile" href="https://www.instagram.com/oxeiphonepe/reel/DeVObSxpuLt/" aria-label="Abrir Reel da Oxe iPhone no Instagram"><img src="img/oxe2.jpg" alt=""></a>
@@ -290,7 +290,7 @@ Google Drive · Pasta do mês
 <p style="margin: 0; padding-top: 16px; border-top: 1px solid #1D2632; font-size: 15px; color: #C9D1DB; font-weight: 300; line-height: 1.55">“Os vídeos elevaram completamente a percepção da nossa marca, atraíram mais clientes e transformaram nossa loja em referência. Hoje, somos outra loja, muito mais forte e conectada com o público!”</p>
 </article>
 
-<article class="card" style="padding: 24px; display: flex; flex-direction: column; gap: 20px; background: #0F151D">
+<article data-client="azov-yachts" class="card" style="padding: 24px; display: flex; flex-direction: column; gap: 20px; background: #0F151D">
 <div style="display: flex; align-items: center; gap: 14px">
 <div style="width: 56px; height: 56px; border-radius: 50%; padding: 2px; background: linear-gradient(135deg, #E88F4F, #C2416B); flex-shrink: 0">
 <div style="width: 100%; height: 100%; border-radius: 50%; background: #0F151D; display: flex; align-items: center; justify-content: center; font-family: 'Chakra Petch', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: .08em; color: #FFFFFF">AZOV</div>
@@ -305,7 +305,7 @@ Google Drive · Pasta do mês
 <div><strong class="disp" style="font-size: 20px; color: #FFFFFF">22 mil</strong> seguidores</div>
 <div><strong class="disp" style="font-size: 20px; color: #FFFFFF">1.314</strong> publicações</div>
 </div>
-<div class="g3" style="gap: 4px">
+<div class="g3 feed-tiles" style="gap: 4px">
 <a class="tile" href="https://www.instagram.com/azovyachts/p/DdY06fDnNsf/" aria-label="Abrir publicação da Azov Yachts no Instagram"><img src="img/azov0.jpg" alt=""></a>
 <a class="tile" href="https://www.instagram.com/azovyachts/p/Dc4VKBai89d/" aria-label="Abrir publicação da Azov Yachts no Instagram"><img src="img/azov1.jpg" alt=""></a>
 <a class="tile" href="https://www.instagram.com/azovyachts/p/DdGqtSenFaj/" aria-label="Abrir publicação da Azov Yachts no Instagram"><img src="img/azov2.jpg" alt=""></a>
@@ -445,6 +445,11 @@ Google Drive · Pasta do mês
 </div>
 <script id="recurring-feed-loader">
 (function () {
+  // Quantos reels um cliente precisa ter no Prismic para substituir as
+  // miniaturas fixas da página, e quantos aparecem no máximo por cliente.
+  var MIN_REELS = 3;
+  var MAX_REELS = 6;
+
   function safeUrl(value) {
     if (typeof value !== 'string') return '';
     try {
@@ -455,10 +460,37 @@ Google Drive · Pasta do mês
     }
   }
 
+  // Pede ao Prismic uma versão menor e comprimida da imagem.
+  function sizedImage(value, width) {
+    var href = safeUrl(value);
+    if (!href) return '';
+    try {
+      var url = new URL(href);
+      if (url.hostname === 'images.prismic.io') {
+        url.searchParams.set('auto', 'format,compress');
+        url.searchParams.set('w', String(width));
+      }
+      return url.href;
+    } catch (error) {
+      return href;
+    }
+  }
+
+  // "Oxe iPhone", "Oxe Iphone" e "oxe iphone" viram a mesma chave.
+  function clientKey(name) {
+    return String(name || '')
+      .normalize('NFD').replace(/[̀-ͯ]/g, '')
+      .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+  }
+
+  function reveal(elements) {
+    if (typeof window.rvReveal === 'function') window.rvReveal(elements);
+  }
+
   function createFeedTile(reel) {
     var video = safeUrl(reel.video);
     var href = safeUrl(reel.link) || video;
-    var image = safeUrl(reel.image);
+    var image = sizedImage(reel.image, 480);
     if (!href || (!image && !video)) return null;
 
     var tile = document.createElement('a');
@@ -473,8 +505,9 @@ Google Drive · Pasta do mês
     if (image) {
       var img = document.createElement('img');
       img.src = image;
-      img.alt = reel.caption || '';
+      img.alt = '';
       img.loading = 'lazy';
+      img.decoding = 'async';
       tile.appendChild(img);
     } else {
       var preview = document.createElement('video');
@@ -484,15 +517,22 @@ Google Drive · Pasta do mês
       preview.autoplay = true;
       preview.playsInline = true;
       preview.preload = 'metadata';
+      preview.setAttribute('aria-hidden', 'true');
       preview.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block';
       tile.appendChild(preview);
     }
     return tile;
   }
 
-  function createClientFeed(feed) {
+  function buildTiles(reels) {
+    return (reels || []).map(createFeedTile).filter(Boolean).slice(0, MAX_REELS);
+  }
+
+  // Card novo, usado só para clientes que ainda não têm card fixo na página.
+  function createClientFeed(feed, tiles) {
     var article = document.createElement('article');
     article.className = 'card';
+    article.setAttribute('data-client', clientKey(feed.client));
     article.style.cssText = 'padding:24px;display:flex;flex-direction:column;gap:20px;background:#0F151D';
 
     var header = document.createElement('div');
@@ -519,24 +559,46 @@ Google Drive · Pasta do mês
     header.appendChild(identity);
 
     var grid = document.createElement('div');
-    grid.className = 'g3';
+    grid.className = 'g3 feed-tiles';
     grid.style.gap = '4px';
-    (feed.reels || []).forEach(function (reel) {
-      var tile = createFeedTile(reel);
-      if (tile) grid.appendChild(tile);
-    });
-    if (!grid.childElementCount) return null;
+    tiles.forEach(function (tile) { grid.appendChild(tile); });
 
     article.appendChild(header);
     article.appendChild(grid);
     return article;
   }
 
+  function applyFeeds(clientFeeds) {
+    var feedGrid = document.getElementById('client-feed-grid');
+    if (!feedGrid) return;
+
+    (clientFeeds || []).forEach(function (feed) {
+      if (!feed || !feed.client) return;
+      var tiles = buildTiles(feed.reels);
+      // Poucos reels no Prismic: mantém o card fixo como está.
+      if (tiles.length < MIN_REELS) return;
+
+      var existing = feedGrid.querySelector('article[data-client="' + clientKey(feed.client) + '"]');
+      if (existing) {
+        // Troca só as miniaturas; depoimento, números e botão continuam.
+        var grid = existing.querySelector('.feed-tiles');
+        if (!grid) return;
+        grid.replaceChildren.apply(grid, tiles);
+        reveal(tiles);
+      } else {
+        var card = createClientFeed(feed, tiles);
+        feedGrid.appendChild(card);
+        reveal([card]);
+      }
+    });
+  }
+
   fetch('/api/lp-conteudo-recorrente/media')
     .then(function (response) { if (!response.ok) throw new Error('Media unavailable'); return response.json(); })
     .then(function (data) {
       var settings = data.settings || {};
-      var aboutPhoto = safeUrl(settings.sobrePhoto);
+
+      var aboutPhoto = sizedImage(settings.sobrePhoto, 1200);
       var portrait = document.getElementById('lp-about-photo');
       if (portrait && aboutPhoto) portrait.src = aboutPhoto;
 
@@ -553,9 +615,7 @@ Google Drive · Pasta do mês
         videoFrame.replaceWith(videoPlayer);
       }
 
-      var feedGrid = document.getElementById('client-feed-grid');
-      var feedCards = (data.clientFeeds || []).map(createClientFeed).filter(Boolean);
-      if (feedGrid && feedCards.length) feedGrid.replaceChildren.apply(feedGrid, feedCards);
+      applyFeeds(data.clientFeeds);
     })
     .catch(function () {});
 })();
@@ -645,6 +705,15 @@ Google Drive · Pasta do mês
   }, { rootMargin: '0px 0px -12% 0px', threshold: 0.12 });
   heads.forEach(function (h) { io.observe(h); });
   blocks.forEach(function (b) { io.observe(b); });
+
+  // Permite animar itens que chegam depois (ex: feed vindo do Prismic).
+  window.rvReveal = function (elements) {
+    Array.prototype.forEach.call(elements || [], function (el, idx) {
+      el.classList.add('rv-f');
+      el.style.setProperty('--d', Math.min(idx, 8) * FADE_STEP + 'ms');
+      io.observe(el);
+    });
+  };
 })();
 </script>
 </body>
