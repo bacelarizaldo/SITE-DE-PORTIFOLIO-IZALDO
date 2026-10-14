@@ -15,8 +15,20 @@ export const metadata: Metadata = {
 
 export const revalidate = 60;
 
+function shuffle<T>(items: T[]): T[] {
+  const shuffled = [...items];
+
+  for (let index = shuffled.length - 1; index > 0; index--) {
+    const randomIndex = Math.floor(Math.random() * (index + 1));
+    [shuffled[index], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[index]];
+  }
+
+  return shuffled;
+}
+
 export default async function PortfolioPage() {
   const [projects, reels] = await Promise.all([getAllProjects(), getAllReels()]);
+  const shuffledReels = shuffle(reels);
 
   return (
     <>
@@ -41,7 +53,7 @@ export default async function PortfolioPage() {
             <PortfolioGrid projects={projects} />
           </div>
 
-          {reels.length > 0 && (
+          {shuffledReels.length > 0 && (
             <div className="mt-24 md:mt-36 pt-16 md:pt-24 border-t border-line">
               <h2 className="text-xl md:text-3xl font-bold tracking-tight mb-3">
                 Reels & <span className="text-mist">conteúdo para redes.</span>
@@ -50,7 +62,7 @@ export default async function PortfolioPage() {
                 Vídeos verticais pensados para o feed, as redes sociais e o
                 tráfego pago.
               </p>
-              <ReelsPortfolioGrid reels={reels} />
+              <ReelsPortfolioGrid reels={shuffledReels} />
             </div>
           )}
         </div>
