@@ -32,6 +32,8 @@ a{color:#F2A874}a:hover{color:#FFC9A1}
 .tile img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease}
 .tile:hover img{transform:scale(1.05)}
 .tile:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.tile:before{content:"";position:absolute;z-index:2;top:50%;left:50%;width:40px;height:40px;transform:translate(-50%,-50%);border:1px solid rgba(255,255,255,.72);border-radius:50%;background:rgba(11,16,23,.72);pointer-events:none}
+.tile:after{content:"";position:absolute;z-index:3;top:50%;left:50%;width:0;height:0;transform:translate(-35%,-50%);border-top:6px solid transparent;border-bottom:6px solid transparent;border-left:10px solid #FFFFFF;pointer-events:none}
 .faqbtn{all:unset;box-sizing:border-box;cursor:pointer;width:100%;display:flex;justify-content:space-between;align-items:center;gap:16px;min-height:60px;padding:16px 0;font-family:'Roboto',sans-serif;font-weight:500;font-size:17px;color:#F2F2F2}
 .faqbtn:focus-visible{outline:2px solid var(--ac);outline-offset:4px}
 .flink a{color:#9AA5B4;text-decoration:none}.flink a:hover{color:#FFFFFF}
@@ -45,6 +47,7 @@ a{color:#F2A874}a:hover{color:#FFC9A1}
 @media (max-width:960px){
 .g2,.split{grid-template-columns:minmax(0,1fr);gap:40px}
 .g3{grid-template-columns:minmax(0,1fr)}
+.feed-tiles.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
 .timeline{grid-template-columns:minmax(0,1fr);gap:18px;padding:0 0 0 24px;border:0}
 .timeline:before{content:"";position:absolute;top:6px;bottom:6px;left:7px;width:1px;background:#3A4656}
 .timeline li:before{top:4px;left:-23px}
@@ -90,7 +93,7 @@ html{scroll-behavior:smooth}
 <!-- HERO -->
 <section id="topo" style="position: relative; overflow: hidden; background: radial-gradient(55% 70% at 100% 100%, rgba(232,143,79,.42) 0%, rgba(232,143,79,0) 70%), radial-gradient(40% 50% at 0% 0%, rgba(40,56,76,.6) 0%, rgba(40,56,76,0) 70%), #19222D">
 <header class="wrap" style="position: relative; display: flex; align-items: center; justify-content: space-between; gap: 24px; height: 80px; border-bottom: 1px solid rgba(255,255,255,.08)">
-<a href="#topo" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #FFFFFF; font-family: 'Chakra Petch', sans-serif; font-weight: 700; font-size: 20px">
+<a href="https://izaldobacelar.com/" aria-label="Voltar ao site principal da IB Films" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #FFFFFF; font-family: 'Chakra Petch', sans-serif; font-weight: 700; font-size: 20px">
 <span>Izaldo</span>
 <svg width="26" height="20" viewBox="0 0 40 30" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 2.5H37.5V27.5H2.5Z"></path><path d="M12 2.5V27.5"></path><path d="M37.5 2.5L24 15L37.5 27.5"></path></svg>
 <span>Bacelar</span>
@@ -445,11 +448,6 @@ Google Drive · Pasta do mês
 </div>
 <script id="recurring-feed-loader">
 (function () {
-  // Quantos reels um cliente precisa ter no Prismic para substituir as
-  // miniaturas fixas da página, e quantos aparecem no máximo por cliente.
-  var MIN_REELS = 3;
-  var MAX_REELS = 6;
-
   function safeUrl(value) {
     if (typeof value !== 'string') return '';
     try {
@@ -487,20 +485,72 @@ Google Drive · Pasta do mês
     if (typeof window.rvReveal === 'function') window.rvReveal(elements);
   }
 
+  var activeTrigger = null;
+  var previousOverflow = '';
+  var lightbox = document.createElement('div');
+  lightbox.hidden = true;
+  lightbox.setAttribute('role', 'dialog');
+  lightbox.setAttribute('aria-modal', 'true');
+  lightbox.setAttribute('aria-label', 'Reel em reprodução');
+  lightbox.style.cssText = 'position:fixed;inset:0;z-index:1000;align-items:center;justify-content:center;padding:16px;background:rgba(11,16,23,.95)';
+
+  var lightboxVideo = document.createElement('video');
+  lightboxVideo.controls = true;
+  lightboxVideo.playsInline = true;
+  lightboxVideo.style.cssText = 'width:auto;height:auto;max-width:92vw;max-height:85vh;aspect-ratio:9/16;object-fit:contain;background:#000';
+
+  var closeButton = document.createElement('button');
+  closeButton.type = 'button';
+  closeButton.textContent = '×';
+  closeButton.setAttribute('aria-label', 'Fechar vídeo');
+  closeButton.style.cssText = 'position:absolute;top:16px;right:20px;border:0;background:transparent;color:#fff;font-size:36px;line-height:1;cursor:pointer';
+  lightbox.appendChild(lightboxVideo);
+  lightbox.appendChild(closeButton);
+  document.body.appendChild(lightbox);
+
+  function closeLightbox() {
+    if (lightbox.hidden) return;
+    lightboxVideo.pause();
+    lightboxVideo.removeAttribute('src');
+    lightboxVideo.load();
+    lightbox.hidden = true;
+    lightbox.style.display = 'none';
+    document.body.style.overflow = previousOverflow;
+    if (activeTrigger) activeTrigger.focus();
+  }
+
+  function openLightbox(reel, trigger) {
+    activeTrigger = trigger;
+    previousOverflow = document.body.style.overflow;
+    lightbox.setAttribute('aria-label', reel.caption || 'Reel em reprodução');
+    lightboxVideo.setAttribute('aria-label', reel.caption || 'Reel em reprodução');
+    lightboxVideo.src = safeUrl(reel.video);
+    lightbox.hidden = false;
+    lightbox.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    closeButton.focus();
+    lightboxVideo.play().catch(function () {});
+  }
+
+  closeButton.addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', function (event) {
+    if (event.target === lightbox) closeLightbox();
+  });
+  window.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape') closeLightbox();
+  });
+
   function createFeedTile(reel) {
     var video = safeUrl(reel.video);
-    var href = safeUrl(reel.link) || video;
     var image = sizedImage(reel.image, 480);
-    if (!href || (!image && !video)) return null;
+    if (!video || (!image && !video)) return null;
 
-    var tile = document.createElement('a');
+    var tile = document.createElement('button');
+    tile.type = 'button';
     tile.className = 'tile';
-    tile.href = href;
-    tile.setAttribute('aria-label', reel.caption || 'Assistir reel');
-    if (new URL(href).origin !== window.location.origin) {
-      tile.target = '_blank';
-      tile.rel = 'noopener noreferrer';
-    }
+    tile.setAttribute('aria-label', reel.caption ? 'Assistir reel: ' + reel.caption : 'Assistir reel');
+    tile.style.cssText = 'width:100%;padding:0;border:0;color:inherit;font:inherit;text-align:left;cursor:pointer';
+    tile.addEventListener('click', function () { openLightbox(reel, tile); });
 
     if (image) {
       var img = document.createElement('img');
@@ -513,10 +563,8 @@ Google Drive · Pasta do mês
       var preview = document.createElement('video');
       preview.src = video;
       preview.muted = true;
-      preview.loop = true;
-      preview.autoplay = true;
       preview.playsInline = true;
-      preview.preload = 'metadata';
+      preview.preload = 'none';
       preview.setAttribute('aria-hidden', 'true');
       preview.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block';
       tile.appendChild(preview);
@@ -525,7 +573,7 @@ Google Drive · Pasta do mês
   }
 
   function buildTiles(reels) {
-    return (reels || []).map(createFeedTile).filter(Boolean).slice(0, MAX_REELS);
+    return (reels || []).map(createFeedTile).filter(Boolean);
   }
 
   // Card novo, usado só para clientes que ainda não têm card fixo na página.
@@ -575,8 +623,7 @@ Google Drive · Pasta do mês
     (clientFeeds || []).forEach(function (feed) {
       if (!feed || !feed.client) return;
       var tiles = buildTiles(feed.reels);
-      // Poucos reels no Prismic: mantém o card fixo como está.
-      if (tiles.length < MIN_REELS) return;
+      if (!tiles.length) return;
 
       var existing = feedGrid.querySelector('article[data-client="' + clientKey(feed.client) + '"]');
       if (existing) {
@@ -606,13 +653,24 @@ Google Drive · Pasta do mês
       var videoFrame = document.getElementById('lp-recurring-video');
       if (videoFrame && recurringVideo) {
         var videoPlayer = document.createElement('video');
+        videoPlayer.id = 'lp-recurring-video';
         videoPlayer.src = recurringVideo;
-        videoPlayer.controls = true;
+        videoPlayer.autoplay = true;
+        videoPlayer.muted = true;
+        videoPlayer.loop = true;
         videoPlayer.playsInline = true;
-        videoPlayer.preload = 'metadata';
+        videoPlayer.preload = 'auto';
         videoPlayer.setAttribute('aria-label', 'Vídeo de conteúdo recorrente');
         videoPlayer.style.cssText = 'width:100%;height:100%;object-fit:cover;border:0;border-radius:6px';
         videoFrame.replaceWith(videoPlayer);
+        videoPlayer.play().catch(function () {});
+        var videoObserver = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) videoPlayer.play().catch(function () {});
+            else videoPlayer.pause();
+          });
+        }, { threshold: 0.25 });
+        videoObserver.observe(videoPlayer);
       }
 
       applyFeeds(data.clientFeeds);
