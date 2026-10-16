@@ -64,10 +64,34 @@ a{color:#F2A874}a:hover{color:#FFC9A1}
 .hero-bg img{width:100%;object-position:50% 40%}
 .hero-shade{background:linear-gradient(180deg,rgba(11,16,23,.8) 0%,rgba(11,16,23,.6) 45%,rgba(11,16,23,.93) 100%)}
 }
+/* Simulador: seleção de medida */
+.sel-wrap{position:relative}
+.sel-wrap:after{content:"";position:absolute;right:14px;top:50%;width:8px;height:8px;border-right:2px solid #8B97A8;border-bottom:2px solid #8B97A8;transform:translateY(-70%) rotate(45deg);pointer-events:none}
+.sim-select{appearance:none;-webkit-appearance:none;width:100%;min-height:46px;padding:0 40px 0 14px;border:1px solid #2C3644;border-radius:6px;background:#141B24;color:#FFFFFF;font:500 15px Roboto,sans-serif;cursor:pointer}
+.sim-select:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.seg button[disabled]{opacity:.35;cursor:not-allowed}
+/* Ajuste da foto */
+.sim-adjust{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:28px;padding:24px;background:#0F151D;align-items:center}
+.adj-view{position:relative;display:flex;align-items:center;justify-content:center;padding:18px;border-radius:8px;background:repeating-conic-gradient(#161D27 0 25%,#121820 0 50%) 0 0/20px 20px}
+.adj-view canvas{display:block;max-width:100%;max-height:380px;width:auto;height:auto;box-shadow:0 0 0 6px #2A2219,0 18px 40px -16px rgba(0,0,0,.8);cursor:grab;touch-action:none}
+.adj-view canvas.dragging{cursor:grabbing}
+.adj-tip{position:absolute;left:50%;bottom:8px;transform:translateX(-50%);padding:3px 10px;border-radius:999px;background:rgba(11,16,23,.8);color:#C9D1DB;font-size:11px;white-space:nowrap;pointer-events:none}
+.adj-controls{display:flex;flex-direction:column;gap:18px}
+.adj-row{display:flex;align-items:center;gap:10px}
+.adj-row input[type=range]{flex:1}
+.adj-row2{align-items:flex-start;gap:24px;flex-wrap:wrap}
+.adj-btn{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border:1px solid #2C3644;border-radius:8px;background:#141B24;color:#FFFFFF;font-size:18px;user-select:none;-webkit-user-select:none;touch-action:manipulation}
+.adj-btn:hover{border-color:#5A6676}.adj-btn:active{background:rgba(232,143,79,.18);border-color:var(--ac)}
+.adj-btn:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.adj-center{font-size:10px;color:var(--ac)}
+.adj-val{min-width:52px;text-align:right;font:600 14px 'Chakra Petch',sans-serif;color:#C9D1DB}
+.adj-pad{display:grid;grid-template-columns:repeat(3,42px);grid-template-rows:repeat(3,42px);gap:6px}
+.adj-side{display:flex;flex-direction:column;gap:12px;flex:1;min-width:180px}
+@media (max-width:720px){.sim-adjust{grid-template-columns:minmax(0,1fr);padding:16px;gap:18px}.adj-view canvas{max-height:300px}}
 /* Simulador */
 .sim{display:flex;flex-direction:column;gap:20px}
 .sim-stage{position:relative;border-radius:10px;overflow:hidden;border:1px solid #232D3A;background:#19222D;box-shadow:0 30px 60px -30px rgba(232,143,79,.35)}
-.sim-stage canvas{display:block;width:100%;height:auto;touch-action:none}
+.sim-stage canvas{display:block;width:100%;height:auto;touch-action:pan-y}
 .sim-stage.has-img canvas{cursor:grab}.sim-stage.dragging canvas{cursor:grabbing}
 .sim-hint{position:absolute;left:50%;top:14px;transform:translateX(-50%);padding:5px 12px;border-radius:999px;background:rgba(11,16,23,.78);color:#E6EAF0;font-size:12px;white-space:nowrap;pointer-events:none}
 .sim-panel{padding:28px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,.9fr);gap:32px;background:#0F151D}
@@ -117,7 +141,7 @@ input[type=range]{width:100%;accent-color:#E88F4F}
 #simLight button{padding:0 14px}
 @media (max-width:1100px){.sim-panel{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.sim-col:last-child{grid-column:1 / -1;padding-left:0;border-left:0;padding-top:24px;border-top:1px solid #232D3A}}
 @media (max-width:720px){.sim-panel{grid-template-columns:minmax(0,1fr);padding:20px;gap:24px}.sim-col + .sim-col{padding-left:0;border-left:0;padding-top:24px;border-top:1px solid #232D3A}}
-@media (max-width:560px){.sim-stage canvas{width:150%;margin-left:-25%}.sim-hint{font-size:11px}}
+@media (max-width:560px){.sim-stage canvas{width:150%;margin-left:-25%}}
 
 @media (prefers-reduced-motion: reduce){
 .seal-orbit{animation:none}
@@ -192,7 +216,7 @@ html{scroll-behavior:smooth}
 <a class="btn btn-p" data-wa="Olá, Izaldo! Quero saber mais sobre os quadros." href="https://wa.me/5581999476729" style="min-height: 40px; padding: 0 16px; font-size: 14px">Fale conosco
 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
 </header>
-<div class="wrap" style="position: relative; z-index: 2; padding-top: 120px; padding-bottom: 72px; display: flex; flex-direction: column; gap: 96px">
+<div class="wrap" style="position: relative; z-index: 2; padding-top: 120px; padding-bottom: 120px; display: flex; flex-direction: column; gap: 96px">
 <div style="display: flex; flex-direction: column; gap: 28px; max-width: 620px">
 <div class="eyebrow" style="color: var(--ac)">Quadros · Canvas com moldura de madeira</div>
 <h1 class="disp h1" style="margin: 0; font-size: 68px; line-height: 1.02">Imagens que merecem ficar na sua parede</h1>
@@ -203,7 +227,13 @@ html{scroll-behavior:smooth}
 <a class="btn btn-g" href="#tamanhos">Ver medidas e valores</a>
 </div>
 </div>
-<div class="g4" style="align-items: start; padding-top: 32px; border-top: 1px solid rgba(255,255,255,.1)">
+</div>
+</section>
+
+<!-- DESTAQUES -->
+<section class="feats" style="padding: 48px 0; background: #0B1017; border-bottom: 1px solid #161E28">
+<div class="wrap">
+<div class="g4" style="align-items: start">
 <div style="display: flex; flex-direction: column; gap: 8px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="color: var(--ac)" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"></path><path d="M15 3v4h4"></path></svg><div class="disp" style="font-size: 17px">Canvas em alta definição</div><div style="font-size: 14px; color: #A8B2BF; line-height: 1.5">Tela com cores vivas e acabamento fosco, sem reflexo.</div></div>
 <div style="display: flex; flex-direction: column; gap: 8px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="color: var(--ac)" aria-hidden="true"><path d="M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6 6.6 19.5l1.2-6L3.3 9.3l6.1-.7z"></path></svg><div class="disp" style="font-size: 17px">Tiragem limitada</div><div style="font-size: 14px; color: #A8B2BF; line-height: 1.5">Cada peça numerada e assinada, com certificado de autenticidade.</div></div>
 <div style="display: flex; flex-direction: column; gap: 8px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="color: var(--ac)" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="1"></rect><rect x="7" y="7" width="10" height="10"></rect></svg><div class="disp" style="font-size: 17px">Moldura em madeira</div><div style="font-size: 14px; color: #A8B2BF; line-height: 1.5">7 cores, do mogno escuro ao branco, para combinar com o ambiente.</div></div>
@@ -226,7 +256,37 @@ html{scroll-behavior:smooth}
 <div class="sim">
 <div class="sim-stage">
 <canvas id="simCanvas" width="1600" height="1260" aria-label="Simulação do quadro na parede"></canvas>
-<div id="simHint" class="sim-hint" hidden>Arraste a imagem para ajustar o enquadramento</div>
+</div>
+
+<div id="simAdjust" class="sim-adjust card" hidden>
+<div class="adj-view">
+<canvas id="simCrop" width="800" height="1000" aria-label="Ajuste do enquadramento da foto"></canvas>
+<div class="adj-tip">Arraste para posicionar · pinça ou rodinha para zoom</div>
+</div>
+<div class="adj-controls">
+<div class="sim-label">Ajuste da foto</div>
+<div class="adj-row">
+<button type="button" class="adj-btn" data-act="zoom-" aria-label="Diminuir zoom">−</button>
+<input id="simZoom" type="range" min="1" max="4" step="0.005" value="1" aria-label="Zoom da foto">
+<button type="button" class="adj-btn" data-act="zoom+" aria-label="Aumentar zoom">+</button>
+<span id="simZoomVal" class="adj-val">100%</span>
+</div>
+<div class="adj-row adj-row2">
+<div class="adj-pad" aria-label="Mover foto">
+<span></span><button type="button" class="adj-btn" data-act="up" aria-label="Mover para cima">↑</button><span></span>
+<button type="button" class="adj-btn" data-act="left" aria-label="Mover para a esquerda">←</button><button type="button" class="adj-btn adj-center" data-act="center" aria-label="Centralizar">●</button><button type="button" class="adj-btn" data-act="right" aria-label="Mover para a direita">→</button>
+<span></span><button type="button" class="adj-btn" data-act="down" aria-label="Mover para baixo">↓</button><span></span>
+</div>
+<div class="adj-side">
+<div class="seg" id="simStep" role="radiogroup" aria-label="Precisão do movimento">
+<button type="button" role="radio" data-v="0.01" aria-checked="true">Fino</button>
+<button type="button" role="radio" data-v="0.05">Normal</button>
+</div>
+<button type="button" class="btn btn-g" data-act="reset" style="min-height:38px;font-size:13px;background:transparent;cursor:pointer">Redefinir enquadramento</button>
+<p class="step-note" style="margin:0">O recorte mostrado aqui é exatamente a parte da foto que vai para o quadro.</p>
+</div>
+</div>
+</div>
 </div>
 
 <div class="sim-panel card">
@@ -239,7 +299,8 @@ html{scroll-behavior:smooth}
 
 <div class="sim-group">
 <div class="sim-label">Medida final do quadro</div>
-<div class="seg seg-grid" id="simSize" role="radiogroup" aria-label="Medida"></div>
+<div class="sel-wrap"><select id="simSize" class="sim-select" aria-label="Medida final do quadro"></select></div>
+<div id="simSizeNote" class="step-note" hidden>Esta medida é produzida apenas na horizontal.</div>
 </div>
 
 <div class="sim-group">
@@ -284,10 +345,6 @@ html{scroll-behavior:smooth}
 </div>
 </div>
 
-<div class="sim-group" id="simZoomWrap" hidden>
-<div class="sim-label" style="display: flex; justify-content: space-between"><span>Zoom</span><span id="simZoomVal" style="color: #8B97A8">100%</span></div>
-<input id="simZoom" type="range" min="1" max="2.5" step="0.01" value="1" aria-label="Zoom da imagem">
-</div>
 </div>
 
 <div class="sim-col">
@@ -477,6 +534,7 @@ html{scroll-behavior:smooth}
   // Tabela da gráfica: medida → valor TOTAL de custo (impressão + moldura).
   // O preço de venda é calculado com a margem abaixo. Para mudar valores, edite só aqui.
   var MARKUP = 1.40;   // 40% sobre o custo
+  var LANDSCAPE_ONLY = ['160x80', '180x100', '200x100'];   // medidas só na horizontal
   var SIZES = [
     ['30x21', 138.72], ['30x42', 217.45], ['40x60', 339.92], ['50x70', 444.05],
     ['60x80', 559.84], ['60x90', 614.82], ['100x66', 716.78], ['120x80', 959.68],
@@ -783,8 +841,8 @@ html{scroll-behavior:smooth}
   function drawLabel() {
     var d = dims(), t = 'Quadro ' + d.w + ' × ' + d.h + ' cm · escala real (sofá de 2,1 m)';
     ctx.font = '500 26px Roboto, sans-serif'; var tw = ctx.measureText(t).width;
-    roundRect(28, H - 72, tw + 40, 46, 23); ctx.fillStyle = 'rgba(11,16,23,.72)'; ctx.fill();
-    ctx.fillStyle = '#FFFFFF'; ctx.textAlign = 'left'; ctx.textBaseline = 'middle'; ctx.fillText(t, 48, H - 49);
+    var lx = (W - tw) / 2 - 20; roundRect(lx, H - 72, tw + 40, 46, 23); ctx.fillStyle = 'rgba(11,16,23,.72)'; ctx.fill();
+    ctx.fillStyle = '#FFFFFF'; ctx.textAlign = 'left'; ctx.textBaseline = 'middle'; ctx.fillText(t, lx + 20, H - 49);
   }
 
   // Textura de madeira gerada uma vez por cor (faixa horizontal; rotacionada nas laterais)
@@ -904,6 +962,7 @@ html{scroll-behavior:smooth}
     ctx.clearRect(0, 0, W, H);
     drawWall(); drawFloor(); drawFrame(); drawPictureLight(lastFrame);
     drawSideTable(); drawPlant(); drawSofa(); drawAmbient(); drawLabel();
+    if (typeof drawCrop === 'function') drawCrop();
     updateInfo();
   }
 
@@ -933,24 +992,30 @@ html{scroll-behavior:smooth}
   function bindSeg(id, key, parse) {
     var group = document.getElementById(id);
     group.addEventListener('click', function (e) {
-      var b = e.target.closest('button'); if (!b) return;
+      var b = e.target.closest('button'); if (!b || b.disabled) return;
       group.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-checked', x === b ? 'true' : 'false'); });
       state[key] = parse ? parse(b.dataset.v) : b.dataset.v;
       render();
     });
   }
-  // Botões de medida e grade de valores, gerados a partir de SIZES
-  var sizeGroup = document.getElementById('simSize');
+  // Lista de medidas e grade de valores, geradas a partir de SIZES
+  var sizeSel = document.getElementById('simSize'), sizeNote = document.getElementById('simSizeNote');
   SIZES.forEach(function (r) {
-    var b = document.createElement('button'); b.type = 'button'; b.setAttribute('role', 'radio');
-    b.dataset.v = r[0]; b.textContent = label(r[0]); b.setAttribute('aria-checked', r[0] === state.size ? 'true' : 'false');
-    sizeGroup.appendChild(b);
+    var o = document.createElement('option'); o.value = r[0];
+    o.textContent = label(r[0]) + ' cm  ·  ' + brl(PRICES[r[0]]) + (LANDSCAPE_ONLY.indexOf(r[0]) > -1 ? '  ·  só horizontal' : '');
+    sizeSel.appendChild(o);
   });
-  function selectSize(k) {
-    state.size = k;
-    sizeGroup.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-checked', x.dataset.v === k ? 'true' : 'false'); });
-    render();
+  sizeSel.value = state.size;
+  function applyOriLock() {
+    var lock = LANDSCAPE_ONLY.indexOf(state.size) > -1;
+    var pBtn = document.querySelector('#simOri button[data-v="p"]');
+    pBtn.disabled = lock; sizeNote.hidden = !lock;
+    if (lock) setOri('l');
   }
+  function selectSize(k) {
+    state.size = k; sizeSel.value = k; applyOriLock(); render();
+  }
+  sizeSel.addEventListener('change', function () { selectSize(sizeSel.value); });
   var grid = document.getElementById('priceGrid');
   if (grid) SIZES.forEach(function (r) {
     var t = document.createElement('button'); t.type = 'button'; t.className = 'price-tile';
@@ -959,7 +1024,7 @@ html{scroll-behavior:smooth}
     grid.appendChild(t);
   });
 
-  bindSeg('simSize', 'size'); bindSeg('simOri', 'ori'); bindSeg('simFrame', 'frame');
+  bindSeg('simOri', 'ori'); bindSeg('simFrame', 'frame');
   bindSeg('simWall', 'wall'); bindSeg('simLight', 'light', function (v) { return v === '1'; });
   function setOri(v) {
     state.ori = v;
@@ -968,17 +1033,16 @@ html{scroll-behavior:smooth}
 
   // ---- Upload (arquivo nunca sai do navegador) ----
   var fileEl = document.getElementById('simFile'), drop = document.getElementById('simDrop'), dropText = document.getElementById('simDropText');
-  var zoomWrap = document.getElementById('simZoomWrap'), zoomEl = document.getElementById('simZoom'), zoomVal = document.getElementById('simZoomVal');
-  var hint = document.getElementById('simHint');
+  var zoomEl = document.getElementById('simZoom'), zoomVal = document.getElementById('simZoomVal');
+  var adjustEl = document.getElementById('simAdjust');
   function loadFile(file) {
     if (!file || !/^image\//.test(file.type)) { alert('Envie um arquivo de imagem (JPG, PNG ou WebP).'); return; }
     var url = URL.createObjectURL(file), im = new Image();
     im.onload = function () {
       state.img = im; fileName = file.name; state.offX = 0; state.offY = 0; state.zoom = 1; zoomEl.value = 1; zoomVal.textContent = '100%';
-      setOri(im.width > im.height ? 'l' : 'p');
+      setOri(im.width > im.height ? 'l' : 'p'); applyOriLock();
       dropText.innerHTML = '<strong style="color:#FFFFFF;font-weight:500">' + file.name.replace(/[<>&"]/g, '') + '</strong><br><span style="font-size:13px;color:#8B97A8">' + im.width + ' × ' + im.height + ' px · toque para trocar</span>';
-      zoomWrap.hidden = false; hint.hidden = false; stage.classList.add('has-img');
-      setTimeout(function () { hint.hidden = true; }, 4000);
+      adjustEl.hidden = false; stage.classList.add('has-img');
       render();
     };
     im.onerror = function () { alert('Não foi possível abrir esta imagem. Se for HEIC (iPhone), exporte como JPG e tente de novo.'); };
@@ -989,12 +1053,95 @@ html{scroll-behavior:smooth}
   ['dragleave', 'drop'].forEach(function (t) { drop.addEventListener(t, function (e) { e.preventDefault(); drop.classList.remove('over'); }); });
   drop.addEventListener('drop', function (e) { loadFile(e.dataTransfer.files[0]); });
 
-  zoomEl.addEventListener('input', function () { state.zoom = +zoomEl.value; zoomVal.textContent = Math.round(state.zoom * 100) + '%'; renderSoon(); });
+  // ---- Ajuste preciso da foto ----
+  var crop = document.getElementById('simCrop'), cctx = crop.getContext('2d'), cropRatio = 0;
+  function setZoom(z) {
+    state.zoom = Math.max(1, Math.min(4, z));
+    zoomEl.value = state.zoom; zoomVal.textContent = Math.round(state.zoom * 100) + '%';
+    renderSoon();
+  }
+  zoomEl.addEventListener('input', function () { setZoom(+zoomEl.value); });
+  var step = 0.01;
+  document.getElementById('simStep').addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return;
+    this.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-checked', x === b ? 'true' : 'false'); });
+    step = +b.dataset.v;
+  });
+  function act(name) {
+    if (name === 'zoom+') setZoom(state.zoom * (1 + step * 2));
+    else if (name === 'zoom-') setZoom(state.zoom / (1 + step * 2));
+    else if (name === 'left') { state.offX -= step; renderSoon(); }
+    else if (name === 'right') { state.offX += step; renderSoon(); }
+    else if (name === 'up') { state.offY -= step; renderSoon(); }
+    else if (name === 'down') { state.offY += step; renderSoon(); }
+    else if (name === 'center') { state.offX = 0; state.offY = 0; renderSoon(); }
+    else if (name === 'reset') { state.offX = 0; state.offY = 0; setZoom(1); }
+  }
+  // botões: clique simples ou segurar para repetir
+  adjustEl.querySelectorAll('[data-act]').forEach(function (b) {
+    var t1 = 0, t2 = 0, name = b.dataset.act, repeat = /zoom|up|down|left|right/.test(name);
+    function stop() { clearTimeout(t1); clearInterval(t2); }
+    b.addEventListener('pointerdown', function (e) {
+      e.preventDefault(); act(name);
+      if (repeat) t1 = setTimeout(function () { t2 = setInterval(function () { act(name); }, 60); }, 350);
+    });
+    ['pointerup', 'pointerleave', 'pointercancel'].forEach(function (ev) { b.addEventListener(ev, stop); });
+    b.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); act(name); } });
+  });
+
+  function drawCrop() {
+    if (!state.img || !lastArea) return;
+    var r = lastArea.w / lastArea.h;
+    if (Math.abs(r - cropRatio) > 0.001) {
+      cropRatio = r;
+      if (r >= 1) { crop.width = 1000; crop.height = Math.round(1000 / r); } else { crop.height = 1000; crop.width = Math.round(1000 * r); }
+    }
+    var cw = crop.width, ch = crop.height, im = state.img;
+    var sc = Math.max(cw / im.width, ch / im.height) * state.zoom, dw = im.width * sc, dh = im.height * sc;
+    cctx.fillStyle = '#000'; cctx.fillRect(0, 0, cw, ch);
+    cctx.drawImage(im, -(dw - cw) * (0.5 + state.offX), -(dh - ch) * (0.5 + state.offY), dw, dh);
+    if (cropDrag || pinch) {
+      cctx.strokeStyle = 'rgba(255,255,255,.35)'; cctx.lineWidth = 2; cctx.beginPath();
+      for (var i = 1; i < 3; i++) { cctx.moveTo(cw * i / 3, 0); cctx.lineTo(cw * i / 3, ch); cctx.moveTo(0, ch * i / 3); cctx.lineTo(cw, ch * i / 3); }
+      cctx.stroke();
+    }
+    crop._ex = dw - cw; crop._ey = dh - ch;
+  }
+
+  // arrastar / pinça / rodinha no editor
+  var cropDrag = null, pinch = null, pts = {};
+  function dist(a, b) { return Math.hypot(a.x - b.x, a.y - b.y); }
+  crop.addEventListener('pointerdown', function (e) {
+    crop.setPointerCapture(e.pointerId); pts[e.pointerId] = { x: e.clientX, y: e.clientY };
+    var ids = Object.keys(pts);
+    if (ids.length === 2) { cropDrag = null; pinch = { d: dist(pts[ids[0]], pts[ids[1]]), z: state.zoom }; }
+    else { cropDrag = { x: e.clientX, y: e.clientY }; crop.classList.add('dragging'); }
+  });
+  crop.addEventListener('pointermove', function (e) {
+    if (!pts[e.pointerId]) return;
+    pts[e.pointerId] = { x: e.clientX, y: e.clientY };
+    var ids = Object.keys(pts);
+    if (pinch && ids.length === 2) { setZoom(pinch.z * dist(pts[ids[0]], pts[ids[1]]) / pinch.d); return; }
+    if (!cropDrag) return;
+    var k = crop.width / crop.getBoundingClientRect().width;
+    var dx = (e.clientX - cropDrag.x) * k, dy = (e.clientY - cropDrag.y) * k;
+    cropDrag = { x: e.clientX, y: e.clientY };
+    if (crop._ex > 0) state.offX -= dx / crop._ex;
+    if (crop._ey > 0) state.offY -= dy / crop._ey;
+    renderSoon();
+  });
+  function cropUp(e) {
+    delete pts[e.pointerId];
+    if (Object.keys(pts).length < 2) pinch = null;
+    if (!Object.keys(pts).length) { cropDrag = null; crop.classList.remove('dragging'); renderSoon(); }
+  }
+  ['pointerup', 'pointercancel'].forEach(function (ev) { crop.addEventListener(ev, cropUp); });
+  crop.addEventListener('wheel', function (e) { e.preventDefault(); setZoom(state.zoom * Math.exp(-e.deltaY * 0.0015)); }, { passive: false });
 
   // ---- Arrastar para reenquadrar ----
   var drag = null;
   canvas.addEventListener('pointerdown', function (e) {
-    if (!state.img || !lastArea) return;
+    if (!state.img || !lastArea || e.pointerType !== 'mouse') return;
     drag = { x: e.clientX, y: e.clientY }; canvas.setPointerCapture(e.pointerId); stage.classList.add('dragging');
   });
   canvas.addEventListener('pointermove', function (e) {
