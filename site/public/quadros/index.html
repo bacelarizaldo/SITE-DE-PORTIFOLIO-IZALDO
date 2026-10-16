@@ -70,29 +70,10 @@ a{color:#F2A874}a:hover{color:#FFC9A1}
 .sim-select{appearance:none;-webkit-appearance:none;width:100%;min-height:46px;padding:0 40px 0 14px;border:1px solid #2C3644;border-radius:6px;background:#141B24;color:#FFFFFF;font:500 15px Roboto,sans-serif;cursor:pointer}
 .sim-select:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
 .seg button[disabled]{opacity:.35;cursor:not-allowed}
-/* Ajuste da foto */
-.sim-adjust{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:28px;padding:24px;background:#0F151D;align-items:center}
-.adj-view{position:relative;display:flex;align-items:center;justify-content:center;padding:18px;border-radius:8px;background:repeating-conic-gradient(#161D27 0 25%,#121820 0 50%) 0 0/20px 20px}
-.adj-view canvas{display:block;max-width:100%;max-height:380px;width:auto;height:auto;box-shadow:0 0 0 6px #2A2219,0 18px 40px -16px rgba(0,0,0,.8);cursor:grab;touch-action:none}
-.adj-view canvas.dragging{cursor:grabbing}
-.adj-tip{position:absolute;left:50%;bottom:8px;transform:translateX(-50%);padding:3px 10px;border-radius:999px;background:rgba(11,16,23,.8);color:#C9D1DB;font-size:11px;white-space:nowrap;pointer-events:none}
-.adj-controls{display:flex;flex-direction:column;gap:18px}
-.adj-row{display:flex;align-items:center;gap:10px}
-.adj-row input[type=range]{flex:1}
-.adj-row2{align-items:flex-start;gap:24px;flex-wrap:wrap}
-.adj-btn{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border:1px solid #2C3644;border-radius:8px;background:#141B24;color:#FFFFFF;font-size:18px;user-select:none;-webkit-user-select:none;touch-action:manipulation}
-.adj-btn:hover{border-color:#5A6676}.adj-btn:active{background:rgba(232,143,79,.18);border-color:var(--ac)}
-.adj-btn:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
-.adj-center{font-size:10px;color:var(--ac)}
-.adj-val{min-width:52px;text-align:right;font:600 14px 'Chakra Petch',sans-serif;color:#C9D1DB}
-.adj-pad{display:grid;grid-template-columns:repeat(3,42px);grid-template-rows:repeat(3,42px);gap:6px}
-.adj-side{display:flex;flex-direction:column;gap:12px;flex:1;min-width:180px}
-@media (max-width:720px){.sim-adjust{grid-template-columns:minmax(0,1fr);padding:16px;gap:18px}.adj-view canvas{max-height:300px}}
 /* Simulador */
 .sim{display:flex;flex-direction:column;gap:20px}
 .sim-stage{position:relative;border-radius:10px;overflow:hidden;border:1px solid #232D3A;background:#19222D;box-shadow:0 30px 60px -30px rgba(232,143,79,.35)}
 .sim-stage canvas{display:block;width:100%;height:auto;touch-action:pan-y}
-.sim-stage.has-img canvas{cursor:grab}.sim-stage.dragging canvas{cursor:grabbing}
 .sim-hint{position:absolute;left:50%;top:14px;transform:translateX(-50%);padding:5px 12px;border-radius:999px;background:rgba(11,16,23,.78);color:#E6EAF0;font-size:12px;white-space:nowrap;pointer-events:none}
 .sim-panel{padding:28px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,.9fr);gap:32px;background:#0F151D}
 .sim-col{display:flex;flex-direction:column;gap:20px;min-width:0}
@@ -257,35 +238,7 @@ html{scroll-behavior:smooth}
 <canvas id="simCanvas" width="1600" height="1260" aria-label="Simulação do quadro na parede"></canvas>
 </div>
 
-<div id="simAdjust" class="sim-adjust card" hidden>
-<div class="adj-view">
-<canvas id="simCrop" width="800" height="1000" aria-label="Ajuste do enquadramento da foto"></canvas>
-<div class="adj-tip">Arraste para posicionar · pinça ou rodinha para zoom</div>
-</div>
-<div class="adj-controls">
-<div class="sim-label">Ajuste da foto</div>
-<div class="adj-row">
-<button type="button" class="adj-btn" data-act="zoom-" aria-label="Diminuir zoom">−</button>
-<input id="simZoom" type="range" min="1" max="4" step="0.005" value="1" aria-label="Zoom da foto">
-<button type="button" class="adj-btn" data-act="zoom+" aria-label="Aumentar zoom">+</button>
-<span id="simZoomVal" class="adj-val">100%</span>
-</div>
-<div class="adj-row adj-row2">
-<div class="adj-pad" aria-label="Mover foto">
-<span></span><button type="button" class="adj-btn" data-act="up" aria-label="Mover para cima">↑</button><span></span>
-<button type="button" class="adj-btn" data-act="left" aria-label="Mover para a esquerda">←</button><button type="button" class="adj-btn adj-center" data-act="center" aria-label="Centralizar">●</button><button type="button" class="adj-btn" data-act="right" aria-label="Mover para a direita">→</button>
-<span></span><button type="button" class="adj-btn" data-act="down" aria-label="Mover para baixo">↓</button><span></span>
-</div>
-<div class="adj-side">
-<div class="seg" id="simStep" role="radiogroup" aria-label="Precisão do movimento">
-<button type="button" role="radio" data-v="0.01" aria-checked="true">Fino</button>
-<button type="button" role="radio" data-v="0.05">Normal</button>
-</div>
-<button type="button" class="btn btn-g" data-act="reset" style="min-height:38px;font-size:13px;background:transparent;cursor:pointer">Redefinir enquadramento</button>
-<p class="step-note" style="margin:0">O recorte mostrado aqui é exatamente a parte da foto que vai para o quadro.</p>
-</div>
-</div>
-</div>
+
 </div>
 
 <div class="sim-panel card">
@@ -937,7 +890,6 @@ html{scroll-behavior:smooth}
     ctx.clearRect(0, 0, W, H);
     drawWall(); drawFloor(); drawFrame(); drawPictureLight(lastFrame);
     drawSideTable(); drawPlant(); drawSofa(); drawAmbient(); drawLabel();
-    if (typeof drawCrop === 'function') drawCrop();
     updateInfo();
   }
 
@@ -1008,16 +960,13 @@ html{scroll-behavior:smooth}
 
   // ---- Upload (arquivo nunca sai do navegador) ----
   var fileEl = document.getElementById('simFile'), drop = document.getElementById('simDrop'), dropText = document.getElementById('simDropText');
-  var zoomEl = document.getElementById('simZoom'), zoomVal = document.getElementById('simZoomVal');
-  var adjustEl = document.getElementById('simAdjust');
   function loadFile(file) {
     if (!file || !/^image\//.test(file.type)) { alert('Envie um arquivo de imagem (JPG, PNG ou WebP).'); return; }
     var url = URL.createObjectURL(file), im = new Image();
     im.onload = function () {
-      state.img = im; fileName = file.name; state.offX = 0; state.offY = 0; state.zoom = 1; zoomEl.value = 1; zoomVal.textContent = '100%';
+      state.img = im; fileName = file.name; state.offX = 0; state.offY = 0; state.zoom = 1;
       setOri(im.width > im.height ? 'l' : 'p'); applyOriLock();
       dropText.innerHTML = '<strong style="color:#FFFFFF;font-weight:500">' + file.name.replace(/[<>&"]/g, '') + '</strong><br><span style="font-size:13px;color:#8B97A8">' + im.width + ' × ' + im.height + ' px · toque para trocar</span>';
-      adjustEl.hidden = false; stage.classList.add('has-img');
       render();
     };
     im.onerror = function () { alert('Não foi possível abrir esta imagem. Se for HEIC (iPhone), exporte como JPG e tente de novo.'); };
@@ -1028,108 +977,6 @@ html{scroll-behavior:smooth}
   ['dragleave', 'drop'].forEach(function (t) { drop.addEventListener(t, function (e) { e.preventDefault(); drop.classList.remove('over'); }); });
   drop.addEventListener('drop', function (e) { loadFile(e.dataTransfer.files[0]); });
 
-  // ---- Ajuste preciso da foto ----
-  var crop = document.getElementById('simCrop'), cctx = crop.getContext('2d'), cropRatio = 0;
-  function setZoom(z) {
-    state.zoom = Math.max(1, Math.min(4, z));
-    zoomEl.value = state.zoom; zoomVal.textContent = Math.round(state.zoom * 100) + '%';
-    renderSoon();
-  }
-  zoomEl.addEventListener('input', function () { setZoom(+zoomEl.value); });
-  var step = 0.01;
-  document.getElementById('simStep').addEventListener('click', function (e) {
-    var b = e.target.closest('button'); if (!b) return;
-    this.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-checked', x === b ? 'true' : 'false'); });
-    step = +b.dataset.v;
-  });
-  function act(name) {
-    if (name === 'zoom+') setZoom(state.zoom * (1 + step * 2));
-    else if (name === 'zoom-') setZoom(state.zoom / (1 + step * 2));
-    else if (name === 'left') { state.offX -= step; renderSoon(); }
-    else if (name === 'right') { state.offX += step; renderSoon(); }
-    else if (name === 'up') { state.offY -= step; renderSoon(); }
-    else if (name === 'down') { state.offY += step; renderSoon(); }
-    else if (name === 'center') { state.offX = 0; state.offY = 0; renderSoon(); }
-    else if (name === 'reset') { state.offX = 0; state.offY = 0; setZoom(1); }
-  }
-  // botões: clique simples ou segurar para repetir
-  adjustEl.querySelectorAll('[data-act]').forEach(function (b) {
-    var t1 = 0, t2 = 0, name = b.dataset.act, repeat = /zoom|up|down|left|right/.test(name);
-    function stop() { clearTimeout(t1); clearInterval(t2); }
-    b.addEventListener('pointerdown', function (e) {
-      e.preventDefault(); act(name);
-      if (repeat) t1 = setTimeout(function () { t2 = setInterval(function () { act(name); }, 60); }, 350);
-    });
-    ['pointerup', 'pointerleave', 'pointercancel'].forEach(function (ev) { b.addEventListener(ev, stop); });
-    b.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); act(name); } });
-  });
-
-  function drawCrop() {
-    if (!state.img || !lastArea) return;
-    var r = lastArea.w / lastArea.h;
-    if (Math.abs(r - cropRatio) > 0.001) {
-      cropRatio = r;
-      if (r >= 1) { crop.width = 1000; crop.height = Math.round(1000 / r); } else { crop.height = 1000; crop.width = Math.round(1000 * r); }
-    }
-    var cw = crop.width, ch = crop.height, im = state.img;
-    var sc = Math.max(cw / im.width, ch / im.height) * state.zoom, dw = im.width * sc, dh = im.height * sc;
-    cctx.fillStyle = '#000'; cctx.fillRect(0, 0, cw, ch);
-    cctx.drawImage(im, -(dw - cw) * (0.5 + state.offX), -(dh - ch) * (0.5 + state.offY), dw, dh);
-    if (cropDrag || pinch) {
-      cctx.strokeStyle = 'rgba(255,255,255,.35)'; cctx.lineWidth = 2; cctx.beginPath();
-      for (var i = 1; i < 3; i++) { cctx.moveTo(cw * i / 3, 0); cctx.lineTo(cw * i / 3, ch); cctx.moveTo(0, ch * i / 3); cctx.lineTo(cw, ch * i / 3); }
-      cctx.stroke();
-    }
-    crop._ex = dw - cw; crop._ey = dh - ch;
-  }
-
-  // arrastar / pinça / rodinha no editor
-  var cropDrag = null, pinch = null, pts = {};
-  function dist(a, b) { return Math.hypot(a.x - b.x, a.y - b.y); }
-  crop.addEventListener('pointerdown', function (e) {
-    crop.setPointerCapture(e.pointerId); pts[e.pointerId] = { x: e.clientX, y: e.clientY };
-    var ids = Object.keys(pts);
-    if (ids.length === 2) { cropDrag = null; pinch = { d: dist(pts[ids[0]], pts[ids[1]]), z: state.zoom }; }
-    else { cropDrag = { x: e.clientX, y: e.clientY }; crop.classList.add('dragging'); }
-  });
-  crop.addEventListener('pointermove', function (e) {
-    if (!pts[e.pointerId]) return;
-    pts[e.pointerId] = { x: e.clientX, y: e.clientY };
-    var ids = Object.keys(pts);
-    if (pinch && ids.length === 2) { setZoom(pinch.z * dist(pts[ids[0]], pts[ids[1]]) / pinch.d); return; }
-    if (!cropDrag) return;
-    var k = crop.width / crop.getBoundingClientRect().width;
-    var dx = (e.clientX - cropDrag.x) * k, dy = (e.clientY - cropDrag.y) * k;
-    cropDrag = { x: e.clientX, y: e.clientY };
-    if (crop._ex > 0) state.offX -= dx / crop._ex;
-    if (crop._ey > 0) state.offY -= dy / crop._ey;
-    renderSoon();
-  });
-  function cropUp(e) {
-    delete pts[e.pointerId];
-    if (Object.keys(pts).length < 2) pinch = null;
-    if (!Object.keys(pts).length) { cropDrag = null; crop.classList.remove('dragging'); renderSoon(); }
-  }
-  ['pointerup', 'pointercancel'].forEach(function (ev) { crop.addEventListener(ev, cropUp); });
-  crop.addEventListener('wheel', function (e) { e.preventDefault(); setZoom(state.zoom * Math.exp(-e.deltaY * 0.0015)); }, { passive: false });
-
-  // ---- Arrastar para reenquadrar ----
-  var drag = null;
-  canvas.addEventListener('pointerdown', function (e) {
-    if (!state.img || !lastArea || e.pointerType !== 'mouse') return;
-    drag = { x: e.clientX, y: e.clientY }; canvas.setPointerCapture(e.pointerId); stage.classList.add('dragging');
-  });
-  canvas.addEventListener('pointermove', function (e) {
-    if (!drag) return;
-    var k = canvas.width / canvas.getBoundingClientRect().width;
-    var dx = (e.clientX - drag.x) * k, dy = (e.clientY - drag.y) * k;
-    drag = { x: e.clientX, y: e.clientY };
-    if (lastArea.ex > 0) state.offX -= dx / lastArea.ex;
-    if (lastArea.ey > 0) state.offY -= dy / lastArea.ey;
-    renderSoon();
-  });
-  function endDrag() { drag = null; stage.classList.remove('dragging'); }
-  canvas.addEventListener('pointerup', endDrag); canvas.addEventListener('pointercancel', endDrag);
 
   // ---- Passo 1: gerar a imagem da simulação no aparelho (nada é enviado ao servidor) ----
   var saveBtn = document.getElementById('simSave'), saveNote = document.getElementById('simSaveNote');
