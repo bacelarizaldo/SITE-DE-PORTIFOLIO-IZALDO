@@ -35,11 +35,17 @@ export default function Nav() {
         </Link>
 
         <nav className="hidden md:flex items-center gap-10 text-sm tracking-wide text-paper/80">
-          {navLinks.map((link) => (
-            <Link key={link.href} href={link.href} className="hover:text-paper transition-colors">
-              {link.label}
-            </Link>
-          ))}
+          {navLinks.map((link) =>
+            link.plain ? (
+              <a key={link.href} href={link.href} className="hover:text-paper transition-colors">
+                {link.label}
+              </a>
+            ) : (
+              <Link key={link.href} href={link.href} className="hover:text-paper transition-colors">
+                {link.label}
+              </Link>
+            )
+          )}
         </nav>
 
         <a
@@ -66,11 +72,17 @@ export default function Nav() {
 
       {open && (
         <nav className="md:hidden bg-ink border-t border-line px-6 py-8 flex flex-col gap-6 text-lg">
-          {navLinks.map((link) => (
-            <Link key={link.href} href={link.href} onClick={() => setOpen(false)} className="text-paper/90">
-              {link.label}
-            </Link>
-          ))}
+          {navLinks.map((link) =>
+            link.plain ? (
+              <a key={link.href} href={link.href} className="text-paper/90">
+                {link.label}
+              </a>
+            ) : (
+              <Link key={link.href} href={link.href} onClick={() => setOpen(false)} className="text-paper/90">
+                {link.label}
+              </Link>
+            )
+          )}
           <a
             href={whatsappHref}
             target="_blank"

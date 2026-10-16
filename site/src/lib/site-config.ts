@@ -18,9 +18,14 @@ export const whatsappHref = `https://wa.me/${siteConfig.whatsappNumber}?text=${e
   siteConfig.whatsappMessage
 )}`;
 
-export const navLinks = [
+// `plain: true` = página estática em /public (ex.: LP de quadros): usa <a> comum
+// em vez de <Link>, para o navegador carregar o HTML direto.
+export type NavLink = { label: string; href: string; plain?: boolean };
+
+export const navLinks: NavLink[] = [
   { label: "Trabalhos", href: "/portfolio" },
   { label: "Serviços", href: "/servicos" },
+  { label: "Quadros", href: "/quadros", plain: true },
   { label: "Sobre", href: "/sobre" },
   { label: "Contato", href: "/contato" },
 ];

@@ -7,6 +7,10 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: path.resolve(__dirname),
   },
+  // LP de quadros é um HTML estático em public/quadros/ — servido em /quadros
+  async rewrites() {
+    return [{ source: "/quadros", destination: "/quadros/index.html" }];
+  },
   images: {
     remotePatterns: [
       {

@@ -25,11 +25,17 @@ export default function Footer() {
         </div>
 
         <nav className="flex flex-wrap gap-x-10 gap-y-4 text-sm text-paper/80 md:justify-center">
-          {navLinks.map((link) => (
-            <Link key={link.href} href={link.href} className="hover:text-paper transition-colors">
-              {link.label}
-            </Link>
-          ))}
+          {navLinks.map((link) =>
+            link.plain ? (
+              <a key={link.href} href={link.href} className="hover:text-paper transition-colors">
+                {link.label}
+              </a>
+            ) : (
+              <Link key={link.href} href={link.href} className="hover:text-paper transition-colors">
+                {link.label}
+              </Link>
+            )
+          )}
         </nav>
 
         <div className="flex flex-col gap-3 text-sm text-paper/80 md:items-end">

@@ -1,0 +1,1316 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quadros em Canvas — Izaldo Bacelar</title>
+<meta name="description" content="Fotografias autorais de Izaldo Bacelar ou a sua própria foto, impressas em canvas com moldura de madeira em 7 cores. Simule na parede e peça pelo WhatsApp.">
+<meta property="og:title" content="Quadros em Canvas — Izaldo Bacelar">
+<meta property="og:description" content="Fotografia autoral em tiragem limitada, pronta para a sua parede.">
+<meta property="og:image" content="https://www.izaldobacelar.com/quadros/img/q01.jpg">
+<meta name="theme-color" content="#19222D">
+<link rel="canonical" href="https://www.izaldobacelar.com/quadros">
+<link rel="icon" href="/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&amp;family=Roboto:wght@300;400;500&amp;display=swap">
+<style>
+body{margin:0;background:#0B1017}
+a{color:#F2A874}a:hover{color:#FFC9A1}
+*{box-sizing:border-box}
+[hidden]{display:none !important}
+.wrap{width:100%;max-width:1200px;margin:0 auto;padding:0 32px}
+.disp{font-family:'Chakra Petch',sans-serif;font-weight:600;letter-spacing:-.01em}
+.eyebrow{font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:13px;letter-spacing:.18em;text-transform:uppercase}
+.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:64px;align-items:center}
+.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:32px}
+.split{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:64px;align-items:start}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 22px;border-radius:4px;font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:15px;letter-spacing:.04em;text-decoration:none}
+.btn-p{background:var(--ac);color:#0B1017}.btn-p:hover{color:#0B1017;filter:brightness(1.08)}
+.btn-g{border:1px solid #3A4656;color:#F2F2F2}.btn-g:hover{color:#FFFFFF;border-color:#8B97A8}
+.navlinks a{color:#9AA5B4;text-decoration:none}.navlinks a:hover{color:#FFFFFF}
+.chip{display:inline-flex;align-items:center;min-height:30px;padding:0 12px;border:1px solid #2C3644;border-radius:999px;background:#141B24;font-size:13px;color:#B8C1CD}
+.card{background:#131A23;border:1px solid #232D3A;border-radius:10px}
+.faqbtn{all:unset;box-sizing:border-box;cursor:pointer;width:100%;display:flex;justify-content:space-between;align-items:center;gap:16px;min-height:60px;padding:16px 0;font-family:'Roboto',sans-serif;font-weight:500;font-size:17px;color:#F2F2F2}
+.faqbtn:focus-visible{outline:2px solid var(--ac);outline-offset:4px}
+.flink a{color:#9AA5B4;text-decoration:none}.flink a:hover{color:#FFFFFF}
+.seal-orbit{transform-origin:150px 150px;animation:seal-spin 24s linear infinite}
+@keyframes seal-spin{to{transform:rotate(360deg)}}
+.timeline{position:relative;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:16px;list-style:none;margin:0;padding:34px 0 0;border-top:1px solid #1D2632}
+.timeline li{position:relative;display:flex;flex-direction:column;gap:6px}
+.timeline li:before{content:"";position:absolute;top:-42px;left:0;width:14px;height:14px;border:3px solid #0B1017;border-radius:50%;background:var(--ac);box-shadow:0 0 0 1px var(--ac)}
+
+/* Quadro: parede > moldura de madeira > respiro > canvas */
+.wall{position:relative;display:flex;align-items:center;justify-content:center;padding:13% 15%;background:radial-gradient(70% 60% at 50% 35%,#222C38 0%,#151C25 70%);border-radius:6px;overflow:hidden}
+.frame{position:relative;width:100%;padding:4.5%;background:linear-gradient(135deg,#9A6A3C 0%,#7A512B 50%,#5E3D20 100%);box-shadow:0 26px 40px -18px rgba(0,0,0,.85),0 0 0 1px #2A333F;transition:transform .65s cubic-bezier(.2,.8,.2,1)}
+.mat{padding:2.4%;background:#15110D;box-shadow:inset 0 2px 6px rgba(0,0,0,.6)}
+.photo{position:relative;aspect-ratio:4 / 5;overflow:hidden;background:linear-gradient(160deg,#3A4A5C 0%,#1E2833 45%,#B86A38 100%)}
+.photo.land{aspect-ratio:5 / 4}
+.photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.photo .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Chakra Petch',sans-serif;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.55)}
+.work{display:flex;flex-direction:column;gap:16px;padding:14px;background:#0F151D}
+.work:hover .frame,.work:focus-within .frame{transform:translateY(-6px) scale(1.015)}
+.badge{position:absolute;top:12px;left:12px;z-index:2;padding:3px 9px;border-radius:4px;background:rgba(11,16,23,.82);color:#F2B288;font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+.price{font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:20px;color:#FFFFFF}
+
+/* Simulador */
+.sim{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,4fr);gap:24px;align-items:start}
+.sim-stage{position:relative;border-radius:10px;overflow:hidden;border:1px solid #232D3A;background:#19222D;box-shadow:0 30px 60px -30px rgba(232,143,79,.35)}
+.sim-stage canvas{display:block;width:100%;height:auto;touch-action:none}
+.sim-stage.has-img canvas{cursor:grab}.sim-stage.dragging canvas{cursor:grabbing}
+.sim-hint{position:absolute;left:50%;top:14px;transform:translateX(-50%);padding:5px 12px;border-radius:999px;background:rgba(11,16,23,.78);color:#E6EAF0;font-size:12px;white-space:nowrap;pointer-events:none}
+.sim-panel{padding:24px;display:flex;flex-direction:column;gap:20px;background:#0F151D}
+.sim-drop{display:flex;align-items:center;gap:14px;padding:18px;border:1px dashed #3A4656;border-radius:8px;background:#131A23;cursor:pointer;font-size:15px;line-height:1.4;transition:border-color .2s,background .2s}
+.sim-drop:hover,.sim-drop.over{border-color:var(--ac);background:rgba(232,143,79,.08)}
+.sim-drop:focus-within{outline:2px solid var(--ac);outline-offset:2px}
+.sim-group{display:flex;flex-direction:column;gap:8px}
+.sim-row{display:flex;gap:16px;flex-wrap:wrap}
+.sim-label{font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#8B97A8}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:38px;padding:0 12px;border:1px solid #2C3644;border-radius:6px;background:#141B24;color:#C9D1DB;font-size:14px;flex:1 1 auto}
+.seg button:hover{border-color:#5A6676;color:#FFFFFF}
+.seg button[aria-checked="true"]{border-color:var(--ac);background:rgba(232,143,79,.12);color:#FFFFFF}
+.seg button:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.seg-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+.seg-grid button{font-size:13px;padding:0 4px;min-height:36px}
+.sim-notice{display:flex;gap:10px;padding:12px 14px;border-radius:6px;background:rgba(232,143,79,.1);border:1px solid rgba(232,143,79,.35);color:#F2C29E;font-size:13px;line-height:1.5}
+.sim-notice strong{color:#FFFFFF;font-weight:500}
+.sim-steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px}
+.sim-steps li{display:flex;flex-direction:column;gap:6px}
+.step-n{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:rgba(11,16,23,.25);font-size:12px}
+.btn-g .step-n{background:#232D3A}
+.step-note{font-size:12px;color:#8B97A8;line-height:1.45}
+.step-note.done{color:#8FD3A8}
+#simOrder.ready{background:var(--ac);color:#0B1017;border-color:var(--ac)}
+#simOrder.ready .step-n{background:rgba(11,16,23,.25)}
+.price-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.price-tile{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;gap:4px;padding:18px;border:1px solid #232D3A;border-radius:10px;background:#131A23;transition:border-color .2s,transform .2s}
+.price-tile:hover{border-color:rgba(232,143,79,.6);transform:translateY(-2px)}
+.price-tile:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.price-tile .m{font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:18px;color:#FFFFFF}
+.price-tile .v{font-size:15px;color:#F2B288}
+.price-tile .s{font-size:12px;color:#8B97A8}
+@media (max-width:960px){.price-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:560px){.price-grid,.seg-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.seg-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+.seg-list button{justify-content:flex-start;font-size:13px;padding:0 10px}
+.seg-dots button{flex:0 0 auto;width:38px;padding:0}
+.sw{display:inline-block;width:14px;height:14px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)}
+.seg-dots .sw{width:18px;height:18px}
+.sim-quality{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:6px;font-size:13px;line-height:1.45}
+.sim-quality.ok{background:rgba(80,180,120,.12);color:#A8DDBB}
+.sim-quality.warn{background:rgba(232,180,79,.12);color:#F2CF8A}
+.sim-quality.bad{background:rgba(220,90,80,.14);color:#F2A49B}
+.sim-total{padding-top:18px;border-top:1px solid #232D3A}
+input[type=range]{width:100%;accent-color:#E88F4F}
+.sim-row .sim-group{flex:1 1 150px}
+@media (max-width:960px){.sim{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:560px){.sim-stage canvas{width:150%;margin-left:-25%}.sim-hint{font-size:11px}}
+
+@media (prefers-reduced-motion: reduce){
+.seal-orbit{animation:none}
+.frame{transition:none !important}
+.work:hover .frame,.work:focus-within .frame{transform:none}
+}
+@media (max-width:1240px){.seal{display:none !important}}
+@media (max-width:960px){
+.g2,.split{grid-template-columns:minmax(0,1fr);gap:40px}
+.g3{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3.plans{grid-template-columns:minmax(0,1fr)}
+.timeline{grid-template-columns:minmax(0,1fr);gap:18px;padding:0 0 0 24px;border:0}
+.timeline:before{content:"";position:absolute;top:6px;bottom:6px;left:7px;width:1px;background:#3A4656}
+.timeline li:before{top:4px;left:-23px}
+.g4{grid-template-columns:repeat(2,minmax(0,1fr))}
+.navlinks{display:none !important}
+.h1{font-size:50px !important}
+.h2{font-size:38px !important}
+.sec{padding:88px 0 !important}
+.seal{display:none !important}
+.rev{order:-1}
+}
+@media (max-width:560px){
+.wrap{padding:0 20px}
+.g3,.g4{grid-template-columns:minmax(0,1fr)}
+.h1{font-size:40px !important}
+.hide-s{display:none !important}
+}
+</style>
+<style>
+summary{list-style:none}summary::-webkit-details-marker{display:none}
+.faqsign{font-size:22px;line-height:1;color:#E88F4F;flex-shrink:0;transition:transform .2s}
+details[open] .faqsign{transform:rotate(45deg)}
+html{scroll-behavior:smooth}
+</style>
+<style id="reveal-css">
+.js-reveal .rv-w{display:inline-block;white-space:nowrap}
+.js-reveal .rv-c{display:inline-block;opacity:0;filter:blur(10px);transform:translateY(.12em);transition:opacity .7s cubic-bezier(.2,.6,.2,1),filter .7s cubic-bezier(.2,.6,.2,1),transform .7s cubic-bezier(.2,.6,.2,1);transition-delay:var(--d,0ms);will-change:opacity,filter}
+.js-reveal .rv-in .rv-c{opacity:1;filter:blur(0);transform:none}
+.js-reveal .rv-f{opacity:0;filter:blur(5px);transform:translateY(14px) scale(.99);transition:opacity .72s cubic-bezier(.2,.8,.2,1),filter .72s cubic-bezier(.2,.8,.2,1),transform .72s cubic-bezier(.2,.8,.2,1);transition-delay:var(--d,0ms)}
+.js-reveal .rv-f.rv-in{opacity:1;filter:blur(0);transform:none}
+.js-reveal header.rv-h{opacity:0;transform:translateY(-8px);transition:opacity .8s ease,transform .8s ease}
+.js-reveal header.rv-h.rv-in{opacity:1;transform:none}
+@media (prefers-reduced-motion: reduce){
+.js-reveal .rv-c,.js-reveal .rv-f,.js-reveal header.rv-h{opacity:1 !important;filter:none !important;transform:none !important;transition:none !important}
+}
+</style>
+</head>
+<body>
+<div style="--ac: #E88F4F; width: 100%; background: #0B1017; color: #F2F2F2; font-family: 'Roboto', sans-serif; font-size: 17px; line-height: 1.6">
+
+<!-- HERO -->
+<section id="topo" style="position: relative; overflow: hidden; background: radial-gradient(55% 70% at 100% 100%, rgba(232,143,79,.42) 0%, rgba(232,143,79,0) 70%), radial-gradient(40% 50% at 0% 0%, rgba(40,56,76,.6) 0%, rgba(40,56,76,0) 70%), #19222D">
+<header class="wrap" style="position: relative; display: flex; align-items: center; justify-content: space-between; gap: 24px; height: 80px; border-bottom: 1px solid rgba(255,255,255,.08)">
+<a href="/" aria-label="Voltar ao site principal de Izaldo Bacelar" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #FFFFFF; font-family: 'Chakra Petch', sans-serif; font-weight: 700; font-size: 20px">
+<span>Izaldo</span>
+<svg width="26" height="20" viewBox="0 0 40 30" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 2.5H37.5V27.5H2.5Z"></path><path d="M12 2.5V27.5"></path><path d="M37.5 2.5L24 15L37.5 27.5"></path></svg>
+<span>Bacelar</span>
+</a>
+<nav class="navlinks" style="display: flex; gap: 28px; font-size: 14px" aria-label="Seções">
+<a href="#simulador">Simulador</a>
+<a href="#colecao">Coleção</a>
+<a href="#como-funciona">Como funciona</a>
+<a href="#tamanhos">Valores</a>
+<a href="#faq">Dúvidas</a>
+</nav>
+<a class="btn btn-p" data-wa="Olá, Izaldo! Quero saber mais sobre os quadros." href="https://wa.me/5581999476729" style="min-height: 40px; padding: 0 16px; font-size: 14px">Fale conosco
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+</header>
+<svg class="seal" width="380" height="380" viewBox="0 0 300 300" style="position: absolute; right: 5%; top: 120px; opacity: .9" aria-hidden="true">
+<defs><path id="sealpath" d="M150,150 m-112,0 a112,112 0 1,1 224,0 a112,112 0 1,1 -224,0"></path></defs>
+<g class="seal-orbit"><text fill="#C9D1DB" style="font-family: 'Chakra Petch', sans-serif; font-weight: 600; font-size: 17px; letter-spacing: 6px"><textPath href="#sealpath">IZALDO BACELAR • QUADROS EM CANVAS •</textPath></text></g>
+<g transform="translate(118,126)" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-linejoin="round"><path d="M2.5 2.5H61.5V45.5H2.5Z"></path><path d="M19 2.5V45.5"></path><path d="M61.5 2.5L40 24L61.5 45.5"></path></g>
+</svg>
+<div class="wrap" style="position: relative; padding-top: 120px; padding-bottom: 80px; display: flex; flex-direction: column; gap: 96px">
+<div style="display: flex; flex-direction: column; gap: 28px; max-width: 760px">
+<div class="eyebrow" style="color: var(--ac)">Quadros · Canvas com moldura de madeira</div>
+<h1 class="disp h1" style="margin: 0; font-size: 76px; line-height: 1.02">Imagens que merecem ficar na sua parede</h1>
+<p style="margin: 0; max-width: 560px; font-size: 19px; font-weight: 300; color: #C9D1DB">Transforme a sua foto em quadro, ou escolha uma obra autoral em tiragem limitada. Impressão em canvas, moldura de madeira e simulação na parede antes de pedir.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 12px">
+<a class="btn btn-p" href="#simulador">Simular meu quadro
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+<a class="btn btn-g" href="#colecao">Ver a coleção</a>
+</div>
+</div>
+<div class="g4" style="align-items: start; padding-top: 32px; border-top: 1px solid rgba(255,255,255,.1)">
+<div style="display: flex; flex-direction: column; gap: 8px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="color: var(--ac)" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"></path><path d="M15 3v4h4"></path></svg><div class="disp" style="font-size: 17px">Canvas em alta definição</div><div style="font-size: 14px; color: #A8B2BF; line-height: 1.5">Tela com cores vivas e acabamento fosco, sem reflexo.</div></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="color: var(--ac)" aria-hidden="true"><path d="M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6 6.6 19.5l1.2-6L3.3 9.3l6.1-.7z"></path></svg><div class="disp" style="font-size: 17px">Tiragem limitada</div><div style="font-size: 14px; color: #A8B2BF; line-height: 1.5">Cada peça numerada e assinada, com certificado de autenticidade.</div></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="color: var(--ac)" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="1"></rect><rect x="7" y="7" width="10" height="10"></rect></svg><div class="disp" style="font-size: 17px">Moldura em madeira</div><div style="font-size: 14px; color: #A8B2BF; line-height: 1.5">7 cores, do mogno escuro ao branco, para combinar com o ambiente.</div></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="color: var(--ac)" aria-hidden="true"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"></path><path d="M3 7l9 4 9-4M12 11v10"></path></svg><div class="disp" style="font-size: 17px">Entrega segura</div><div style="font-size: 14px; color: #A8B2BF; line-height: 1.5">Embalagem reforçada para chegar perfeito em todo o Brasil.</div></div>
+</div>
+</div>
+</section>
+
+<!-- SIMULADOR -->
+<section id="simulador" class="sec" style="padding: 128px 0; background: #0B1017">
+<div class="wrap" style="display: flex; flex-direction: column; gap: 56px">
+<div class="g2" style="align-items: end; gap: 32px">
+<div style="display: flex; flex-direction: column; gap: 20px">
+<div class="eyebrow" style="color: var(--ac)">Simulador</div>
+<h2 class="disp h2" style="margin: 0; font-size: 50px; line-height: 1.06">Veja a sua foto na parede antes de pedir</h2>
+</div>
+<p style="margin: 0; color: #A8B2BF; font-weight: 300; max-width: 460px">Envie uma imagem, escolha a medida e o acabamento. A simulação mostra o quadro em escala real, ao lado de um sofá de 2 metros.</p>
+</div>
+
+<div class="sim">
+<div class="sim-stage">
+<canvas id="simCanvas" width="1600" height="1260" aria-label="Simulação do quadro na parede"></canvas>
+<div id="simHint" class="sim-hint" hidden>Arraste a imagem para ajustar o enquadramento</div>
+</div>
+
+<div class="sim-panel card">
+<label id="simDrop" class="sim-drop" for="simFile">
+<input id="simFile" type="file" accept="image/jpeg,image/png,image/webp" hidden>
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="color: var(--ac)" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5"></path><path d="M4 16v3a1 1 0 001 1h14a1 1 0 001-1v-3"></path></svg>
+<span id="simDropText"><strong style="color: #FFFFFF; font-weight: 500">Envie sua foto</strong><br><span style="font-size: 13px; color: #8B97A8">JPG, PNG ou WebP · clique ou arraste aqui</span></span>
+</label>
+
+<div class="sim-group">
+<div class="sim-label">Medida final do quadro</div>
+<div class="seg seg-grid" id="simSize" role="radiogroup" aria-label="Medida"></div>
+</div>
+
+<div class="sim-group">
+<div class="sim-label">Orientação</div>
+<div class="seg" id="simOri" role="radiogroup" aria-label="Orientação">
+<button type="button" role="radio" data-v="p" aria-checked="true">Retrato</button>
+<button type="button" role="radio" data-v="l">Paisagem</button>
+</div>
+</div>
+
+<div class="sim-group">
+<div class="sim-label">Moldura em madeira</div>
+<div class="seg seg-list" id="simFrame" role="radiogroup" aria-label="Cor da moldura">
+<button type="button" role="radio" data-v="mogno"><i class="sw" style="background:#5A2A1E"></i>Mogno escuro</button>
+<button type="button" role="radio" data-v="caramelo"><i class="sw" style="background:#B5793F"></i>Natural caramelo</button>
+<button type="button" role="radio" data-v="nogueira" aria-checked="true"><i class="sw" style="background:#8E6235"></i>Nogueira dourada</button>
+<button type="button" role="radio" data-v="freijo"><i class="sw" style="background:#CDAE84"></i>Freijó claro</button>
+<button type="button" role="radio" data-v="dourado"><i class="sw" style="background:linear-gradient(135deg,#D6BA78,#8C7036)"></i>Dourado envelhecido</button>
+<button type="button" role="radio" data-v="chumbo"><i class="sw" style="background:#4A4D52"></i>Cinza chumbo</button>
+<button type="button" role="radio" data-v="branco"><i class="sw" style="background:#EEEBE5"></i>Branco</button>
+</div>
+</div>
+
+<div class="sim-row">
+<div class="sim-group">
+<div class="sim-label">Luz de quadro</div>
+<div class="seg" id="simLight" role="radiogroup" aria-label="Luz de quadro">
+<button type="button" role="radio" data-v="1" aria-checked="true">Acesa</button>
+<button type="button" role="radio" data-v="0">Apagada</button>
+</div>
+</div>
+<div class="sim-group">
+<div class="sim-label">Cor da parede</div>
+<div class="seg seg-dots" id="simWall" role="radiogroup" aria-label="Cor da parede">
+<button type="button" role="radio" data-v="#E9E5DE" aria-checked="true" aria-label="Off-white"><i class="sw" style="background:#E9E5DE"></i></button>
+<button type="button" role="radio" data-v="#D6C6AE" aria-label="Areia"><i class="sw" style="background:#D6C6AE"></i></button>
+<button type="button" role="radio" data-v="#9FA7A3" aria-label="Verde-acinzentado"><i class="sw" style="background:#9FA7A3"></i></button>
+<button type="button" role="radio" data-v="#3A4048" aria-label="Grafite"><i class="sw" style="background:#3A4048"></i></button>
+</div>
+</div>
+</div>
+
+<div class="sim-group" id="simZoomWrap" hidden>
+<div class="sim-label" style="display: flex; justify-content: space-between"><span>Zoom</span><span id="simZoomVal" style="color: #8B97A8">100%</span></div>
+<input id="simZoom" type="range" min="1" max="2.5" step="0.01" value="1" aria-label="Zoom da imagem">
+</div>
+
+<div id="simQuality" class="sim-quality" hidden></div>
+
+<div class="sim-total">
+<div><div style="font-size: 13px; color: #8B97A8">Valor do quadro</div><div class="disp" id="simPrice" style="font-size: 32px; line-height: 1.1">R$ 690</div><div style="font-size: 12px; color: #8B97A8">+ frete conforme o CEP</div></div>
+</div>
+<div class="sim-notice" role="note">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="flex-shrink:0;margin-top:2px"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v5M12 16.5v.5"></path></svg>
+<span><strong>Isto é apenas uma simulação.</strong> Antes de imprimir, toda foto passa por uma avaliação técnica, porque nem toda foto de celular tem qualidade para virar quadro. Só produzimos depois de confirmar com você.</span>
+</div>
+<ol class="sim-steps">
+<li>
+<button id="simSave" type="button" class="btn btn-p" style="width:100%;border:0;cursor:pointer">
+<span class="step-n">1</span>Gerar e salvar a imagem da simulação</button>
+<span class="step-note" id="simSaveNote">A imagem é criada no seu celular ou computador, com a medida, a moldura e o valor.</span>
+</li>
+<li>
+<a id="simOrder" class="btn btn-g" href="https://wa.me/5581999476729" target="_blank" rel="noopener" style="width:100%">
+<span class="step-n">2</span>Enviar no WhatsApp</a>
+<span class="step-note">Na conversa, anexe a imagem da simulação e a foto original.</span>
+</li>
+</ol>
+<p style="margin: 0; font-size: 12px; color: #8B97A8; line-height: 1.5">Nada é enviado para o nosso site: a foto e a simulação ficam só no seu aparelho até você mandar pelo WhatsApp.</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- QUEM ASSINA -->
+<section class="sec" style="padding: 128px 0; background: #0B1017">
+<div class="wrap g2">
+<div style="position: relative; border-radius: 10px; overflow: hidden; aspect-ratio: 4 / 5; max-height: 620px; background: #19222D">
+<img src="/quadros/img/f006.jpg" alt="Izaldo Bacelar, fotógrafo e filmmaker" style="width: 100%; height: 100%; object-fit: cover; object-position: 50% 26%; display: block; filter: contrast(1.05)">
+<div style="position: absolute; inset: 0; background: linear-gradient(200deg, rgba(232,143,79,0) 55%, rgba(232,143,79,.38) 100%)"></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 24px">
+<div class="eyebrow" style="color: var(--ac)">Quem assina</div>
+<h2 class="disp h2" style="margin: 0; font-size: 50px; line-height: 1.06">Um olhar treinado para encontrar o que importa</h2>
+<p style="margin: 0; color: #A8B2BF; font-weight: 300">Izaldo Bacelar é fotógrafo e filmmaker à frente da IB Films. Há mais de seis anos transforma luz, lugar e momento em imagem, e agora leva esse olhar para fora da tela.</p>
+<p style="margin: 0; color: #A8B2BF; font-weight: 300">Cada quadro nasce de uma fotografia autoral escolhida a dedo, tratada com o mesmo rigor de uma produção de cinema e impressa para atravessar gerações. Baseado em Recife, Pernambuco, envia para todo o Brasil.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<span class="chip">Paisagem</span>
+<span class="chip">Mar</span>
+<span class="chip">Arquitetura</span>
+<span class="chip">Pernambuco</span>
+<span class="chip">Preto e branco</span>
+</div>
+</div>
+</div>
+</section>
+
+<!-- POR QUE -->
+<section class="sec" style="padding: 120px 0; background: #19222D">
+<div class="wrap" style="display: flex; flex-direction: column; gap: 48px">
+<div class="g2" style="align-items: end; gap: 32px">
+<div style="display: flex; flex-direction: column; gap: 20px">
+<div class="eyebrow" style="color: var(--ac)">Por que um quadro autoral</div>
+<h2 class="disp h2" style="margin: 0; font-size: 50px; line-height: 1.06">Decorar não é o mesmo que ter uma obra</h2>
+</div>
+<p style="margin: 0; color: #A8B2BF; font-weight: 300; max-width: 440px">A parede é o primeiro lugar para onde o olhar vai. O que está nela diz muito sobre quem mora ou trabalha ali.</p>
+</div>
+<div class="g2" style="gap: 20px; align-items: stretch">
+<div class="card" style="padding: 32px; display: flex; flex-direction: column; gap: 12px; background: #0F151D">
+<div class="disp" style="font-size: 44px; line-height: 1; color: #2E3A4A">01</div>
+<h3 class="disp" style="margin: 0; font-size: 24px; line-height: 1.2">Quadro de loja é igual ao da casa ao lado</h3>
+<p style="margin: 0; font-size: 16px; color: #A8B2BF; font-weight: 300">Imagens de banco, impressas em série, que se repetem em milhares de paredes e desbotam em poucos anos.</p>
+</div>
+<div class="card" style="padding: 32px; display: flex; flex-direction: column; gap: 12px; background: #0F151D">
+<div class="disp" style="font-size: 44px; line-height: 1; color: #2E3A4A">02</div>
+<h3 class="disp" style="margin: 0; font-size: 24px; line-height: 1.2">Uma fotografia autoral carrega história</h3>
+<p style="margin: 0; font-size: 16px; color: #A8B2BF; font-weight: 300">Peças numeradas, de um autor que você conhece, com materiais de arquivo. Um quadro que valoriza o ambiente e permanece.</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- COLEÇÃO -->
+<section id="colecao" class="sec" style="padding: 128px 0; background: radial-gradient(50% 60% at 0% 100%, rgba(232,143,79,.22) 0%, rgba(232,143,79,0) 70%), #0B1017">
+<div class="wrap" style="display: flex; flex-direction: column; gap: 56px">
+<div class="g2" style="align-items: end; gap: 32px">
+<div style="display: flex; flex-direction: column; gap: 20px">
+<div class="eyebrow" style="color: var(--ac)">Coleção</div>
+<h2 class="disp h2" style="margin: 0; font-size: 50px; line-height: 1.06">Escolha a imagem. O resto é com a gente.</h2>
+</div>
+<p style="margin: 0; color: #A8B2BF; font-weight: 300; max-width: 460px">Toque em uma obra para pedir pelo WhatsApp. Todas estão disponíveis nos três tamanhos e nas 7 cores de moldura.</p>
+</div>
+<div class="g3" style="gap: 24px; align-items: stretch">
+
+<!-- Para trocar uma obra: altere img src, título, local, tiragem e o data-wa do botão. -->
+<article class="card work">
+<div class="wall"><span class="badge">Restam 4</span><div class="frame"><div class="mat"><div class="photo"><span class="ph">Foto 01</span><img src="/quadros/img/q01.jpg" alt="Fotografia Maré baixa" loading="lazy" onerror="this.remove()"></div></div></div></div>
+<div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 0 4px">
+<div><div class="disp" style="font-size: 18px">Maré baixa</div><div style="font-size: 14px; color: #8B97A8">Porto de Galinhas · 2025</div></div>
+<div style="text-align: right"><div style="font-size: 12px; color: #8B97A8">a partir de</div><div class="price">R$ 194</div></div>
+</div>
+<a class="btn btn-g" data-wa="Olá, Izaldo! Tenho interesse no quadro “Maré baixa”." href="https://wa.me/5581999476729">Quero este quadro</a>
+</article>
+
+<article class="card work">
+<div class="wall"><span class="badge">Edição de 20</span><div class="frame"><div class="mat"><div class="photo"><span class="ph">Foto 02</span><img src="/quadros/img/q02.jpg" alt="Fotografia Recife Antigo" loading="lazy" onerror="this.remove()"></div></div></div></div>
+<div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 0 4px">
+<div><div class="disp" style="font-size: 18px">Recife Antigo</div><div style="font-size: 14px; color: #8B97A8">Recife · 2024</div></div>
+<div style="text-align: right"><div style="font-size: 12px; color: #8B97A8">a partir de</div><div class="price">R$ 194</div></div>
+</div>
+<a class="btn btn-g" data-wa="Olá, Izaldo! Tenho interesse no quadro “Recife Antigo”." href="https://wa.me/5581999476729">Quero este quadro</a>
+</article>
+
+<article class="card work">
+<div class="wall"><span class="badge">Edição de 20</span><div class="frame"><div class="mat"><div class="photo"><span class="ph">Foto 03</span><img src="/quadros/img/q03.jpg" alt="Fotografia Linha do horizonte" loading="lazy" onerror="this.remove()"></div></div></div></div>
+<div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 0 4px">
+<div><div class="disp" style="font-size: 18px">Linha do horizonte</div><div style="font-size: 14px; color: #8B97A8">Fernando de Noronha · 2025</div></div>
+<div style="text-align: right"><div style="font-size: 12px; color: #8B97A8">a partir de</div><div class="price">R$ 194</div></div>
+</div>
+<a class="btn btn-g" data-wa="Olá, Izaldo! Tenho interesse no quadro “Linha do horizonte”." href="https://wa.me/5581999476729">Quero este quadro</a>
+</article>
+
+<article class="card work">
+<div class="wall"><span class="badge">Edição de 15</span><div class="frame"><div class="mat"><div class="photo"><span class="ph">Foto 04</span><img src="/quadros/img/q04.jpg" alt="Fotografia Casario" loading="lazy" onerror="this.remove()"></div></div></div></div>
+<div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 0 4px">
+<div><div class="disp" style="font-size: 18px">Casario</div><div style="font-size: 14px; color: #8B97A8">Olinda · 2024</div></div>
+<div style="text-align: right"><div style="font-size: 12px; color: #8B97A8">a partir de</div><div class="price">R$ 194</div></div>
+</div>
+<a class="btn btn-g" data-wa="Olá, Izaldo! Tenho interesse no quadro “Casario”." href="https://wa.me/5581999476729">Quero este quadro</a>
+</article>
+
+<article class="card work">
+<div class="wall"><span class="badge">Edição de 20</span><div class="frame"><div class="mat"><div class="photo"><span class="ph">Foto 05</span><img src="/quadros/img/q05.jpg" alt="Fotografia Fim de tarde" loading="lazy" onerror="this.remove()"></div></div></div></div>
+<div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 0 4px">
+<div><div class="disp" style="font-size: 18px">Fim de tarde</div><div style="font-size: 14px; color: #8B97A8">Boa Viagem · 2025</div></div>
+<div style="text-align: right"><div style="font-size: 12px; color: #8B97A8">a partir de</div><div class="price">R$ 194</div></div>
+</div>
+<a class="btn btn-g" data-wa="Olá, Izaldo! Tenho interesse no quadro “Fim de tarde”." href="https://wa.me/5581999476729">Quero este quadro</a>
+</article>
+
+<article class="card work">
+<div class="wall"><span class="badge">Última peça</span><div class="frame"><div class="mat"><div class="photo"><span class="ph">Foto 06</span><img src="/quadros/img/q06.jpg" alt="Fotografia Silêncio" loading="lazy" onerror="this.remove()"></div></div></div></div>
+<div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 0 4px">
+<div><div class="disp" style="font-size: 18px">Silêncio</div><div style="font-size: 14px; color: #8B97A8">Sertão de Pernambuco · 2023</div></div>
+<div style="text-align: right"><div style="font-size: 12px; color: #8B97A8">a partir de</div><div class="price">R$ 194</div></div>
+</div>
+<a class="btn btn-g" data-wa="Olá, Izaldo! Tenho interesse no quadro “Silêncio”." href="https://wa.me/5581999476729">Quero este quadro</a>
+</article>
+
+</div>
+<div style="display: flex; justify-content: center">
+<a class="btn btn-p" data-wa="Olá, Izaldo! Quero ver o catálogo completo de quadros." href="https://wa.me/5581999476729">Pedir o catálogo completo
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+</div>
+</div>
+</section>
+
+<!-- COMO FUNCIONA -->
+<section id="como-funciona" class="sec" style="padding: 128px 0; background: #19222D">
+<div class="wrap" style="display: flex; flex-direction: column; gap: 112px">
+<div style="display: flex; flex-direction: column; gap: 20px; max-width: 720px">
+<div class="eyebrow" style="color: var(--ac)">Como funciona</div>
+<h2 class="disp h2" style="margin: 0; font-size: 50px; line-height: 1.06">Do clique à parede, sem complicação</h2>
+<p style="margin: 0; color: #A8B2BF; font-weight: 300">Você escolhe a obra e conversa direto com o fotógrafo. A gente cuida da impressão, da moldura e da entrega.</p>
+</div>
+
+<div class="g2">
+<div class="card" style="padding: 22px; max-width: 460px; width: 100%; justify-self: center; background: #0F151D; box-shadow: 0 30px 60px -30px rgba(232,143,79,.35)">
+<div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 14px; border-bottom: 1px solid #232D3A">
+<div class="disp" style="font-size: 15px">Seu pedido</div>
+<span class="chip" style="min-height: 24px; font-size: 12px">Maré baixa · 3/20</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px; padding-top: 14px; font-size: 13px">
+<div style="display: flex; justify-content: space-between; padding: 10px 12px; background: #19222D; border-radius: 6px"><span>Tamanho</span><span style="color: #8B97A8">50 × 70 cm</span></div>
+<div style="display: flex; justify-content: space-between; padding: 10px 12px; background: #19222D; border-radius: 6px"><span>Impressão</span><span style="color: #8B97A8">Canvas alta definição</span></div>
+<div style="display: flex; justify-content: space-between; padding: 10px 12px; background: #19222D; border-radius: 6px"><span>Moldura</span><span style="color: #8B97A8">Madeira · nogueira dourada</span></div>
+<div style="display: flex; justify-content: space-between; padding: 10px 12px; background: rgba(232,143,79,.14); border-radius: 6px; color: #F2B288"><span>Certificado</span><span>assinado e numerado</span></div>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px; max-width: 460px">
+<div class="eyebrow" style="color: #8B97A8; font-size: 12px">01 · Escolha</div>
+<h3 class="disp" style="margin: 0; font-size: 32px; line-height: 1.12">Uma conversa para acertar cada detalhe</h3>
+<p style="margin: 0; color: #A8B2BF; font-weight: 300">Pelo WhatsApp, você define obra, tamanho e acabamento. Se quiser, manda uma foto da parede e ajudamos a escolher a medida ideal.</p>
+</div>
+</div>
+
+<div class="g2">
+<div class="rev" style="display: flex; flex-direction: column; gap: 12px; max-width: 460px">
+<div class="eyebrow" style="color: #8B97A8; font-size: 12px">02 · Produção</div>
+<h3 class="disp" style="margin: 0; font-size: 32px; line-height: 1.12">Impresso em canvas e emoldurado sob encomenda</h3>
+<p style="margin: 0; color: #A8B2BF; font-weight: 300">Cada peça é impressa só depois do pedido, com tintas de alta durabilidade, esticada no chassi de madeira e montada na moldura na cor escolhida.</p>
+</div>
+<div style="justify-self: center; width: 100%; max-width: 420px">
+<div class="wall" style="padding: 12% 14%; border: 1px solid #303B49; border-radius: 10px; box-shadow: 0 30px 60px -30px rgba(232,143,79,.35)">
+<div class="frame"><div class="mat"><div class="photo"><span class="ph">Sua obra</span><img src="/quadros/img/q01.jpg" alt="" loading="lazy" onerror="this.remove()"></div></div></div>
+<span style="position: absolute; left: 50%; bottom: 4.5%; transform: translateX(-50%); font-family: 'Chakra Petch', sans-serif; font-size: 12px; letter-spacing: .12em; color: #8B97A8">50 × 70 CM</span>
+</div>
+</div>
+</div>
+
+<div class="g2">
+<div class="card" style="padding: 22px; max-width: 460px; width: 100%; justify-self: center; background: #0F151D; box-shadow: 0 30px 60px -30px rgba(232,143,79,.35)">
+<div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 14px; border-bottom: 1px solid #232D3A">
+<div class="disp" style="display: flex; align-items: center; gap: 8px; font-size: 15px">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"></path><path d="M3 7l9 4 9-4M12 11v10"></path></svg>
+Acompanhamento do envio
+</div>
+<span style="font-size: 12px; color: #8FD3A8; background: rgba(80,180,120,.14); padding: 3px 10px; border-radius: 999px">Em trânsito</span>
+</div>
+<div style="display: flex; flex-direction: column; padding-top: 6px; font-size: 13px">
+<div style="display: flex; justify-content: space-between; padding: 10px 2px; border-bottom: 1px solid #1D2632"><span>Impressão revisada</span><span style="color: #8FD3A8">✓</span></div>
+<div style="display: flex; justify-content: space-between; padding: 10px 2px; border-bottom: 1px solid #1D2632"><span>Moldura montada</span><span style="color: #8FD3A8">✓</span></div>
+<div style="display: flex; justify-content: space-between; padding: 10px 2px; border-bottom: 1px solid #1D2632"><span>Embalagem reforçada</span><span style="color: #8FD3A8">✓</span></div>
+<div style="display: flex; justify-content: space-between; padding: 10px 2px"><span>Código de rastreio</span><span style="color: #8B97A8">enviado no WhatsApp</span></div>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px; max-width: 460px">
+<div class="eyebrow" style="color: #8B97A8; font-size: 12px">03 · Entrega</div>
+<h3 class="disp" style="margin: 0; font-size: 32px; line-height: 1.12">Chega protegido, pronto para pendurar</h3>
+<p style="margin: 0; color: #A8B2BF; font-weight: 300">O quadro vai com cantoneiras, plástico bolha e caixa rígida, já com o gancho instalado. Em Recife, a entrega pode ser feita em mãos.</p>
+</div>
+</div>
+
+<ol class="timeline">
+<li><span class="disp" style="font-size: 14px; color: var(--ac)">01</span><span style="font-weight: 500; font-size: 15px">Obra escolhida</span></li>
+<li><span class="disp" style="font-size: 14px; color: var(--ac)">02</span><span style="font-weight: 500; font-size: 15px">Tamanho e moldura</span></li>
+<li><span class="disp" style="font-size: 14px; color: var(--ac)">03</span><span style="font-weight: 500; font-size: 15px">Pagamento</span></li>
+<li><span class="disp" style="font-size: 14px; color: var(--ac)">04</span><span style="font-weight: 500; font-size: 15px">Impressão e montagem</span></li>
+<li><span class="disp" style="font-size: 14px; color: var(--ac)">05</span><span style="font-weight: 500; font-size: 15px">Envio com rastreio</span></li>
+<li><span class="disp" style="font-size: 14px; color: var(--ac)">06</span><span style="font-weight: 500; font-size: 15px">Na sua parede</span></li>
+</ol>
+</div>
+</section>
+
+<!-- TAMANHOS -->
+<section id="tamanhos" class="sec" style="padding: 128px 0; background: #0B1017">
+<div class="wrap" style="display: flex; flex-direction: column; gap: 56px">
+<div class="g2" style="align-items: end; gap: 32px">
+<div style="display: flex; flex-direction: column; gap: 20px">
+<div class="eyebrow" style="color: var(--ac)">Medidas e valores</div>
+<h2 class="disp h2" style="margin: 0; font-size: 50px; line-height: 1.06">16 medidas, do quadro de mesa ao painel</h2>
+</div>
+<p style="margin: 0; color: #A8B2BF; font-weight: 300; max-width: 460px">Toque em uma medida para vê-la no simulador. Os valores incluem impressão, chassi e moldura. O frete é à parte.</p>
+</div>
+<div id="priceGrid" class="price-grid" aria-label="Medidas e valores"></div>
+<div class="g3" style="gap: 12px">
+<div class="chip" style="justify-content:center">Impressão em canvas de alta definição</div>
+<div class="chip" style="justify-content:center">Chassi e moldura em madeira, 7 cores</div>
+<div class="chip" style="justify-content:center">Mesmo valor para qualquer cor</div>
+</div>
+<div style="padding-top: 28px; border-top: 1px solid #232D3A; display: flex; flex-direction: column; gap: 12px">
+<div class="eyebrow" style="color: #8B97A8">Informações importantes</div>
+<p style="margin: 0; color: #A8B2BF; font-size: 14px; font-weight: 300">Os quadros são produzidos sob encomenda, com prazo de produção de até 10 dias úteis após a confirmação do pagamento. Tamanhos sob medida e composições com mais de uma obra são orçados à parte.</p>
+<p style="margin: 0; color: #A8B2BF; font-size: 14px; font-weight: 300">O frete é calculado conforme o CEP e o tamanho da peça. Em Recife e região metropolitana, a entrega pode ser combinada em mãos.</p>
+</div>
+</div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="sec" style="padding: 128px 0; background: #19222D">
+<div class="wrap" style="display: flex; flex-direction: column; gap: 96px">
+<div class="split">
+<div style="display: flex; flex-direction: column; gap: 16px">
+<div class="eyebrow" style="color: var(--ac)">Dúvidas</div>
+<h2 class="disp h2" style="margin: 0; font-size: 50px; line-height: 1.06">Suas dúvidas, bem explicadas</h2>
+<p style="margin: 0; color: #A8B2BF; font-weight: 300; font-size: 15px">Tudo o que você precisa saber antes de escolher o seu quadro.</p>
+</div>
+<div style="display: flex; flex-direction: column; border-top: 1px solid #2C3644">
+<details style="border-bottom: 1px solid #2C3644" open><summary class="faqbtn"><span>Posso transformar a minha própria foto em quadro?</span><span class="faqsign" aria-hidden="true">+</span></summary><p style="margin: 0; padding: 0 40px 20px 0; font-size: 15px; color: #A8B2BF; font-weight: 300">Pode. Use o simulador para ver como fica na parede, escolha medida e moldura, e envie o arquivo original pelo WhatsApp. Antes de imprimir, revisamos a foto e avisamos se for preciso algum ajuste.</p></details><details style="border-bottom: 1px solid #2C3644"><summary class="faqbtn"><span>Como sei se a minha foto tem qualidade suficiente?</span><span class="faqsign" aria-hidden="true">+</span></summary><p style="margin: 0; padding: 0 40px 20px 0; font-size: 15px; color: #A8B2BF; font-weight: 300">O simulador calcula a resolução para a medida escolhida e avisa se a foto pode perder nitidez. Fotos de celular recentes costumam ficar ótimas até 50 × 70 cm. Envie sempre o arquivo original, nunca um print ou uma imagem baixada de rede social.</p></details><details style="border-bottom: 1px solid #2C3644"><summary class="faqbtn"><span>Como é o quadro em canvas?</span><span class="faqsign" aria-hidden="true">+</span></summary><p style="margin: 0; padding: 0 40px 20px 0; font-size: 15px; color: #A8B2BF; font-weight: 300">A imagem é impressa em tela canvas, esticada num chassi de madeira e encaixada numa moldura também de madeira. Não leva vidro: não reflete a luz, é leve e fácil de pendurar.</p></details><details style="border-bottom: 1px solid #2C3644"><summary class="faqbtn"><span>Quais as cores de moldura?</span><span class="faqsign" aria-hidden="true">+</span></summary><p style="margin: 0; padding: 0 40px 20px 0; font-size: 15px; color: #A8B2BF; font-weight: 300">Mogno escuro, madeira natural caramelo, nogueira dourada, freijó claro, dourado envelhecido, cinza chumbo e branco. Teste todas no simulador antes de pedir.</p></details><details style="border-bottom: 1px solid #2C3644"><summary class="faqbtn"><span>Em quanto tempo recebo o quadro?</span><span class="faqsign" aria-hidden="true">+</span></summary><p style="margin: 0; padding: 0 40px 20px 0; font-size: 15px; color: #A8B2BF; font-weight: 300">A produção leva até 10 dias úteis após o pagamento. Depois disso, o prazo de entrega depende da sua cidade e é informado junto com o frete.</p></details><details style="border-bottom: 1px solid #2C3644"><summary class="faqbtn"><span>O que significa tiragem limitada?</span><span class="faqsign" aria-hidden="true">+</span></summary><p style="margin: 0; padding: 0 40px 20px 0; font-size: 15px; color: #A8B2BF; font-weight: 300">Cada fotografia tem um número máximo de cópias. Quando a edição esgota, aquela imagem não é mais impressa. Seu quadro vem com o número da peça e certificado assinado.</p></details><details style="border-bottom: 1px solid #2C3644"><summary class="faqbtn"><span>Posso pedir um tamanho diferente?</span><span class="faqsign" aria-hidden="true">+</span></summary><p style="margin: 0; padding: 0 40px 20px 0; font-size: 15px; color: #A8B2BF; font-weight: 300">Sim. Fazemos medidas sob medida e composições com várias obras. Mande a medida da parede no WhatsApp que preparamos um orçamento.</p></details><details style="border-bottom: 1px solid #2C3644"><summary class="faqbtn"><span>Quais as formas de pagamento?</span><span class="faqsign" aria-hidden="true">+</span></summary><p style="margin: 0; padding: 0 40px 20px 0; font-size: 15px; color: #A8B2BF; font-weight: 300">Pix ou cartão de crédito. Os detalhes são combinados no atendimento pelo WhatsApp.</p></details><details style="border-bottom: 1px solid #2C3644"><summary class="faqbtn"><span>Dá para enviar como presente?</span><span class="faqsign" aria-hidden="true">+</span></summary><p style="margin: 0; padding: 0 40px 20px 0; font-size: 15px; color: #A8B2BF; font-weight: 300">Dá sim. Enviamos direto para o endereço de quem vai receber, com um cartão escrito por você.</p></details>
+</div>
+</div>
+<div class="split" style="align-items: center">
+<div class="eyebrow" style="color: #8B97A8">Estamos por aqui</div>
+<div style="display: flex; flex-direction: column; gap: 14px; align-items: flex-start">
+<h3 class="disp" style="margin: 0; font-size: 36px; line-height: 1.1">Ainda tem dúvidas?</h3>
+<p style="margin: 0; color: #A8B2BF; font-weight: 300; font-size: 16px">Chama no WhatsApp e a gente ajuda a escolher a obra e o tamanho certos para o seu espaço.</p>
+<a class="btn btn-p" data-wa="Olá, Izaldo! Tenho uma dúvida sobre os quadros." href="https://wa.me/5581999476729">Falar no WhatsApp
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+</div>
+</div>
+</div>
+</section>
+
+<!-- CTA FINAL + RODAPÉ -->
+<section style="position: relative; overflow: hidden; background: radial-gradient(60% 80% at 50% 120%, rgba(232,143,79,.55) 0%, rgba(232,143,79,0) 70%), #0B1017">
+<svg viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" style="position: absolute; inset: 0; width: 100%; height: 100%; opacity: .12" fill="none" stroke="#E88F4F" stroke-width="1" aria-hidden="true">
+<ellipse cx="600" cy="640" rx="260" ry="200"></ellipse>
+<ellipse cx="600" cy="640" rx="390" ry="290"></ellipse>
+<ellipse cx="600" cy="640" rx="520" ry="380"></ellipse>
+<ellipse cx="600" cy="640" rx="660" ry="470"></ellipse>
+<ellipse cx="600" cy="640" rx="820" ry="560"></ellipse>
+</svg>
+<div class="wrap" style="position: relative; padding-top: 144px; padding-bottom: 48px; display: flex; flex-direction: column; gap: 144px">
+<div style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 24px">
+<div class="eyebrow" style="color: var(--ac)">Sua parede espera</div>
+<h2 class="disp h1" style="margin: 0; font-size: 72px; line-height: 1.02">Qual imagem vai morar com você?</h2>
+<p style="margin: 0; color: #C9D1DB; font-weight: 300; max-width: 520px">Conte onde o quadro vai ficar e ajudamos a escolher a obra, o tamanho e o acabamento ideais.</p>
+<a class="btn btn-p" data-wa="Olá, Izaldo! Quero escolher um quadro." href="https://wa.me/5581999476729">Chamar no WhatsApp
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+</div>
+<footer style="display: flex; flex-direction: column; gap: 40px">
+<div class="g4" style="align-items: start">
+<div style="display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; align-items: center; gap: 10px; font-family: 'Chakra Petch', sans-serif; font-weight: 700; font-size: 20px">
+<span>Izaldo</span>
+<svg width="26" height="20" viewBox="0 0 40 30" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 2.5H37.5V27.5H2.5Z"></path><path d="M12 2.5V27.5"></path><path d="M37.5 2.5L24 15L37.5 27.5"></path></svg>
+<span>Bacelar</span>
+</div>
+<div style="font-size: 14px; color: #9AA5B4; font-weight: 300">Fotografia autoral em quadros de canvas.</div>
+</div>
+<div class="flink" style="display: flex; flex-direction: column; gap: 6px; font-size: 14px"><span class="eyebrow" style="color: #8B97A8; font-size: 11px">WhatsApp</span><a href="https://wa.me/5581999476729">(81) 99947-6729</a></div>
+<div class="flink" style="display: flex; flex-direction: column; gap: 6px; font-size: 14px"><span class="eyebrow" style="color: #8B97A8; font-size: 11px">Instagram</span><a href="https://instagram.com/izaldobacelar">@izaldobacelar</a><a href="https://instagram.com/ib.films">@ib.films</a></div>
+<div class="flink" style="display: flex; flex-direction: column; gap: 6px; font-size: 14px"><span class="eyebrow" style="color: #8B97A8; font-size: 11px">E-mail</span><a href="mailto:contato@izaldobacelar.com">contato@izaldobacelar.com</a></div>
+</div>
+<div style="display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-top: 20px; border-top: 1px solid rgba(255,255,255,.12); color: #9AA5B4; font-size: 12px">
+<span>© 2026 Izaldo Bacelar · IB Films</span>
+<span>Quadros em Canvas</span>
+</div>
+</footer>
+</div>
+</section>
+
+</div>
+<script id="wa-links">
+// Monta os links do WhatsApp a partir do texto em data-wa (já codificado).
+(function () {
+  var base = 'https://wa.me/5581999476729?text=';
+  document.querySelectorAll('[data-wa]').forEach(function (a) {
+    a.href = base + encodeURIComponent(a.getAttribute('data-wa'));
+    a.target = '_blank';
+    a.rel = 'noopener';
+  });
+})();
+</script>
+<script id="simulador-js">
+(function () {
+  var canvas = document.getElementById('simCanvas');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var stage = canvas.parentElement;
+
+  // ---- Configuração (edite aqui) ----
+  var WHATSAPP = '5581999476729';
+  // Tabela da gráfica: medida → valor TOTAL de custo (impressão + moldura).
+  // O preço de venda é calculado com a margem abaixo. Para mudar valores, edite só aqui.
+  var MARKUP = 1.40;   // 40% sobre o custo
+  var SIZES = [
+    ['30x21', 138.72], ['30x42', 217.45], ['40x60', 339.92], ['50x70', 444.05],
+    ['60x80', 559.84], ['60x90', 614.82], ['100x66', 716.78], ['120x80', 959.68],
+    ['120x90', 1049.00], ['130x90', 1112.11], ['140x80', 1092.96], ['150x90', 1267.05],
+    ['150x100', 1374.50], ['160x80', 1226.24], ['180x100', 1609.40], ['200x100', 1766.00]
+  ];
+  var PRICES = {};
+  SIZES.forEach(function (r) { PRICES[r[0]] = Math.round(r[1] * MARKUP * 100) / 100; });
+  var FRAME_CM = 2.2;     // largura frontal da moldura
+  var GAP_CM = 0.8;       // respiro entre a moldura e a tela
+  // tipo: 'wood' = veio de madeira · 'paint' = madeira pintada (veio sutil) · 'gold' = dourado envelhecido
+  var FRAMES = {
+    mogno:    { name: 'mogno escuro',             base: '#5A2A1E', light: '#7E4231', dark: '#371710', type: 'wood' },
+    caramelo: { name: 'madeira natural caramelo', base: '#B5793F', light: '#D29A5E', dark: '#875628', type: 'wood' },
+    nogueira: { name: 'nogueira dourada',         base: '#8E6235', light: '#B4834E', dark: '#64421F', type: 'wood' },
+    freijo:   { name: 'freijó claro',             base: '#CDAE84', light: '#E3C9A2', dark: '#A88A61', type: 'wood' },
+    dourado:  { name: 'dourado envelhecido',      base: '#A88A4E', light: '#DCC184', dark: '#6E5729', type: 'gold' },
+    chumbo:   { name: 'cinza chumbo',             base: '#4A4D52', light: '#64686E', dark: '#2E3034', type: 'paint' },
+    branco:   { name: 'branco',                   base: '#ECE9E3', light: '#FFFFFF', dark: '#C9C4BB', type: 'paint' }
+  };
+  var MIN_DPI_OK = 150, MIN_DPI_WARN = 100;
+
+  // ---- Cena: parede de 270 cm de altura (pé-direito) ----
+  var W = canvas.width, H = canvas.height;
+  var FLOOR_Y = H - 190;             // 0 cm (linha entre parede e chão)
+  var PX = FLOOR_Y / 270;            // px por cm
+  var FRAME_BOTTOM_CM = 108;         // base do quadro em relação ao chão (quadros altos descem para caber)
+  var FRAME_TOP_MAX_CM = 236;
+
+  var state = { size: '50x70', ori: 'p', frame: 'nogueira', light: true, wall: '#E9E5DE', img: null, offX: 0, offY: 0, zoom: 1 };
+  var lastArea = null, lastFrame = null, lightLayer = null;
+
+  function cm(v) { return v * PX; }
+  function shade(hex, amt) {
+    var n = parseInt(hex.slice(1), 16), r = n >> 16, g = (n >> 8) & 255, b = n & 255;
+    function c(x) { return Math.max(0, Math.min(255, Math.round(x + amt * 255))); }
+    return 'rgb(' + c(r) + ',' + c(g) + ',' + c(b) + ')';
+  }
+  function dims() {
+    var p = state.size.split('x').map(Number);
+    var w = Math.min(p[0], p[1]), h = Math.max(p[0], p[1]);
+    return state.ori === 'l' ? { w: h, h: w } : { w: w, h: h };
+  }
+
+  // ================= CENA REALISTA =================
+  // Geradores determinísticos (a cena é sempre igual entre renderizações)
+  function rng(seed) { return function () { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }; }
+  function hexRgb(hex) { var n = parseInt(hex.slice(1), 16); return [n >> 16, (n >> 8) & 255, n & 255]; }
+  function rgba(hex, a, amt) { var c = hexRgb(hex).map(function (v) { return Math.max(0, Math.min(255, Math.round(v + (amt || 0) * 255))); }); return 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + a + ')'; }
+  function roundRect(x, y, w, h, r) {
+    r = Math.min(r, w / 2, h / 2);
+    ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
+  }
+  var noiseCache = {};
+  function noisePattern(key, size, alpha, streak) {
+    if (noiseCache[key]) return noiseCache[key];
+    var c = document.createElement('canvas'); c.width = c.height = size; var g = c.getContext('2d');
+    var img = g.createImageData(size, size), r = rng(key.length * 7919 + size);
+    for (var i = 0; i < img.data.length; i += 4) {
+      var v = r() * 255;
+      if (streak) { var y = (i / 4 / size) | 0; v = v * 0.5 + (Math.sin(y * 1.7 + r()) * 0.5 + 0.5) * 127; }
+      img.data[i] = img.data[i + 1] = img.data[i + 2] = v; img.data[i + 3] = alpha * 255;
+    }
+    g.putImageData(img, 0, 0);
+    return (noiseCache[key] = ctx.createPattern(c, 'repeat'));
+  }
+  function overlayNoise(key, size, alpha, mode, streak) {
+    ctx.save(); ctx.globalCompositeOperation = mode || 'overlay'; ctx.fillStyle = noisePattern(key, size, alpha, streak); ctx.fill(); ctx.restore();
+  }
+
+  var CX = W / 2;                    // centro da parede
+  var FRONT = 64;                    // quanto a frente dos móveis "desce" (profundidade)
+  function yAt(hcm) { return FLOOR_Y - cm(hcm); }
+
+  function drawWall() {
+    // base com leve variação de luz (janela à esquerda)
+    var g = ctx.createLinearGradient(0, 0, W, 0);
+    g.addColorStop(0, rgba(state.wall, 1, 0.03)); g.addColorStop(0.5, rgba(state.wall, 1, 0)); g.addColorStop(1, rgba(state.wall, 1, -0.05));
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, FLOOR_Y);
+    var v = ctx.createLinearGradient(0, 0, 0, FLOOR_Y);
+    v.addColorStop(0, 'rgba(0,0,0,.10)'); v.addColorStop(0.35, 'rgba(0,0,0,0)'); v.addColorStop(1, 'rgba(0,0,0,.06)');
+    ctx.fillStyle = v; ctx.fillRect(0, 0, W, FLOOR_Y);
+    ctx.beginPath(); ctx.rect(0, 0, W, FLOOR_Y); overlayNoise('wall', 220, 0.10, 'overlay');
+    // rodapé
+    var bh = cm(11), by = FLOOR_Y - bh;
+    var bg = ctx.createLinearGradient(0, by, 0, FLOOR_Y);
+    bg.addColorStop(0, '#FBFAF7'); bg.addColorStop(0.12, '#F1EEE8'); bg.addColorStop(1, '#DCD8D0');
+    ctx.fillStyle = bg; ctx.fillRect(0, by, W, bh);
+    ctx.fillStyle = 'rgba(0,0,0,.10)'; ctx.fillRect(0, by - 2, W, 2);
+  }
+
+  function drawFloor() {
+    var top = FLOOR_Y, hz = yAt(120), vpx = CX;
+    var fg = ctx.createLinearGradient(0, top, 0, H);
+    fg.addColorStop(0, '#6B513A'); fg.addColorStop(1, '#8A6A4C');
+    ctx.fillStyle = fg; ctx.fillRect(0, top, W, H - top);
+    // tábuas em perspectiva
+    var r = rng(42), plank = 64;
+    function xAtTop(xb) { var t = (H - top) / (H - hz); return xb + (vpx - xb) * t; }
+    for (var xb = -W; xb < W * 2; xb += plank) {
+      var x0t = xAtTop(xb), x1t = xAtTop(xb + plank);
+      ctx.beginPath(); ctx.moveTo(x0t, top); ctx.lineTo(x1t, top); ctx.lineTo(xb + plank, H); ctx.lineTo(xb, H); ctx.closePath();
+      ctx.fillStyle = 'rgba(' + (r() > 0.5 ? '255,235,210,' : '40,25,10,') + (r() * 0.08) + ')'; ctx.fill();
+      ctx.strokeStyle = 'rgba(30,18,8,.35)'; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.moveTo(x0t, top); ctx.lineTo(xb, H); ctx.stroke();
+    }
+    ctx.beginPath(); ctx.rect(0, top, W, H - top); overlayNoise('floor', 180, 0.18, 'overlay', true);
+    // sombra de contato junto ao rodapé
+    var cs = ctx.createLinearGradient(0, top, 0, top + 18);
+    cs.addColorStop(0, 'rgba(0,0,0,.35)'); cs.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = cs; ctx.fillRect(0, top, W, 18);
+    // tapete
+    var rw = cm(250), rx = CX - rw / 2, ry = top + 22, rb = H + 40, spread = 90;
+    ctx.beginPath(); ctx.moveTo(rx, ry); ctx.lineTo(rx + rw, ry); ctx.lineTo(rx + rw + spread, rb); ctx.lineTo(rx - spread, rb); ctx.closePath();
+    var rg = ctx.createLinearGradient(0, ry, 0, rb); rg.addColorStop(0, '#CFC6B6'); rg.addColorStop(1, '#E2DACB');
+    ctx.fillStyle = rg; ctx.fill();
+    overlayNoise('rug', 120, 0.35, 'multiply');
+    ctx.strokeStyle = 'rgba(120,105,85,.35)'; ctx.lineWidth = 3; ctx.stroke();
+  }
+
+  function drawSideTable() {
+    var x = CX - cm(165), w = cm(48), topY = yAt(56) + FRONT * 0.55, baseY = FLOOR_Y + FRONT * 0.75;
+    // sombra
+    var sg = ctx.createRadialGradient(x, baseY + 4, 0, x, baseY + 4, w * 0.8);
+    sg.addColorStop(0, 'rgba(0,0,0,.35)'); sg.addColorStop(1, 'rgba(0,0,0,0)'); ctx.fillStyle = sg; ctx.fillRect(x - w, baseY - 20, w * 2, 40);
+    // pé
+    var pg = ctx.createLinearGradient(x - 10, 0, x + 10, 0); pg.addColorStop(0, '#3B2A1C'); pg.addColorStop(0.5, '#6A4C33'); pg.addColorStop(1, '#2E2016');
+    ctx.fillStyle = pg; ctx.fillRect(x - 8, topY + 10, 16, baseY - topY - 14);
+    ctx.beginPath(); ctx.ellipse(x, baseY - 4, w * 0.32, 7, 0, 0, Math.PI * 2); ctx.fillStyle = '#3A291B'; ctx.fill();
+    // tampo
+    ctx.beginPath(); ctx.ellipse(x, topY, w / 2, 13, 0, 0, Math.PI * 2);
+    var tg = ctx.createLinearGradient(x - w / 2, 0, x + w / 2, 0); tg.addColorStop(0, '#8C6845'); tg.addColorStop(0.5, '#A98159'); tg.addColorStop(1, '#6E4F33');
+    ctx.fillStyle = tg; ctx.fill();
+    ctx.fillStyle = '#4C3624'; ctx.fillRect(x - w / 2, topY, w, 9);
+    ctx.beginPath(); ctx.ellipse(x, topY + 9, w / 2, 13, 0, 0, Math.PI); ctx.fill();
+    // livros
+    var books = [['#2F3B46', 34], ['#C9B79B', 30], ['#7A3B2E', 32]], by = topY - 2;
+    books.forEach(function (b, i) { roundRect(x - b[1] - 14 + i * 3, by - 9, b[1] + 22, 9, 2); ctx.fillStyle = b[0]; ctx.fill(); by -= 9; });
+    // vaso com galhos secos
+    var vx = x + w * 0.22, vy = topY - 2;
+    ctx.beginPath(); ctx.moveTo(vx - 9, vy); ctx.bezierCurveTo(vx - 16, vy - 20, vx - 12, vy - 34, vx - 4, vy - 40); ctx.lineTo(vx + 4, vy - 40);
+    ctx.bezierCurveTo(vx + 12, vy - 34, vx + 16, vy - 20, vx + 9, vy); ctx.closePath();
+    var vg = ctx.createLinearGradient(vx - 14, 0, vx + 14, 0); vg.addColorStop(0, '#B9AE9F'); vg.addColorStop(0.45, '#EDE7DD'); vg.addColorStop(1, '#9C9284');
+    ctx.fillStyle = vg; ctx.fill();
+    ctx.strokeStyle = '#5B4632'; ctx.lineWidth = 1.6; var r = rng(9);
+    for (var i = 0; i < 5; i++) { ctx.beginPath(); ctx.moveTo(vx, vy - 38); ctx.quadraticCurveTo(vx + (r() - 0.5) * 60, vy - 80 - r() * 30, vx + (r() - 0.5) * 90, vy - 120 - r() * 50); ctx.stroke(); }
+  }
+
+  function drawPlant() {
+    var x = CX + cm(158), baseY = FLOOR_Y + FRONT * 0.8, pw = cm(40), ph = cm(42), r = rng(77);
+    var sg = ctx.createRadialGradient(x, baseY, 0, x, baseY, pw); sg.addColorStop(0, 'rgba(0,0,0,.4)'); sg.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = sg; ctx.fillRect(x - pw, baseY - 20, pw * 2, 40);
+    var potTop = baseY - ph;
+    // caule
+    ctx.strokeStyle = '#4A3A26'; ctx.lineWidth = 7;
+    ctx.beginPath(); ctx.moveTo(x, potTop + 6); ctx.bezierCurveTo(x - 8, potTop - cm(40), x + 10, potTop - cm(80), x, potTop - cm(118)); ctx.stroke();
+    // folhas (figueira-lira)
+    var greens = ['#2F4A2A', '#3D5E33', '#4B6F3B', '#2A4026', '#567B43'];
+    for (var i = 0; i < 34; i++) {
+      var t = r(), ly = potTop - cm(30) - t * cm(95), lx = x + (r() - 0.5) * cm(58) * (0.5 + t * 0.6);
+      var ang = (lx - x) / cm(40) * 0.9 + (r() - 0.5) * 0.8 - Math.PI / 2, L = cm(17 + r() * 9), Wd = L * 0.62;
+      ctx.save(); ctx.translate(lx, ly); ctx.rotate(ang);
+      ctx.beginPath(); ctx.moveTo(0, 0); ctx.bezierCurveTo(Wd * 0.7, L * 0.15, Wd * 0.65, L * 0.9, 0, L); ctx.bezierCurveTo(-Wd * 0.65, L * 0.9, -Wd * 0.7, L * 0.15, 0, 0);
+      var lg = ctx.createLinearGradient(-Wd / 2, 0, Wd / 2, L); var c = greens[(r() * greens.length) | 0];
+      lg.addColorStop(0, c); lg.addColorStop(1, rgba(c, 1, -0.06)); ctx.fillStyle = lg; ctx.fill();
+      ctx.fillStyle = 'rgba(255,255,230,.07)'; ctx.beginPath(); ctx.ellipse(-Wd * 0.15, L * 0.35, Wd * 0.2, L * 0.25, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = 'rgba(200,220,160,.35)'; ctx.lineWidth = 1.4; ctx.beginPath(); ctx.moveTo(0, 2); ctx.lineTo(0, L * 0.92); ctx.stroke();
+      ctx.restore();
+    }
+    // vaso de cerâmica
+    ctx.beginPath(); ctx.moveTo(x - pw / 2, potTop); ctx.lineTo(x + pw / 2, potTop); ctx.lineTo(x + pw * 0.4, baseY); ctx.lineTo(x - pw * 0.4, baseY); ctx.closePath();
+    var pg = ctx.createLinearGradient(x - pw / 2, 0, x + pw / 2, 0); pg.addColorStop(0, '#5C534A'); pg.addColorStop(0.4, '#8C8277'); pg.addColorStop(1, '#433C35');
+    ctx.fillStyle = pg; ctx.fill(); overlayNoise('pot', 90, 0.25, 'overlay');
+    ctx.beginPath(); ctx.ellipse(x, potTop, pw / 2, 9, 0, 0, Math.PI * 2); ctx.fillStyle = '#3A332D'; ctx.fill();
+    ctx.beginPath(); ctx.ellipse(x, potTop + 2, pw / 2 - 6, 6, 0, 0, Math.PI * 2); ctx.fillStyle = '#2A2219'; ctx.fill();
+  }
+
+  function cushion(x, y, w, h, r, base, light, opts) {
+    opts = opts || {};
+    roundRect(x, y, w, h, r);
+    var g = ctx.createLinearGradient(0, y, 0, y + h);
+    g.addColorStop(0, light); g.addColorStop(opts.mid || 0.35, base); g.addColorStop(1, rgba(base, 1, -0.12));
+    ctx.fillStyle = g; ctx.fill();
+    overlayNoise('fabric', 64, 0.22, 'overlay');
+    // volume lateral
+    var s = ctx.createLinearGradient(x, 0, x + w, 0);
+    s.addColorStop(0, 'rgba(0,0,0,.14)'); s.addColorStop(0.12, 'rgba(0,0,0,0)'); s.addColorStop(0.88, 'rgba(0,0,0,0)'); s.addColorStop(1, 'rgba(0,0,0,.18)');
+    roundRect(x, y, w, h, r); ctx.fillStyle = s; ctx.fill();
+    if (opts.seam) { ctx.strokeStyle = 'rgba(0,0,0,.12)'; ctx.lineWidth = 2; roundRect(x + 5, y + 5, w - 10, h - 10, Math.max(2, r - 4)); ctx.stroke(); }
+  }
+
+  function drawSofa() {
+    var base = '#B7AE9F', light = '#D2CABC', dark = '#8E8576';
+    var sw = cm(212), sx = CX - sw / 2, armW = cm(19), legH = cm(13);
+    var backTop = yAt(84), seatTopBack = yAt(46), seatFront = yAt(46) + FRONT * 0.7, baseFront = yAt(legH / PX * 0 + 13) + FRONT, floorFront = FLOOR_Y + FRONT;
+    // oclusão suave na parede atrás do encosto
+    ctx.save(); ctx.translate(CX, FLOOR_Y); ctx.scale(1, (FLOOR_Y - backTop + cm(18)) / (sw * 0.62));
+    var ao = ctx.createRadialGradient(0, 0, sw * 0.25, 0, 0, sw * 0.62);
+    ao.addColorStop(0, 'rgba(0,0,0,.20)'); ao.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = ao; ctx.beginPath(); ctx.arc(0, 0, sw * 0.62, Math.PI, Math.PI * 2); ctx.fill(); ctx.restore();
+    // sombra no chão
+    var fs = ctx.createRadialGradient(CX, floorFront - 10, 10, CX, floorFront - 10, sw * 0.62);
+    fs.addColorStop(0, 'rgba(0,0,0,.42)'); fs.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.save(); ctx.scale(1, 0.18); ctx.fillStyle = fs; ctx.fillRect(sx - 120, (floorFront - 60) / 0.18, sw + 240, 120 / 0.18); ctx.restore();
+    // estrutura do encosto
+    cushion(sx + armW * 0.4, backTop, sw - armW * 0.8, seatTopBack - backTop + 30, 26, dark, base);
+    // almofadas do encosto
+    var n = 3, gap = 6, inner = sw - armW * 2 - 20, cw = (inner - gap * (n - 1)) / n;
+    for (var i = 0; i < n; i++) cushion(sx + armW + 10 + i * (cw + gap), backTop + cm(4), cw, seatTopBack - backTop - cm(2), 30, base, light, { seam: true });
+    // tampo do assento (vista de cima, em profundidade)
+    for (i = 0; i < n; i++) {
+      var x0 = sx + armW + 6 + i * (cw + gap + 1.3);
+      ctx.beginPath(); ctx.moveTo(x0 + 6, seatTopBack + 6); ctx.lineTo(x0 + cw - 2, seatTopBack + 6); ctx.lineTo(x0 + cw + 2, seatFront); ctx.lineTo(x0 - 2, seatFront); ctx.closePath();
+      var tg = ctx.createLinearGradient(0, seatTopBack, 0, seatFront); tg.addColorStop(0, rgba(base, 1, -0.06)); tg.addColorStop(1, light);
+      ctx.fillStyle = tg; ctx.fill(); overlayNoise('fabric', 64, 0.22, 'overlay');
+    }
+    // frente das almofadas do assento
+    var frontH = cm(19);
+    for (i = 0; i < n; i++) cushion(sx + armW + 4 + i * (cw + gap + 1.3) - 2, seatFront - 4, cw + 4, frontH, 12, base, light, { seam: true, mid: 0.2 });
+    // base
+    cushion(sx + armW * 0.6, seatFront + frontH - 6, sw - armW * 1.2, baseFront - (seatFront + frontH - 6), 8, dark, base);
+    // braços
+    [sx, sx + sw - armW].forEach(function (ax, k) {
+      cushion(ax, yAt(64) + FRONT * 0.35, armW, baseFront - yAt(64) - FRONT * 0.35, 22, base, light, { mid: 0.25 });
+      var hl = ctx.createLinearGradient(ax, 0, ax + armW, 0);
+      hl.addColorStop(0, k ? 'rgba(0,0,0,.05)' : 'rgba(255,255,255,.10)'); hl.addColorStop(1, k ? 'rgba(0,0,0,.16)' : 'rgba(0,0,0,.04)');
+      roundRect(ax, yAt(64) + FRONT * 0.35, armW, baseFront - yAt(64) - FRONT * 0.35, 22); ctx.fillStyle = hl; ctx.fill();
+    });
+    // pés de madeira
+    [sx + cm(6), sx + sw - cm(6) - 12].forEach(function (lx) {
+      ctx.beginPath(); ctx.moveTo(lx, baseFront); ctx.lineTo(lx + 12, baseFront); ctx.lineTo(lx + 9, floorFront); ctx.lineTo(lx + 3, floorFront); ctx.closePath();
+      ctx.fillStyle = '#3B2A1C'; ctx.fill();
+    });
+    // almofadas decorativas
+    function pillow(px, py, s, rot, c1, c2) {
+      ctx.save(); ctx.translate(px, py); ctx.rotate(rot);
+      ctx.shadowColor = 'rgba(0,0,0,.25)'; ctx.shadowBlur = 14; ctx.shadowOffsetY = 6;
+      ctx.beginPath(); ctx.moveTo(-s / 2, -s / 2 + 6); ctx.quadraticCurveTo(0, -s / 2 - 4, s / 2, -s / 2 + 6); ctx.quadraticCurveTo(s / 2 + 6, 0, s / 2, s / 2 - 4);
+      ctx.quadraticCurveTo(0, s / 2 + 6, -s / 2, s / 2 - 4); ctx.quadraticCurveTo(-s / 2 - 6, 0, -s / 2, -s / 2 + 6); ctx.closePath();
+      var g = ctx.createRadialGradient(-s * 0.15, -s * 0.2, 4, 0, 0, s * 0.75); g.addColorStop(0, c2); g.addColorStop(1, c1);
+      ctx.fillStyle = g; ctx.fill(); ctx.shadowColor = 'transparent';
+      overlayNoise('fabric2', 48, 0.3, 'overlay');
+      ctx.strokeStyle = 'rgba(0,0,0,.15)'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(-s * 0.1, -s * 0.3); ctx.quadraticCurveTo(-s * 0.02, 0, -s * 0.12, s * 0.28); ctx.stroke();
+      ctx.restore();
+    }
+    pillow(sx + armW + cw * 0.45, seatTopBack - cm(8), cm(44), -0.12, '#A2552F', '#C9784C');
+    pillow(sx + armW + cw * 0.95, seatTopBack - cm(5), cm(38), 0.08, '#C9A253', '#E3C47A');
+    pillow(sx + sw - armW - cw * 0.5, seatTopBack - cm(7), cm(44), 0.14, '#5E6B5A', '#7E8C78');
+    // manta no braço direito
+    var mx = sx + sw - armW - 10, my = yAt(64) + FRONT * 0.35 - 6;
+    ctx.beginPath(); ctx.moveTo(mx, my); ctx.lineTo(mx + armW + 14, my + 4); ctx.quadraticCurveTo(mx + armW + 20, my + 90, mx + armW + 6, my + 150);
+    ctx.lineTo(mx + 10, my + 156); ctx.quadraticCurveTo(mx - 6, my + 80, mx, my); ctx.closePath();
+    var mg = ctx.createLinearGradient(mx, 0, mx + armW + 20, 0); mg.addColorStop(0, '#EDE6DA'); mg.addColorStop(1, '#C9C0B1');
+    ctx.fillStyle = mg; ctx.fill(); overlayNoise('knit', 40, 0.35, 'overlay', true);
+  }
+
+  // Luminária de quadro (latão), acesa
+  function drawPictureLight(fr) {
+    if (!state.light) return;
+    var lw = Math.max(cm(28), Math.min(fr.w * 0.55, cm(80))), lx = fr.x + fr.w / 2 - lw / 2;
+    var barY = fr.y - cm(13), barH = cm(4.2), plateY = fr.y - cm(26);
+    // facho de luz (aditivo), desenhado numa camada própria com máscara suave no topo
+    var cy = barY + barH, reach = fr.h + cm(24), rx = Math.max(lw * 1.15, fr.w * 0.78), mx = fr.x + fr.w / 2;
+    if (!lightLayer) { lightLayer = document.createElement('canvas'); lightLayer.width = W; lightLayer.height = H; }
+    var L = lightLayer.getContext('2d'); L.clearRect(0, 0, W, H);
+    L.save(); L.translate(mx, cy); L.scale(rx / reach, 1);
+    var lg = L.createRadialGradient(0, -cm(4), 0, 0, -cm(4), reach);
+    lg.addColorStop(0, 'rgba(255,214,150,.85)'); lg.addColorStop(0.2, 'rgba(255,202,135,.48)'); lg.addColorStop(0.55, 'rgba(255,190,120,.17)'); lg.addColorStop(1, 'rgba(255,190,120,0)');
+    L.fillStyle = lg; L.beginPath(); L.arc(0, -cm(4), reach, 0, Math.PI * 2); L.fill(); L.restore();
+    var hg = L.createRadialGradient(mx, cy + 6, 0, mx, cy + 6, lw * 0.6);
+    hg.addColorStop(0, 'rgba(255,232,185,.5)'); hg.addColorStop(1, 'rgba(255,232,185,0)');
+    L.fillStyle = hg; L.beginPath(); L.arc(mx, cy + 6, lw * 0.6, 0, Math.PI * 2); L.fill();
+    L.globalCompositeOperation = 'destination-in';
+    var mk = L.createLinearGradient(0, cy - cm(10), 0, cy + cm(8));
+    mk.addColorStop(0, 'rgba(0,0,0,.12)'); mk.addColorStop(1, 'rgba(0,0,0,1)');
+    L.fillStyle = mk; L.fillRect(0, 0, W, H); L.globalCompositeOperation = 'source-over';
+    ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.drawImage(lightLayer, 0, 0); ctx.restore();
+    // haste e plaqueta na parede
+    var brass = ctx.createLinearGradient(0, plateY, 0, plateY + cm(5));
+    brass.addColorStop(0, '#E7CF92'); brass.addColorStop(0.5, '#B58E47'); brass.addColorStop(1, '#7C5E28');
+    ctx.save(); ctx.shadowColor = 'rgba(0,0,0,.35)'; ctx.shadowBlur = 10; ctx.shadowOffsetY = 6;
+    roundRect(fr.x + fr.w / 2 - cm(4), plateY, cm(8), cm(4), 4); ctx.fillStyle = brass; ctx.fill();
+    ctx.fillStyle = '#9C7A3C'; ctx.fillRect(fr.x + fr.w / 2 - 3, plateY + cm(3), 6, barY - plateY - cm(3) + 2);
+    // corpo da luminária
+    roundRect(lx, barY, lw, barH, barH / 2);
+    var bg = ctx.createLinearGradient(0, barY, 0, barY + barH);
+    bg.addColorStop(0, '#F1DDA5'); bg.addColorStop(0.35, '#C79F55'); bg.addColorStop(0.8, '#8A6A2E'); bg.addColorStop(1, '#5E4719');
+    ctx.fillStyle = bg; ctx.fill(); ctx.restore();
+    // ponteiras
+    ctx.fillStyle = '#7C5E28'; roundRect(lx - 3, barY - 1, 8, barH + 2, 3); ctx.fill(); roundRect(lx + lw - 5, barY - 1, 8, barH + 2, 3); ctx.fill();
+    // filete de luz na parte de baixo
+    var ug = ctx.createLinearGradient(lx, 0, lx + lw, 0);
+    ug.addColorStop(0, 'rgba(255,240,200,0)'); ug.addColorStop(0.15, 'rgba(255,244,215,.95)'); ug.addColorStop(0.85, 'rgba(255,244,215,.95)'); ug.addColorStop(1, 'rgba(255,240,200,0)');
+    ctx.fillStyle = ug; ctx.fillRect(lx + 6, barY + barH - 3, lw - 12, 3);
+  }
+
+  function drawAmbient() {
+    // meia-luz quando a luminária está acesa, para a luz se destacar
+    if (state.light) { ctx.fillStyle = 'rgba(20,16,12,.2)'; ctx.fillRect(0, 0, W, H); }
+    var vg = ctx.createRadialGradient(CX, H * 0.45, H * 0.35, CX, H * 0.45, W * 0.72);
+    vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(0,0,0,.34)');
+    ctx.fillStyle = vg; ctx.fillRect(0, 0, W, H);
+  }
+
+  function drawLabel() {
+    var d = dims(), t = 'Quadro ' + d.w + ' × ' + d.h + ' cm · escala real (sofá de 2,1 m)';
+    ctx.font = '500 26px Roboto, sans-serif'; var tw = ctx.measureText(t).width;
+    roundRect(28, H - 72, tw + 40, 46, 23); ctx.fillStyle = 'rgba(11,16,23,.72)'; ctx.fill();
+    ctx.fillStyle = '#FFFFFF'; ctx.textAlign = 'left'; ctx.textBaseline = 'middle'; ctx.fillText(t, 48, H - 49);
+  }
+
+  // Textura de madeira gerada uma vez por cor (faixa horizontal; rotacionada nas laterais)
+  var grainCache = {};
+  function grainTexture(key) {
+    if (grainCache[key]) return grainCache[key];
+    var f = FRAMES[key], c = document.createElement('canvas'); c.width = 900; c.height = 60;
+    var g = c.getContext('2d'), rnd = (function (seed) { return function () { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }; })(key.length * 977 + 13);
+    g.fillStyle = f.base; g.fillRect(0, 0, c.width, c.height);
+    if (f.type === 'gold') {
+      var gg = g.createLinearGradient(0, 0, 0, c.height);
+      gg.addColorStop(0, f.light); gg.addColorStop(0.35, f.base); gg.addColorStop(0.55, f.light); gg.addColorStop(1, f.dark);
+      g.fillStyle = gg; g.fillRect(0, 0, c.width, c.height);
+      for (var k = 0; k < 900; k++) { g.fillStyle = 'rgba(60,40,10,' + (rnd() * 0.18) + ')'; g.fillRect(rnd() * c.width, rnd() * c.height, 1 + rnd() * 3, 1 + rnd() * 2); }
+    } else {
+      var lines = f.type === 'wood' ? 70 : 28, alpha = f.type === 'wood' ? 0.22 : 0.06;
+      for (var i = 0; i < lines; i++) {
+        var y = rnd() * c.height, amp = 1 + rnd() * 3, freq = 0.004 + rnd() * 0.01, ph = rnd() * 6;
+        g.strokeStyle = (rnd() > 0.5 ? f.dark : f.light); g.globalAlpha = alpha * (0.4 + rnd());
+        g.lineWidth = 0.6 + rnd() * 1.8; g.beginPath();
+        for (var x = 0; x <= c.width; x += 6) { var yy = y + Math.sin(x * freq + ph) * amp; x ? g.lineTo(x, yy) : g.moveTo(x, yy); }
+        g.stroke();
+      }
+      g.globalAlpha = 1;
+    }
+    var v = document.createElement('canvas'); v.width = c.height; v.height = c.width;
+    var vg = v.getContext('2d'); vg.translate(v.width, 0); vg.rotate(Math.PI / 2); vg.drawImage(c, 0, 0);
+    grainCache[key] = { h: ctx.createPattern(c, 'repeat'), v: ctx.createPattern(v, 'repeat') };
+    return grainCache[key];
+  }
+
+  var canvasTex = null;
+  function canvasTexture() {
+    if (canvasTex) return canvasTex;
+    var c = document.createElement('canvas'); c.width = c.height = 8; var g = c.getContext('2d');
+    g.fillStyle = 'rgba(255,255,255,.04)'; g.fillRect(0, 0, 8, 1); g.fillRect(0, 4, 8, 1);
+    g.fillStyle = 'rgba(0,0,0,.04)'; g.fillRect(0, 0, 1, 8); g.fillRect(4, 0, 1, 8);
+    return (canvasTex = ctx.createPattern(c, 'repeat'));
+  }
+
+  function poly(pts) { ctx.beginPath(); ctx.moveTo(pts[0], pts[1]); for (var i = 2; i < pts.length; i += 2) ctx.lineTo(pts[i], pts[i + 1]); ctx.closePath(); }
+
+  function drawFrame() {
+    var d = dims(), f = FRAMES[state.frame], tex = grainTexture(state.frame);
+    var ow = cm(d.w), oh = cm(d.h);
+    var ox = (W - ow) / 2, oy = FLOOR_Y - cm(Math.min(FRAME_BOTTOM_CM, FRAME_TOP_MAX_CM - d.h)) - oh;
+    var fw = cm(FRAME_CM), gap = cm(GAP_CM);
+    var ix = ox + fw, iy = oy + fw, iw = ow - 2 * fw, ih = oh - 2 * fw;
+
+    // sombra do quadro na parede
+    ctx.save();
+    ctx.shadowColor = 'rgba(0,0,0,.4)'; ctx.shadowBlur = 36; ctx.shadowOffsetX = 8; ctx.shadowOffsetY = 18;
+    ctx.fillStyle = f.dark; ctx.fillRect(ox, oy, ow, oh);
+    ctx.restore();
+
+    // quatro réguas em meia-esquadria, com veio no sentido da régua
+    var sides = [
+      { pts: [ox, oy, ox + ow, oy, ix + iw, iy, ix, iy], pat: tex.h, light: 'rgba(255,255,255,.16)' },
+      { pts: [ox, oy + oh, ix, iy + ih, ix + iw, iy + ih, ox + ow, oy + oh], pat: tex.h, light: 'rgba(0,0,0,.22)' },
+      { pts: [ox, oy, ix, iy, ix, iy + ih, ox, oy + oh], pat: tex.v, light: 'rgba(255,255,255,.06)' },
+      { pts: [ox + ow, oy, ox + ow, oy + oh, ix + iw, iy + ih, ix + iw, iy], pat: tex.v, light: 'rgba(0,0,0,.12)' }
+    ];
+    sides.forEach(function (sd, k) {
+      ctx.save(); poly(sd.pts); ctx.clip();
+      ctx.translate(k === 3 ? ox + ow - fw : ox, k === 1 ? oy + oh - fw : oy);
+      ctx.fillStyle = sd.pat; ctx.fillRect(-fw, -fw, ow + 2 * fw, oh + 2 * fw);
+      ctx.restore();
+      poly(sd.pts); ctx.fillStyle = sd.light; ctx.fill();
+    });
+    // filete na borda externa e nas juntas
+    ctx.strokeStyle = 'rgba(0,0,0,.35)'; ctx.lineWidth = 1.5; ctx.strokeRect(ox + 0.75, oy + 0.75, ow - 1.5, oh - 1.5);
+    ctx.strokeStyle = 'rgba(0,0,0,.18)'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(ox, oy); ctx.lineTo(ix, iy); ctx.moveTo(ox + ow, oy); ctx.lineTo(ix + iw, iy);
+    ctx.moveTo(ox, oy + oh); ctx.lineTo(ix, iy + ih); ctx.moveTo(ox + ow, oy + oh); ctx.lineTo(ix + iw, iy + ih); ctx.stroke();
+
+    // respiro escuro entre moldura e tela
+    var rg = ctx.createLinearGradient(0, iy, 0, iy + ih);
+    rg.addColorStop(0, '#0C0A08'); rg.addColorStop(1, '#1E1914');
+    ctx.fillStyle = rg; ctx.fillRect(ix, iy, iw, ih);
+
+    // tela (canvas)
+    var ax = ix + gap, ay = iy + gap, aw = iw - 2 * gap, ah = ih - 2 * gap;
+    lastArea = { x: ax, y: ay, w: aw, h: ah };
+    ctx.save();
+    ctx.beginPath(); ctx.rect(ax, ay, aw, ah); ctx.clip();
+    if (state.img) {
+      var im = state.img, s = Math.max(aw / im.width, ah / im.height) * state.zoom;
+      var dw = im.width * s, dh = im.height * s, ex = dw - aw, ey = dh - ah;
+      state.offX = Math.max(-0.5, Math.min(0.5, state.offX));
+      state.offY = Math.max(-0.5, Math.min(0.5, state.offY));
+      lastArea.ex = ex; lastArea.ey = ey; lastArea.dw = dw;
+      lastArea.src = [ex * (0.5 + state.offX) / s, ey * (0.5 + state.offY) / s, aw / s, ah / s];
+      ctx.drawImage(im, ax - ex * (0.5 + state.offX), ay - ey * (0.5 + state.offY), dw, dh);
+    } else {
+      var pg = ctx.createLinearGradient(ax, ay, ax + aw, ay + ah);
+      pg.addColorStop(0, '#3A4A5C'); pg.addColorStop(0.5, '#1E2833'); pg.addColorStop(1, '#C27341');
+      ctx.fillStyle = pg; ctx.fillRect(ax, ay, aw, ah);
+      ctx.fillStyle = 'rgba(255,255,255,.7)'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.font = '600 ' + Math.max(16, Math.round(aw / 11)) + 'px "Chakra Petch", sans-serif';
+      ctx.fillText('SUA FOTO', ax + aw / 2, ay + ah / 2);
+    }
+    ctx.fillStyle = canvasTexture(); ctx.fillRect(ax, ay, aw, ah);
+    // volume da tela: borda levemente sombreada
+    var e = cm(1.2);
+    var eg = ctx.createLinearGradient(ax, 0, ax + e, 0); eg.addColorStop(0, 'rgba(0,0,0,.18)'); eg.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = eg; ctx.fillRect(ax, ay, e, ah);
+    eg = ctx.createLinearGradient(0, ay + ah - e, 0, ay + ah); eg.addColorStop(0, 'rgba(0,0,0,0)'); eg.addColorStop(1, 'rgba(0,0,0,.16)');
+    ctx.fillStyle = eg; ctx.fillRect(ax, ay + ah - e, aw, e);
+    ctx.restore();
+
+    lastFrame = { x: ox, y: oy, w: ow, h: oh };
+  }
+
+  var rafId = 0;
+  function renderSoon() { if (!rafId) rafId = requestAnimationFrame(function () { rafId = 0; render(); }); }
+  function render() {
+    ctx.clearRect(0, 0, W, H);
+    drawWall(); drawFloor(); drawFrame(); drawPictureLight(lastFrame);
+    drawSideTable(); drawPlant(); drawSofa(); drawAmbient(); drawLabel();
+    updateInfo();
+  }
+
+  // ---- Painel: preço, qualidade, WhatsApp ----
+  var priceEl = document.getElementById('simPrice');
+  var qEl = document.getElementById('simQuality');
+  var orderEl = document.getElementById('simOrder');
+  function brl(v) { return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
+  var quality = null;
+  function label(k) { return k.replace('x', ' × '); }
+  function updateInfo() {
+    var d = dims();
+    priceEl.textContent = brl(PRICES[state.size]);
+    if (state.img && lastArea && lastArea.dw) {
+      var printCm = lastArea.dw / PX;                       // largura que a imagem inteira ocupa na impressão
+      var dpi = Math.round(state.img.width / (printCm / 2.54));
+      qEl.hidden = false;
+      if (dpi >= MIN_DPI_OK) quality = { cls: 'ok', short: 'boa (' + dpi + ' dpi)', text: 'Boa resolução para esta medida (' + dpi + ' dpi). A confirmação final vem na avaliação técnica.' };
+      else if (dpi >= MIN_DPI_WARN) quality = { cls: 'warn', short: 'aceitável (' + dpi + ' dpi)', text: 'Resolução aceitável (' + dpi + ' dpi). Vista de perto, pode perder nitidez. Se tiver o arquivo original, envie-o.' };
+      else quality = { cls: 'bad', short: 'baixa (' + dpi + ' dpi)', text: 'Resolução baixa para esta medida (' + dpi + ' dpi). Escolha uma medida menor ou envie a foto em maior qualidade.' };
+      qEl.className = 'sim-quality ' + quality.cls; qEl.textContent = quality.text;
+    } else { quality = null; qEl.hidden = true; }
+    var msg = 'Olá, Izaldo! Simulei um quadro no site:\n' +
+      '• Medida: ' + d.w + ' × ' + d.h + ' cm (' + (state.ori === 'l' ? 'paisagem' : 'retrato') + ')\n' +
+      '• Quadro em canvas com moldura de madeira ' + FRAMES[state.frame].name + '\n' +
+      '• Valor: ' + brl(PRICES[state.size]) + ' + frete\n' +
+      (state.img ? 'Vou enviar a imagem da simulação e a foto original aqui na conversa.' : 'Quero ajuda para escolher a foto.');
+    orderEl.href = 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(msg);
+    // qualquer mudança invalida a imagem gerada antes
+    if (saveNote && saveNote.classList.contains('done')) {
+      saveNote.classList.remove('done'); orderEl.classList.remove('ready');
+      saveNote.textContent = 'Você alterou a simulação. Gere a imagem de novo antes de enviar.';
+    }
+  }
+
+  // ---- Botões segmentados ----
+  function bindSeg(id, key, parse) {
+    var group = document.getElementById(id);
+    group.addEventListener('click', function (e) {
+      var b = e.target.closest('button'); if (!b) return;
+      group.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-checked', x === b ? 'true' : 'false'); });
+      state[key] = parse ? parse(b.dataset.v) : b.dataset.v;
+      render();
+    });
+  }
+  // Botões de medida e grade de valores, gerados a partir de SIZES
+  var sizeGroup = document.getElementById('simSize');
+  SIZES.forEach(function (r) {
+    var b = document.createElement('button'); b.type = 'button'; b.setAttribute('role', 'radio');
+    b.dataset.v = r[0]; b.textContent = label(r[0]); b.setAttribute('aria-checked', r[0] === state.size ? 'true' : 'false');
+    sizeGroup.appendChild(b);
+  });
+  function selectSize(k) {
+    state.size = k;
+    sizeGroup.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-checked', x.dataset.v === k ? 'true' : 'false'); });
+    render();
+  }
+  var grid = document.getElementById('priceGrid');
+  if (grid) SIZES.forEach(function (r) {
+    var t = document.createElement('button'); t.type = 'button'; t.className = 'price-tile';
+    t.innerHTML = '<span class="m">' + label(r[0]) + ' cm</span><span class="v">' + brl(PRICES[r[0]]) + '</span><span class="s">Ver no simulador →</span>';
+    t.addEventListener('click', function () { selectSize(r[0]); document.getElementById('simulador').scrollIntoView({ behavior: 'smooth' }); });
+    grid.appendChild(t);
+  });
+
+  bindSeg('simSize', 'size'); bindSeg('simOri', 'ori'); bindSeg('simFrame', 'frame');
+  bindSeg('simWall', 'wall'); bindSeg('simLight', 'light', function (v) { return v === '1'; });
+  function setOri(v) {
+    state.ori = v;
+    document.querySelectorAll('#simOri button').forEach(function (x) { x.setAttribute('aria-checked', x.dataset.v === v ? 'true' : 'false'); });
+  }
+
+  // ---- Upload (arquivo nunca sai do navegador) ----
+  var fileEl = document.getElementById('simFile'), drop = document.getElementById('simDrop'), dropText = document.getElementById('simDropText');
+  var zoomWrap = document.getElementById('simZoomWrap'), zoomEl = document.getElementById('simZoom'), zoomVal = document.getElementById('simZoomVal');
+  var hint = document.getElementById('simHint');
+  function loadFile(file) {
+    if (!file || !/^image\//.test(file.type)) { alert('Envie um arquivo de imagem (JPG, PNG ou WebP).'); return; }
+    var url = URL.createObjectURL(file), im = new Image();
+    im.onload = function () {
+      state.img = im; state.offX = 0; state.offY = 0; state.zoom = 1; zoomEl.value = 1; zoomVal.textContent = '100%';
+      setOri(im.width > im.height ? 'l' : 'p');
+      dropText.innerHTML = '<strong style="color:#FFFFFF;font-weight:500">' + file.name.replace(/[<>&"]/g, '') + '</strong><br><span style="font-size:13px;color:#8B97A8">' + im.width + ' × ' + im.height + ' px · toque para trocar</span>';
+      zoomWrap.hidden = false; hint.hidden = false; stage.classList.add('has-img');
+      setTimeout(function () { hint.hidden = true; }, 4000);
+      render();
+    };
+    im.onerror = function () { alert('Não foi possível abrir esta imagem. Se for HEIC (iPhone), exporte como JPG e tente de novo.'); };
+    im.src = url;
+  }
+  fileEl.addEventListener('change', function () { loadFile(fileEl.files[0]); });
+  ['dragenter', 'dragover'].forEach(function (t) { drop.addEventListener(t, function (e) { e.preventDefault(); drop.classList.add('over'); }); });
+  ['dragleave', 'drop'].forEach(function (t) { drop.addEventListener(t, function (e) { e.preventDefault(); drop.classList.remove('over'); }); });
+  drop.addEventListener('drop', function (e) { loadFile(e.dataTransfer.files[0]); });
+
+  zoomEl.addEventListener('input', function () { state.zoom = +zoomEl.value; zoomVal.textContent = Math.round(state.zoom * 100) + '%'; renderSoon(); });
+
+  // ---- Arrastar para reenquadrar ----
+  var drag = null;
+  canvas.addEventListener('pointerdown', function (e) {
+    if (!state.img || !lastArea) return;
+    drag = { x: e.clientX, y: e.clientY }; canvas.setPointerCapture(e.pointerId); stage.classList.add('dragging');
+  });
+  canvas.addEventListener('pointermove', function (e) {
+    if (!drag) return;
+    var k = canvas.width / canvas.getBoundingClientRect().width;
+    var dx = (e.clientX - drag.x) * k, dy = (e.clientY - drag.y) * k;
+    drag = { x: e.clientX, y: e.clientY };
+    if (lastArea.ex > 0) state.offX -= dx / lastArea.ex;
+    if (lastArea.ey > 0) state.offY -= dy / lastArea.ey;
+    renderSoon();
+  });
+  function endDrag() { drag = null; stage.classList.remove('dragging'); }
+  canvas.addEventListener('pointerup', endDrag); canvas.addEventListener('pointercancel', endDrag);
+
+  // ---- Passo 1: gerar a imagem da simulação no aparelho (nada é enviado ao servidor) ----
+  var saveBtn = document.getElementById('simSave'), saveNote = document.getElementById('simSaveNote');
+  function composeImage(cb) {
+    render();
+    var d = dims(), band = 330, out = document.createElement('canvas');
+    out.width = W; out.height = H + band;
+    var o = out.getContext('2d');
+    o.drawImage(canvas, 0, 0);
+    // detalhe: o enquadramento exato da foto, em alta resolução
+    if (state.img && lastArea && lastArea.src) {
+      var f = FRAMES[state.frame], r = d.w / d.h;
+      var ih = r >= 1 ? 300 : 380, iw = Math.round(ih * r);
+      if (iw > 460) { iw = 460; ih = Math.round(iw / r); }
+      var px = W - iw - 60, py = 70, b = 16;
+      o.save(); o.shadowColor = 'rgba(0,0,0,.35)'; o.shadowBlur = 24; o.shadowOffsetY = 10;
+      o.fillStyle = f.base; o.fillRect(px - b, py - b, iw + 2 * b, ih + 2 * b); o.restore();
+      o.fillStyle = '#15110D'; o.fillRect(px - 4, py - 4, iw + 8, ih + 8);
+      var sr = lastArea.src; o.drawImage(state.img, sr[0], sr[1], sr[2], sr[3], px, py, iw, ih);
+      o.fillStyle = 'rgba(11,16,23,.78)'; o.fillRect(px - b, py + ih + b + 10, iw + 2 * b, 40);
+      o.fillStyle = '#FFFFFF'; o.font = '500 22px Roboto, sans-serif'; o.textAlign = 'center';
+      o.fillText('Enquadramento da foto', px + iw / 2, py + ih + b + 38); o.textAlign = 'left';
+    }
+    o.fillStyle = '#0B1017'; o.fillRect(0, H, W, band);
+    o.fillStyle = '#E88F4F'; o.fillRect(0, H, W, 6);
+    var x = 60, y = H + 70;
+    o.textBaseline = 'alphabetic';
+    o.fillStyle = '#FFFFFF'; o.font = '600 46px "Chakra Petch", sans-serif';
+    o.fillText('Quadro em canvas · ' + d.w + ' × ' + d.h + ' cm', x, y);
+    o.font = '400 30px Roboto, sans-serif'; o.fillStyle = '#C9D1DB';
+    o.fillText('Moldura de madeira ' + FRAMES[state.frame].name + ' · ' + (state.ori === 'l' ? 'paisagem' : 'retrato'), x, y + 52);
+    o.fillText('Resolução estimada: ' + (quality ? quality.short : 'sem foto enviada'), x, y + 96);
+    o.textAlign = 'right'; o.fillStyle = '#FFFFFF'; o.font = '600 56px "Chakra Petch", sans-serif';
+    o.fillText(brl(PRICES[state.size]), W - 60, y + 4);
+    o.font = '400 26px Roboto, sans-serif'; o.fillStyle = '#8B97A8';
+    o.fillText('+ frete', W - 60, y + 46);
+    o.fillText(new Date().toLocaleDateString('pt-BR'), W - 60, y + 90);
+    o.textAlign = 'left';
+    o.fillStyle = 'rgba(232,143,79,.14)'; o.fillRect(x, y + 130, W - 120, 74);
+    o.fillStyle = '#F2C29E'; o.font = '500 25px Roboto, sans-serif';
+    o.fillText('SIMULAÇÃO ILUSTRATIVA — a foto ainda passa por avaliação técnica antes da impressão.', x + 22, y + 176);
+    o.fillStyle = '#8B97A8'; o.font = '600 22px "Chakra Petch", sans-serif';
+    o.fillText('IZALDO BACELAR · QUADROS EM CANVAS · (81) 99947-6729', x, H + band - 22);
+    out.toBlob(function (blob) { cb(blob, 'simulacao-quadro-' + d.w + 'x' + d.h + '.jpg'); }, 'image/jpeg', 0.9);
+  }
+  function markSaved(text) {
+    saveNote.textContent = text; saveNote.classList.add('done');
+    orderEl.classList.add('ready');
+  }
+  saveBtn.addEventListener('click', function () {
+    composeImage(function (blob, name) {
+      var file = null;
+      try { file = new File([blob], name, { type: 'image/jpeg' }); } catch (e) {}
+      var mobile = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+      if (mobile && file && navigator.canShare && navigator.canShare({ files: [file] })) {
+        // No celular: abre o menu de compartilhar (dá para salvar na galeria ou mandar direto no WhatsApp)
+        navigator.share({ files: [file], title: 'Simulação do quadro' })
+          .then(function () { markSaved('✓ Imagem gerada. Agora toque em "Enviar no WhatsApp" e anexe-a na conversa.'); })
+          .catch(function () { download(blob, name); });
+      } else { download(blob, name); }
+    });
+  });
+  function download(blob, name) {
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = name;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 4000);
+    markSaved('✓ Imagem salva no seu aparelho (' + name + '). Agora envie no WhatsApp.');
+  }
+
+  render();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(render);
+})();
+</script>
+<script id="reveal-js">
+(function () {
+  if (!('IntersectionObserver' in window)) return;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var root = document.documentElement;
+  root.classList.add('js-reveal');
+  if (reduce) return;
+
+  var CHAR_STEP = 22;
+  var CHAR_MAX = 1400;
+  var FADE_STEP = 65;
+
+  var heads = document.querySelectorAll('h1, h2, h3');
+  heads.forEach(function (h) {
+    var label = h.textContent.replace(/\s+/g, ' ').trim();
+    h.setAttribute('aria-label', label);
+    var i = 0;
+    var walker = document.createTreeWalker(h, NodeFilter.SHOW_TEXT, null);
+    var nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(function (node) {
+      var frag = document.createDocumentFragment();
+      node.textContent.split(/(\s+)/).forEach(function (part) {
+        if (!part) return;
+        if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(' ')); return; }
+        var w = document.createElement('span');
+        w.className = 'rv-w';
+        w.setAttribute('aria-hidden', 'true');
+        Array.from(part).forEach(function (ch) {
+          var c = document.createElement('span');
+          c.className = 'rv-c';
+          c.textContent = ch;
+          c.style.setProperty('--d', Math.min(i * CHAR_STEP, CHAR_MAX) + 'ms');
+          i++;
+          w.appendChild(c);
+        });
+        frag.appendChild(w);
+      });
+      node.parentNode.replaceChild(frag, node);
+    });
+    h.dataset.rvChars = i;
+  });
+
+  var sel = [
+    'section .eyebrow', 'section p', 'section .btn', 'section .chip', 'section .card',
+    'section article', 'section details', 'section ol > li',
+    'section img', 'section .g4 > div', 'section .g3 > div', 'section .seal',
+    'footer .g4 > div', 'footer > div:last-child'
+  ].join(',');
+  var blocks = Array.from(document.querySelectorAll(sel)).filter(function (el) {
+    if (el.closest('header')) return false;
+    if (el.closest('h1,h2,h3')) return false;
+    var p = el.parentElement;
+    while (p && p !== document.body) {
+      if (p.matches && p.matches(sel) && !p.matches('section img')) return false;
+      p = p.parentElement;
+    }
+    return true;
+  });
+  blocks.forEach(function (el) {
+    el.classList.add('rv-f');
+    var sibs = Array.from(el.parentElement.children).filter(function (s) { return blocks.indexOf(s) > -1; });
+    var idx = sibs.indexOf(el);
+    var base = 0;
+    var prevHead = el.parentElement.querySelector('h1,h2,h3');
+    if (prevHead && prevHead.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING) {
+      base = Math.min((+prevHead.dataset.rvChars || 0) * CHAR_STEP * 0.5, 600);
+    }
+    el.style.setProperty('--d', (base + Math.min(idx, 8) * FADE_STEP) + 'ms');
+  });
+
+  var header = document.querySelector('header');
+  if (header) { header.classList.add('rv-h'); requestAnimationFrame(function () { requestAnimationFrame(function () { header.classList.add('rv-in'); }); }); }
+
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('rv-in'); io.unobserve(e.target); }
+    });
+  }, { rootMargin: '0px 0px -12% 0px', threshold: 0.12 });
+  heads.forEach(function (h) { io.observe(h); });
+  blocks.forEach(function (b) { io.observe(b); });
+})();
+</script>
+</body>
+</html>
