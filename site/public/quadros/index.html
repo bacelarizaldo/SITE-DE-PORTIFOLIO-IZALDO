@@ -54,12 +54,14 @@ a{color:#F2A874}a:hover{color:#FFC9A1}
 .price{font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:20px;color:#FFFFFF}
 
 /* Simulador */
-.sim{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,4fr);gap:24px;align-items:start}
+.sim{display:flex;flex-direction:column;gap:20px}
 .sim-stage{position:relative;border-radius:10px;overflow:hidden;border:1px solid #232D3A;background:#19222D;box-shadow:0 30px 60px -30px rgba(232,143,79,.35)}
 .sim-stage canvas{display:block;width:100%;height:auto;touch-action:none}
 .sim-stage.has-img canvas{cursor:grab}.sim-stage.dragging canvas{cursor:grabbing}
 .sim-hint{position:absolute;left:50%;top:14px;transform:translateX(-50%);padding:5px 12px;border-radius:999px;background:rgba(11,16,23,.78);color:#E6EAF0;font-size:12px;white-space:nowrap;pointer-events:none}
-.sim-panel{padding:24px;display:flex;flex-direction:column;gap:20px;background:#0F151D}
+.sim-panel{padding:28px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,.9fr);gap:32px;background:#0F151D}
+.sim-col{display:flex;flex-direction:column;gap:20px;min-width:0}
+.sim-col + .sim-col{padding-left:32px;border-left:1px solid #232D3A}
 .sim-drop{display:flex;align-items:center;gap:14px;padding:18px;border:1px dashed #3A4656;border-radius:8px;background:#131A23;cursor:pointer;font-size:15px;line-height:1.4;transition:border-color .2s,background .2s}
 .sim-drop:hover,.sim-drop.over{border-color:var(--ac);background:rgba(232,143,79,.08)}
 .sim-drop:focus-within{outline:2px solid var(--ac);outline-offset:2px}
@@ -97,14 +99,13 @@ a{color:#F2A874}a:hover{color:#FFC9A1}
 .seg-dots button{flex:0 0 auto;width:38px;padding:0}
 .sw{display:inline-block;width:14px;height:14px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)}
 .seg-dots .sw{width:18px;height:18px}
-.sim-quality{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:6px;font-size:13px;line-height:1.45}
-.sim-quality.ok{background:rgba(80,180,120,.12);color:#A8DDBB}
-.sim-quality.warn{background:rgba(232,180,79,.12);color:#F2CF8A}
-.sim-quality.bad{background:rgba(220,90,80,.14);color:#F2A49B}
-.sim-total{padding-top:18px;border-top:1px solid #232D3A}
+.sim-total{padding-bottom:4px}
 input[type=range]{width:100%;accent-color:#E88F4F}
-.sim-row .sim-group{flex:1 1 150px}
-@media (max-width:960px){.sim{grid-template-columns:minmax(0,1fr)}}
+.sim-row .sim-group{flex:1 1 auto}
+#simLight,.seg-dots{flex-wrap:nowrap}
+#simLight button{padding:0 14px}
+@media (max-width:1100px){.sim-panel{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.sim-col:last-child{grid-column:1 / -1;padding-left:0;border-left:0;padding-top:24px;border-top:1px solid #232D3A}}
+@media (max-width:720px){.sim-panel{grid-template-columns:minmax(0,1fr);padding:20px;gap:24px}.sim-col + .sim-col{padding-left:0;border-left:0;padding-top:24px;border-top:1px solid #232D3A}}
 @media (max-width:560px){.sim-stage canvas{width:150%;margin-left:-25%}.sim-hint{font-size:11px}}
 
 @media (prefers-reduced-motion: reduce){
@@ -218,6 +219,7 @@ html{scroll-behavior:smooth}
 </div>
 
 <div class="sim-panel card">
+<div class="sim-col">
 <label id="simDrop" class="sim-drop" for="simFile">
 <input id="simFile" type="file" accept="image/jpeg,image/png,image/webp" hidden>
 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="color: var(--ac)" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5"></path><path d="M4 16v3a1 1 0 001 1h14a1 1 0 001-1v-3"></path></svg>
@@ -236,7 +238,9 @@ html{scroll-behavior:smooth}
 <button type="button" role="radio" data-v="l">Paisagem</button>
 </div>
 </div>
+</div>
 
+<div class="sim-col">
 <div class="sim-group">
 <div class="sim-label">Moldura em madeira</div>
 <div class="seg seg-list" id="simFrame" role="radiogroup" aria-label="Cor da moldura">
@@ -273,9 +277,9 @@ html{scroll-behavior:smooth}
 <div class="sim-label" style="display: flex; justify-content: space-between"><span>Zoom</span><span id="simZoomVal" style="color: #8B97A8">100%</span></div>
 <input id="simZoom" type="range" min="1" max="2.5" step="0.01" value="1" aria-label="Zoom da imagem">
 </div>
+</div>
 
-<div id="simQuality" class="sim-quality" hidden></div>
-
+<div class="sim-col">
 <div class="sim-total">
 <div><div style="font-size: 13px; color: #8B97A8">Valor do quadro</div><div class="disp" id="simPrice" style="font-size: 32px; line-height: 1.1">R$ 690</div><div style="font-size: 12px; color: #8B97A8">+ frete conforme o CEP</div></div>
 </div>
@@ -286,7 +290,7 @@ html{scroll-behavior:smooth}
 <ol class="sim-steps">
 <li>
 <button id="simSave" type="button" class="btn btn-p" style="width:100%;border:0;cursor:pointer">
-<span class="step-n">1</span>Gerar e salvar a imagem da simulação</button>
+<span class="step-n">1</span>Gerar imagem da simulação</button>
 <span class="step-note" id="simSaveNote">A imagem é criada no seu celular ou computador, com a medida, a moldura e o valor.</span>
 </li>
 <li>
@@ -296,6 +300,7 @@ html{scroll-behavior:smooth}
 </li>
 </ol>
 <p style="margin: 0; font-size: 12px; color: #8B97A8; line-height: 1.5">Nada é enviado para o nosso site: a foto e a simulação ficam só no seu aparelho até você mandar pelo WhatsApp.</p>
+</div>
 </div>
 </div>
 </div>
@@ -535,7 +540,7 @@ Acompanhamento do envio
 <p style="margin: 0; color: #A8B2BF; font-weight: 300; font-size: 15px">Tudo o que você precisa saber antes de escolher o seu quadro.</p>
 </div>
 <div style="display: flex; flex-direction: column; border-top: 1px solid #2C3644">
-<details style="border-bottom: 1px solid #2C3644" open><summary class="faqbtn"><span>Posso transformar a minha própria foto em quadro?</span><span class="faqsign" aria-hidden="true">+</span></summary><p style="margin: 0; padding: 0 40px 20px 0; font-size: 15px; color: #A8B2BF; font-weight: 300">Pode. Use o simulador para ver como fica na parede, escolha medida e moldura, e envie o arquivo original pelo WhatsApp. Antes de imprimir, revisamos a foto e avisamos se for preciso algum ajuste.</p></details><details style="border-bottom: 1px solid #2C3644"><summary class="faqbtn"><span>Como sei se a minha foto tem qualidade suficiente?</span><span class="faqsign" aria-hidden="true">+</span></summary><p style="margin: 0; padding: 0 40px 20px 0; font-size: 15px; color: #A8B2BF; font-weight: 300">O simulador calcula a resolução para a medida escolhida e avisa se a foto pode perder nitidez. Fotos de celular recentes costumam ficar ótimas até 50 × 70 cm. Envie sempre o arquivo original, nunca um print ou uma imagem baixada de rede social.</p></details><details style="border-bottom: 1px solid #2C3644"><summary class="faqbtn"><span>Como é o quadro em canvas?</span><span class="faqsign" aria-hidden="true">+</span></summary><p style="margin: 0; padding: 0 40px 20px 0; font-size: 15px; color: #A8B2BF; font-weight: 300">A imagem é impressa em tela canvas, esticada num chassi de madeira e encaixada numa moldura também de madeira. Não leva vidro: não reflete a luz, é leve e fácil de pendurar.</p></details><details style="border-bottom: 1px solid #2C3644"><summary class="faqbtn"><span>Quais as cores de moldura?</span><span class="faqsign" aria-hidden="true">+</span></summary><p style="margin: 0; padding: 0 40px 20px 0; font-size: 15px; color: #A8B2BF; font-weight: 300">Mogno escuro, madeira natural caramelo, nogueira dourada, freijó claro, dourado envelhecido, cinza chumbo e branco. Teste todas no simulador antes de pedir.</p></details><details style="border-bottom: 1px solid #2C3644"><summary class="faqbtn"><span>Em quanto tempo recebo o quadro?</span><span class="faqsign" aria-hidden="true">+</span></summary><p style="margin: 0; padding: 0 40px 20px 0; font-size: 15px; color: #A8B2BF; font-weight: 300">A produção leva até 10 dias úteis após o pagamento. Depois disso, o prazo de entrega depende da sua cidade e é informado junto com o frete.</p></details><details style="border-bottom: 1px solid #2C3644"><summary class="faqbtn"><span>O que significa tiragem limitada?</span><span class="faqsign" aria-hidden="true">+</span></summary><p style="margin: 0; padding: 0 40px 20px 0; font-size: 15px; color: #A8B2BF; font-weight: 300">Cada fotografia tem um número máximo de cópias. Quando a edição esgota, aquela imagem não é mais impressa. Seu quadro vem com o número da peça e certificado assinado.</p></details><details style="border-bottom: 1px solid #2C3644"><summary class="faqbtn"><span>Posso pedir um tamanho diferente?</span><span class="faqsign" aria-hidden="true">+</span></summary><p style="margin: 0; padding: 0 40px 20px 0; font-size: 15px; color: #A8B2BF; font-weight: 300">Sim. Fazemos medidas sob medida e composições com várias obras. Mande a medida da parede no WhatsApp que preparamos um orçamento.</p></details><details style="border-bottom: 1px solid #2C3644"><summary class="faqbtn"><span>Quais as formas de pagamento?</span><span class="faqsign" aria-hidden="true">+</span></summary><p style="margin: 0; padding: 0 40px 20px 0; font-size: 15px; color: #A8B2BF; font-weight: 300">Pix ou cartão de crédito. Os detalhes são combinados no atendimento pelo WhatsApp.</p></details><details style="border-bottom: 1px solid #2C3644"><summary class="faqbtn"><span>Dá para enviar como presente?</span><span class="faqsign" aria-hidden="true">+</span></summary><p style="margin: 0; padding: 0 40px 20px 0; font-size: 15px; color: #A8B2BF; font-weight: 300">Dá sim. Enviamos direto para o endereço de quem vai receber, com um cartão escrito por você.</p></details>
+<details style="border-bottom: 1px solid #2C3644" open><summary class="faqbtn"><span>Posso transformar a minha própria foto em quadro?</span><span class="faqsign" aria-hidden="true">+</span></summary><p style="margin: 0; padding: 0 40px 20px 0; font-size: 15px; color: #A8B2BF; font-weight: 300">Pode. Use o simulador para ver como fica na parede, escolha medida e moldura, e envie o arquivo original pelo WhatsApp. Antes de imprimir, revisamos a foto e avisamos se for preciso algum ajuste.</p></details><details style="border-bottom: 1px solid #2C3644"><summary class="faqbtn"><span>Como sei se a minha foto serve para virar quadro?</span><span class="faqsign" aria-hidden="true">+</span></summary><p style="margin: 0; padding: 0 40px 20px 0; font-size: 15px; color: #A8B2BF; font-weight: 300">Depois que você envia a foto original pelo WhatsApp, fazemos uma avaliação técnica antes de imprimir e avisamos se for preciso algum ajuste ou outra medida. Envie sempre o arquivo original, nunca um print ou uma imagem baixada de rede social.</p></details><details style="border-bottom: 1px solid #2C3644"><summary class="faqbtn"><span>Como é o quadro em canvas?</span><span class="faqsign" aria-hidden="true">+</span></summary><p style="margin: 0; padding: 0 40px 20px 0; font-size: 15px; color: #A8B2BF; font-weight: 300">A imagem é impressa em tela canvas, esticada num chassi de madeira e encaixada numa moldura também de madeira. Não leva vidro: não reflete a luz, é leve e fácil de pendurar.</p></details><details style="border-bottom: 1px solid #2C3644"><summary class="faqbtn"><span>Quais as cores de moldura?</span><span class="faqsign" aria-hidden="true">+</span></summary><p style="margin: 0; padding: 0 40px 20px 0; font-size: 15px; color: #A8B2BF; font-weight: 300">Mogno escuro, madeira natural caramelo, nogueira dourada, freijó claro, dourado envelhecido, cinza chumbo e branco. Teste todas no simulador antes de pedir.</p></details><details style="border-bottom: 1px solid #2C3644"><summary class="faqbtn"><span>Em quanto tempo recebo o quadro?</span><span class="faqsign" aria-hidden="true">+</span></summary><p style="margin: 0; padding: 0 40px 20px 0; font-size: 15px; color: #A8B2BF; font-weight: 300">A produção leva até 10 dias úteis após o pagamento. Depois disso, o prazo de entrega depende da sua cidade e é informado junto com o frete.</p></details><details style="border-bottom: 1px solid #2C3644"><summary class="faqbtn"><span>O que significa tiragem limitada?</span><span class="faqsign" aria-hidden="true">+</span></summary><p style="margin: 0; padding: 0 40px 20px 0; font-size: 15px; color: #A8B2BF; font-weight: 300">Cada fotografia tem um número máximo de cópias. Quando a edição esgota, aquela imagem não é mais impressa. Seu quadro vem com o número da peça e certificado assinado.</p></details><details style="border-bottom: 1px solid #2C3644"><summary class="faqbtn"><span>Posso pedir um tamanho diferente?</span><span class="faqsign" aria-hidden="true">+</span></summary><p style="margin: 0; padding: 0 40px 20px 0; font-size: 15px; color: #A8B2BF; font-weight: 300">Sim. Fazemos medidas sob medida e composições com várias obras. Mande a medida da parede no WhatsApp que preparamos um orçamento.</p></details><details style="border-bottom: 1px solid #2C3644"><summary class="faqbtn"><span>Quais as formas de pagamento?</span><span class="faqsign" aria-hidden="true">+</span></summary><p style="margin: 0; padding: 0 40px 20px 0; font-size: 15px; color: #A8B2BF; font-weight: 300">Pix ou cartão de crédito. Os detalhes são combinados no atendimento pelo WhatsApp.</p></details><details style="border-bottom: 1px solid #2C3644"><summary class="faqbtn"><span>Dá para enviar como presente?</span><span class="faqsign" aria-hidden="true">+</span></summary><p style="margin: 0; padding: 0 40px 20px 0; font-size: 15px; color: #A8B2BF; font-weight: 300">Dá sim. Enviamos direto para o endereço de quem vai receber, com um cartão escrito por você.</p></details>
 </div>
 </div>
 <div class="split" style="align-items: center">
@@ -633,7 +638,6 @@ Acompanhamento do envio
     chumbo:   { name: 'cinza chumbo',             base: '#4A4D52', light: '#64686E', dark: '#2E3034', type: 'paint' },
     branco:   { name: 'branco',                   base: '#ECE9E3', light: '#FFFFFF', dark: '#C9C4BB', type: 'paint' }
   };
-  var MIN_DPI_OK = 150, MIN_DPI_WARN = 100;
 
   // ---- Cena: parede de 270 cm de altura (pé-direito) ----
   var W = canvas.width, H = canvas.height;
@@ -1046,23 +1050,13 @@ Acompanhamento do envio
 
   // ---- Painel: preço, qualidade, WhatsApp ----
   var priceEl = document.getElementById('simPrice');
-  var qEl = document.getElementById('simQuality');
   var orderEl = document.getElementById('simOrder');
   function brl(v) { return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
-  var quality = null;
+  var fileName = '';
   function label(k) { return k.replace('x', ' × '); }
   function updateInfo() {
     var d = dims();
     priceEl.textContent = brl(PRICES[state.size]);
-    if (state.img && lastArea && lastArea.dw) {
-      var printCm = lastArea.dw / PX;                       // largura que a imagem inteira ocupa na impressão
-      var dpi = Math.round(state.img.width / (printCm / 2.54));
-      qEl.hidden = false;
-      if (dpi >= MIN_DPI_OK) quality = { cls: 'ok', short: 'boa (' + dpi + ' dpi)', text: 'Boa resolução para esta medida (' + dpi + ' dpi). A confirmação final vem na avaliação técnica.' };
-      else if (dpi >= MIN_DPI_WARN) quality = { cls: 'warn', short: 'aceitável (' + dpi + ' dpi)', text: 'Resolução aceitável (' + dpi + ' dpi). Vista de perto, pode perder nitidez. Se tiver o arquivo original, envie-o.' };
-      else quality = { cls: 'bad', short: 'baixa (' + dpi + ' dpi)', text: 'Resolução baixa para esta medida (' + dpi + ' dpi). Escolha uma medida menor ou envie a foto em maior qualidade.' };
-      qEl.className = 'sim-quality ' + quality.cls; qEl.textContent = quality.text;
-    } else { quality = null; qEl.hidden = true; }
     var msg = 'Olá, Izaldo! Simulei um quadro no site:\n' +
       '• Medida: ' + d.w + ' × ' + d.h + ' cm (' + (state.ori === 'l' ? 'paisagem' : 'retrato') + ')\n' +
       '• Quadro em canvas com moldura de madeira ' + FRAMES[state.frame].name + '\n' +
@@ -1121,7 +1115,7 @@ Acompanhamento do envio
     if (!file || !/^image\//.test(file.type)) { alert('Envie um arquivo de imagem (JPG, PNG ou WebP).'); return; }
     var url = URL.createObjectURL(file), im = new Image();
     im.onload = function () {
-      state.img = im; state.offX = 0; state.offY = 0; state.zoom = 1; zoomEl.value = 1; zoomVal.textContent = '100%';
+      state.img = im; fileName = file.name; state.offX = 0; state.offY = 0; state.zoom = 1; zoomEl.value = 1; zoomVal.textContent = '100%';
       setOri(im.width > im.height ? 'l' : 'p');
       dropText.innerHTML = '<strong style="color:#FFFFFF;font-weight:500">' + file.name.replace(/[<>&"]/g, '') + '</strong><br><span style="font-size:13px;color:#8B97A8">' + im.width + ' × ' + im.height + ' px · toque para trocar</span>';
       zoomWrap.hidden = false; hint.hidden = false; stage.classList.add('has-img');
@@ -1186,7 +1180,7 @@ Acompanhamento do envio
     o.fillText('Quadro em canvas · ' + d.w + ' × ' + d.h + ' cm', x, y);
     o.font = '400 30px Roboto, sans-serif'; o.fillStyle = '#C9D1DB';
     o.fillText('Moldura de madeira ' + FRAMES[state.frame].name + ' · ' + (state.ori === 'l' ? 'paisagem' : 'retrato'), x, y + 52);
-    o.fillText('Resolução estimada: ' + (quality ? quality.short : 'sem foto enviada'), x, y + 96);
+    if (fileName) o.fillText('Foto: ' + fileName, x, y + 96);
     o.textAlign = 'right'; o.fillStyle = '#FFFFFF'; o.font = '600 56px "Chakra Petch", sans-serif';
     o.fillText(brl(PRICES[state.size]), W - 60, y + 4);
     o.font = '400 26px Roboto, sans-serif'; o.fillStyle = '#8B97A8';
