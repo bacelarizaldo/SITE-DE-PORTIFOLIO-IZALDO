@@ -29,3 +29,9 @@ export const navLinks: NavLink[] = [
   { label: "Sobre", href: "/sobre" },
   { label: "Contato", href: "/contato" },
 ];
+
+// Site de casamentos: é outro site, então aparece separado no menu e abre em nova aba.
+export const weddingSite = {
+  label: "Casamentos",
+  href: "https://www.izaldobacelarfilms.com.br/",
+};

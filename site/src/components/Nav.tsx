@@ -3,7 +3,15 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { navLinks, whatsappHref } from "@/lib/site-config";
+import { navLinks, weddingSite, whatsappHref } from "@/lib/site-config";
+
+function ExternalArrow({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.4" aria-hidden="true" className={className}>
+      <path d="M3.5 8.5l5-5M4.5 3.5h4v4" />
+    </svg>
+  );
+}
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
@@ -46,6 +54,16 @@ export default function Nav() {
               </Link>
             )
           )}
+          <span className="h-4 w-px bg-paper/20" aria-hidden="true" />
+          <a
+            href={weddingSite.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="-ml-4 inline-flex items-center gap-1.5 text-accent hover:text-paper transition-colors"
+          >
+            {weddingSite.label}
+            <ExternalArrow className="w-3 h-3" />
+          </a>
         </nav>
 
         <a
@@ -83,6 +101,18 @@ export default function Nav() {
               </Link>
             )
           )}
+          <div className="pt-6 border-t border-line flex flex-col gap-2">
+            <span className="text-xs uppercase tracking-[0.2em] text-mist">Outro site</span>
+            <a
+              href={weddingSite.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex w-fit items-center gap-2 text-accent"
+            >
+              {weddingSite.label}
+              <ExternalArrow className="w-3.5 h-3.5" />
+            </a>
+          </div>
           <a
             href={whatsappHref}
             target="_blank"
