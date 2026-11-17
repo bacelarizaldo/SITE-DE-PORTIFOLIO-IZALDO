@@ -267,15 +267,9 @@ export default function VideoSection({ videos }: { videos: VideoItem[] }) {
                       }`}
                     >
                       <Cover video={v} />
-                      {active ? (
+                      {active && (
                         <span className="absolute top-3 left-3 rounded-full bg-accent px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.15em] text-ink">
                           Tocando
-                        </span>
-                      ) : (
-                        <span className="absolute inset-0 grid place-items-center bg-black/0 opacity-0 transition group-hover:bg-black/30 group-hover:opacity-100">
-                          <span className="grid h-12 w-12 place-items-center rounded-full bg-white/90 text-ink">
-                            <PlayIcon className="ml-0.5 h-5 w-5" />
-                          </span>
                         </span>
                       )}
                     </span>
