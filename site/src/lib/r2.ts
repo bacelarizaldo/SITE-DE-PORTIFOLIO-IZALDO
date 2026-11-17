@@ -168,6 +168,17 @@ export async function getMeta(slug: string): Promise<GalleryMeta | null> {
   }
 }
 
+/** Lê um arquivo inteiro do bucket (para imagens pequenas, como a capa da prévia do link) */
+export async function readObject(key: string): Promise<Uint8Array | null> {
+  try {
+    const res = await s3().send(new GetObjectCommand({ Bucket: bucket(), Key: key }));
+    return await res.Body!.transformToByteArray();
+  } catch (err: unknown) {
+    if ((err as { name?: string }).name === "NoSuchKey") return null;
+    throw err;
+  }
+}
+
 export async function putMeta(meta: GalleryMeta) {
   await s3().send(
     new PutObjectCommand({

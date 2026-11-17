@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import {
   GALLERY_COVER,
@@ -22,6 +23,22 @@ import DownloadMenu, { type DownloadOption } from "./DownloadMenu";
 import FeedbackForm from "./FeedbackForm";
 import CoverImage from "../CoverImage";
 import EntregaFooter from "../EntregaFooter";
+
+/** Prévia do link (WhatsApp etc.): "<Cliente> + Izaldo Bacelar" com a capa da entrega */
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug: link } = await params;
+  const meta = isConfigured() ? await getGalleryByLink(link) : null;
+  if (!meta) return {};
+  const title = `${meta.title} + Izaldo Bacelar`;
+  const description = "Seus vídeos e fotos estão prontos. Toque para assistir e baixar.";
+  const image = { url: `/entrega/${link}/capa.jpg`, width: 1200, height: 630, alt: title };
+  return {
+    title: { absolute: title },
+    description,
+    openGraph: { type: "website", title, description, siteName: "Izaldo Bacelar", url: `/entrega/${link}`, images: [image] },
+    twitter: { card: "summary_large_image", title, description, images: [image.url] },
+  };
+}
 
 export default async function GaleriaPage({ params }: { params: Promise<{ slug: string }> }) {
   // O endereço é /entrega/<nome-do-projeto>-<código>; o código impede que adivinhem o link
