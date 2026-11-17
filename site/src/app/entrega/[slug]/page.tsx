@@ -20,6 +20,7 @@ import PhotoGallery, { type PhotoItem } from "./PhotoGallery";
 import TopBar from "./TopBar";
 import DownloadMenu, { type DownloadOption } from "./DownloadMenu";
 import FeedbackForm from "./FeedbackForm";
+import CoverImage from "../CoverImage";
 import EntregaFooter from "../EntregaFooter";
 
 export default async function GaleriaPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -109,10 +110,7 @@ export default async function GaleriaPage({ params }: { params: Promise<{ slug: 
     <main>
       {/* Capa em tela cheia */}
       <header id="capa" className="relative h-[100svh] min-h-[480px] overflow-hidden bg-void text-white">
-        {cover && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={cover} alt="" fetchPriority="high" className="absolute inset-0 h-full w-full object-cover" />
-        )}
+        {cover && <CoverImage src={cover} crops={meta.coverCrop} priority />}
         <div className="absolute inset-0 bg-black/30" />
         <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/70 via-black/25 to-transparent" />
 

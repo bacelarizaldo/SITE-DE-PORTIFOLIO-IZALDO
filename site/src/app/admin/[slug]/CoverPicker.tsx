@@ -6,6 +6,32 @@ import { removeCover } from "../actions";
 import { Icon } from "../ui";
 import { api, putWithRetry, scaled, toJpeg } from "./Uploader";
 
+/**
+ * Reduz a imagem, converte em JPEG aqui no navegador e envia como capa
+ * (sem vídeo: capa geral da entrega). Aceita arquivo ou um quadro já desenhado num canvas.
+ */
+export async function uploadCover(
+  slug: string,
+  source: File | HTMLCanvasElement,
+  video?: string,
+  onStatus: (status: string) => void = () => {}
+) {
+  if (source instanceof File && !source.type.startsWith("image/")) throw new Error("Escolha uma imagem (JPG, PNG ou WebP).");
+  onStatus("Preparando...");
+  let canvas: HTMLCanvasElement;
+  if (source instanceof File) {
+    const bitmap = await createImageBitmap(source);
+    canvas = scaled(bitmap, video ? 1920 : 2560);
+    bitmap.close();
+  } else {
+    canvas = scaled(source, video ? 1920 : 2560);
+  }
+  const blob = await toJpeg(canvas, 0.88);
+  onStatus("Enviando...");
+  const signed = await api({ op: "cover", slug, video });
+  await putWithRetry(signed.url, blob, signed.headers, () => {});
+}
+
 // Capa enviada pelo admin: a geral da entrega ou a de um vídeo.
 // A própria miniatura é o botão: clique (ou solte uma imagem nela) para enviar ou trocar.
 // A imagem é reduzida e convertida em JPEG aqui no navegador antes de subir para o R2.
@@ -33,19 +59,8 @@ export default function CoverPicker({
 
   async function upload(file: File | undefined) {
     if (!file) return;
-    if (!file.type.startsWith("image/")) {
-      alert("Escolha uma imagem (JPG ou PNG).");
-      return;
-    }
     try {
-      setStatus("Preparando...");
-      const bitmap = await createImageBitmap(file);
-      const canvas = scaled(bitmap, video ? 1920 : 2560);
-      bitmap.close();
-      const blob = await toJpeg(canvas, 0.88);
-      setStatus("Enviando...");
-      const signed = await api({ op: "cover", slug, video });
-      await putWithRetry(signed.url, blob, signed.headers, () => {});
+      await uploadCover(slug, file, video, setStatus);
       router.refresh();
     } catch (err) {
       alert(`Não foi possível enviar a capa: ${(err as Error).message}`);

@@ -73,14 +73,15 @@ export default function SectionNav({ sections, variant }: { sections: NavSection
             <a
               href={`#${s.id}`}
               aria-current={active === s.id ? "true" : undefined}
-              className={`flex items-center gap-3 rounded-2xl px-3 py-2 text-[15px] transition ${
+              title={s.label}
+              className={`flex items-center gap-3 rounded-2xl px-3 py-2 text-[15px] transition group-data-[collapsed]/aside:justify-center ${
                 active === s.id ? "bg-adm-ink text-white" : "text-adm-ink-2 hover:bg-adm-soft"
               }`}
             >
               <Icon name={s.icon} className="h-[18px] w-[18px] shrink-0" />
-              <span className="min-w-0 flex-1 truncate">{s.label}</span>
+              <span className="min-w-0 flex-1 truncate group-data-[collapsed]/aside:hidden">{s.label}</span>
               {s.badge && (
-                <span className={`text-xs tabular-nums ${active === s.id ? "text-white/70" : "text-adm-muted"}`}>
+                <span className={`text-xs tabular-nums group-data-[collapsed]/aside:hidden ${active === s.id ? "text-white/70" : "text-adm-muted"}`}>
                   {s.badge}
                 </span>
               )}

@@ -23,6 +23,7 @@ import {
   videoCoverName,
   type Category,
 } from "@/lib/r2";
+import { SCREENS, normalizeCrop, type CoverCrops } from "@/lib/coverCrop";
 import { checkAdminPassword, endAdminSession, requireAdmin, startAdminSession } from "@/lib/auth";
 
 export type FormState = { error?: string; ok?: string };
@@ -239,6 +240,23 @@ export async function setCover(slug: string, name: string): Promise<FormState> {
   revalidatePath(`/admin/${slug}`);
   revalidatePath(`/entrega/${slug}`);
   return { ok: name ? "Capa definida." : "Capa automática." };
+}
+
+/** Salva o enquadramento da capa em cada tela. */
+export async function setCoverCrop(slug: string, crops: CoverCrops): Promise<FormState> {
+  await requireAdmin();
+  const meta = await getMeta(slug);
+  if (!meta) return { error: "Entrega não encontrada." };
+  const clean: CoverCrops = {};
+  for (const screen of SCREENS) {
+    const crop = normalizeCrop(crops?.[screen.id]);
+    if (crop) clean[screen.id] = crop;
+  }
+  meta.coverCrop = clean;
+  await putMeta(meta);
+  revalidatePath(`/admin/${slug}`);
+  revalidatePath("/admin");
+  return { ok: "Enquadramento salvo." };
 }
 
 /** Apaga a capa geral (sem vídeo) ou a capa de um vídeo. */

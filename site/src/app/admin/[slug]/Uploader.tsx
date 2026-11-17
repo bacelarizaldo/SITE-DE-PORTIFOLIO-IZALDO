@@ -337,10 +337,19 @@ export default function Uploader({
   label,
   album = "",
   existing = [],
+  handle,
+  bare = false,
 }: {
   slug: string;
   category: Category;
   label: string;
+  /** Recebe a função de envio, para outro componente mandar arquivos para cá (ex.: "Enviar mídias") */
+  handle?: (start: (files: File[]) => void) => void;
+  /**
+   * Sem o botão próprio nem o "soltar na seção": quem usa decide de onde vêm os arquivos.
+   * Os avisos (repetidos, recusados) e o progresso continuam aparecendo aqui.
+   */
+  bare?: boolean;
   /** Álbum de destino das fotos ("" = álbum principal) */
   album?: string;
   /** Nomes dos arquivos que já estão no destino (sem a pasta do álbum), para avisar sobre repetidos */
@@ -421,8 +430,9 @@ export default function Uploader({
   const rootRef = useRef<HTMLDivElement>(null);
   const startRef = useRef<(files: File[]) => void>(() => {});
   useEffect(() => {
-    const zone = rootRef.current?.closest("section");
-    if (!zone) return;
+    const zone = bare ? null : rootRef.current?.closest("section");
+    // Seção que trata o soltar por conta própria (ex.: a grade de mídias, que separa fotos e vídeos)
+    if (!zone || zone.hasAttribute("data-drop-router")) return;
     let depth = 0;
     const hasFiles = (e: DragEvent) => Array.from(e.dataTransfer?.types ?? []).includes("Files");
     const own = (e: DragEvent) => (e.target as Element | null)?.closest?.("[data-own-drop]");
@@ -463,7 +473,7 @@ export default function Uploader({
       zone.removeEventListener("drop", drop);
       zone.removeAttribute("data-drop");
     };
-  }, []);
+  }, [bare]);
 
   const update = (id: string, patch: Partial<Item>) =>
     setItems((list) => list.map((i) => (i.id === id ? { ...i, ...patch } : i)));
@@ -600,6 +610,9 @@ export default function Uploader({
   useEffect(() => {
     startRef.current = start;
   });
+  useEffect(() => {
+    handle?.((files) => startRef.current(files));
+  }, [handle]);
 
   function cancel(ids: string[]) {
     for (const id of ids) controllersRef.current.get(id)?.abort();
@@ -629,7 +642,7 @@ export default function Uploader({
 
   return (
     <div ref={rootRef}>
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+      <div className={bare ? "hidden" : "flex flex-wrap items-center gap-x-4 gap-y-2"}>
         <button
           type="button"
           disabled={Boolean(pendingBatch)}

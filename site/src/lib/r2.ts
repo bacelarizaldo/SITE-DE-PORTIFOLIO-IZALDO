@@ -13,6 +13,7 @@ import {
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { randomBytes, timingSafeEqual } from "node:crypto";
 import { sanitizeFileName } from "./filename";
+import type { CoverCrops } from "./coverCrop";
 
 // Estrutura no bucket:
 //   galleries/<slug>/meta.json
@@ -47,6 +48,8 @@ export type GalleryMeta = {
   albums?: Album[];
   /** Foto escolhida para a capa (caminho relativo a photos/); sem ela, a capa é automática */
   cover?: string;
+  /** Enquadramento da capa em cada tela (computador, tablet, celular); sem ele, centralizado */
+  coverCrop?: CoverCrops;
   /** Última vez que o admin marcou os recados como lidos; os mais novos aparecem como "novo" */
   feedbackSeenAt?: string;
   createdAt: string;

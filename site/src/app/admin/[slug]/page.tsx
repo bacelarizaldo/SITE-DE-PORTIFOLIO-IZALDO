@@ -19,7 +19,7 @@ import {
   type Category,
   type StoredFile,
 } from "@/lib/r2";
-import { formatDate, formatDateTime, formatShortDate, formatSize, greeting, titleFromFileName, videoTitle } from "@/lib/format";
+import { formatDate, formatDateTime, formatSize, greeting, titleFromFileName, videoTitle } from "@/lib/format";
 import { EditGalleryForm } from "../forms";
 import { deleteCategory, deleteFeedback, deleteFile, deleteGallery, markFeedbackSeen } from "../actions";
 import Uploader from "./Uploader";
@@ -27,13 +27,13 @@ import CopyBox from "./CopyBox";
 import AccessCard from "./AccessCard";
 import ConfirmButton from "./ConfirmButton";
 import { type AdminPhoto } from "./PhotoGrid";
-import PhotosPanel from "./PhotosPanel";
 import DimsBackfill from "./DimsBackfill";
-import VideoList, { type AdminVideo } from "./VideoList";
-import CoverPicker from "./CoverPicker";
+import { type AdminVideo } from "./VideoList";
+import GalleryHero from "./GalleryHero";
+import MediaSection, { SendMediaButton } from "./MediaSection";
 import AdminShell from "../AdminShell";
 import { type NavSection } from "../SectionNav";
-import { Icon, Pill, Section, StatTile, btnGhost, btnPrimary } from "../ui";
+import { Icon, Pill, Section, btnGhost } from "../ui";
 import MoreMenu, { menuItemDanger } from "../MoreMenu";
 
 
@@ -169,8 +169,17 @@ export default async function AdminGalleryPage({ params }: { params: Promise<{ s
       title: videoTitle(f.name, meta.videoTitles),
       fallback: titleFromFileName(f.name),
       cover: await coverUrl(videoCoverName(f.name)),
+      src: await signGet(f.key),
     }))
   );
+  // Capa que o cliente vê: a enviada; sem ela, a foto da capa; numa entrega só de vídeos, a capa do primeiro vídeo
+  const webs = new Set(files.web.map((f) => f.name));
+  const autoCover = coverPhoto(meta, files.photos.map((f) => f.name));
+  const autoCoverUrl = autoCover
+    ? await signGet(webs.has(`${autoCover}.jpg`) ? fileKey(slug, "web", `${autoCover}.jpg`) : fileKey(slug, "photos", autoCover))
+    : undefined;
+  const heroCover = galleryCover ?? autoCoverUrl ?? videos.find((v) => v.cover)?.cover;
+
   const h = await headers();
   const host = h.get("x-forwarded-host") ?? h.get("host");
   const proto = h.get("x-forwarded-proto") ?? "https";
@@ -187,14 +196,11 @@ export default async function AdminGalleryPage({ params }: { params: Promise<{ s
     .flat()
     .reduce((a, f) => a + f.size, 0);
   const overAYear = new Date(meta.createdAt).getTime() < new Date().setFullYear(new Date().getFullYear() - 1);
-  const albumCount = albums.filter((a) => photos.some((p) => albumOf(p.name) === a.id)).length;
 
   const sections: NavSection[] = [
     { id: "acesso", label: "Acesso e mensagem", icon: "link" },
     { id: "feedback", label: "Feedback", icon: "inbox", badge: unread ? `${unread} novo${unread > 1 ? "s" : ""}` : String(feedback.length) },
-    { id: "capa", label: "Capa", icon: "image" },
-    { id: "videos", label: "Vídeos", icon: "film", badge: String(files.videos.length) },
-    { id: "fotos", label: "Fotos", icon: "photos", badge: String(files.photos.length) },
+    { id: "midias", label: "Mídias", icon: "photos", badge: String(files.photos.length + files.videos.length) },
     { id: "downloads", label: "Downloads extras", icon: "download", badge: String(files.downloads.length) },
     { id: "dados", label: "Dados e exclusão", icon: "edit" },
   ];
@@ -209,50 +215,34 @@ export default async function AdminGalleryPage({ params }: { params: Promise<{ s
         <span className="truncate text-adm-ink-2">{meta.title}</span>
       </nav>
 
-      <div className="mt-3 flex flex-wrap items-end justify-between gap-4">
-        <div className="min-w-0">
-          <h1 className="text-[30px] font-semibold leading-tight tracking-tight md:text-[38px]">{meta.title}</h1>
-          <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-adm-muted">
-            {meta.date && <span>Gravado em {formatDate(meta.date)}</span>}
-            {meta.date && <span aria-hidden="true">·</span>}
-            <span>Criada em {formatShortDate(meta.createdAt)}</span>
-            {!meta.accessKey && <Pill tone="warn">Link sem código</Pill>}
-            {overAYear && <Pill tone="warn">Mais de 1 ano: confira o prazo</Pill>}
-          </div>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <a href="#dados" className={btnGhost}>
-            <Icon name="edit" className="h-4 w-4" />
-            Editar dados
-          </a>
-          <Link href={galleryPath(meta)} className={btnPrimary}>
-            Ver como o cliente vê
-            <Icon name="arrow" className="h-4 w-4" />
-          </Link>
-        </div>
+      <div className="mt-3 flex flex-wrap items-center justify-end gap-2 sm:-mt-8">
+        <a href="#dados" className={btnGhost}>
+          <Icon name="edit" className="h-4 w-4" />
+          Editar
+        </a>
+        <a href="#excluir" aria-label="Excluir entrega" title="Excluir entrega" className="inline-grid h-11 w-11 place-items-center rounded-full bg-adm-surface text-adm-ink ring-1 ring-adm-line transition hover:text-red-700 hover:ring-red-200">
+          <Icon name="trash" className="h-4 w-4" />
+        </a>
+        <Link href={galleryPath(meta)} className={btnGhost}>
+          <Icon name="globe" className="h-4 w-4" />
+          Ver como o cliente vê
+        </Link>
+        <SendMediaButton />
       </div>
 
-      <div className="mt-7 grid grid-cols-2 gap-3 md:gap-4 xl:grid-cols-4">
-        <StatTile dark label="Espaço no R2" icon="storage" value={formatSize(totalBytes)} hint="Com miniaturas e versões web" />
-        <StatTile
-          label="Fotos"
-          icon="photos"
-          value={files.photos.length.toLocaleString("pt-BR")}
-          hint={albumCount > 1 ? `em ${albumCount} álbuns` : files.photos.length ? "em 1 álbum" : "Nenhuma enviada"}
-        />
-        <StatTile
-          label="Vídeos"
-          icon="film"
-          value={files.videos.length.toLocaleString("pt-BR")}
-          hint={files.downloads.length ? `+ ${files.downloads.length} download${files.downloads.length > 1 ? "s" : ""} extra${files.downloads.length > 1 ? "s" : ""}` : "Nenhum download extra"}
-        />
-        <StatTile
-          label="Favoritas do cliente"
-          icon="heart"
-          value={favorites.length.toLocaleString("pt-BR")}
-          hint={favorites.length ? "Veja no filtro das fotos" : "O cliente ainda não favoritou"}
-        />
-      </div>
+      <GalleryHero
+        slug={slug}
+        title={meta.title}
+        cover={heroCover}
+        crops={meta.coverCrop}
+        customCover={Boolean(galleryCover)}
+        dateLabel={meta.date ? formatDate(meta.date) : undefined}
+        link={link}
+        photos={files.photos.length}
+        videos={files.videos.length}
+        sizeLabel={formatSize(totalBytes)}
+        warnings={[...(!meta.accessKey ? ["Link sem código"] : []), ...(overAYear ? ["Mais de 1 ano: confira o prazo"] : [])]}
+      />
 
       <div id="acesso" className="mt-4 grid grid-cols-1 scroll-mt-24 gap-4 lg:scroll-mt-8 xl:grid-cols-2">
         <Section id="acesso-link" title="Acesso do cliente" icon="link" description="Quem tem o link abre a entrega, sem senha.">
@@ -330,56 +320,19 @@ export default async function AdminGalleryPage({ params }: { params: Promise<{ s
           )}
         </Section>
 
-        <Section
-          id="capa"
-          title="Capa da entrega"
-          icon="image"
-          description={
-            galleryCover
-              ? "Abre a página de entrega em tela cheia."
-              : "Abre a página de entrega em tela cheia. Sem ela, entra a capa das fotos."
-          }
-        >
-          <CoverPicker slug={slug} current={galleryCover} size="large" />
-        </Section>
-
-        <Section
-          id="videos"
-          title="Vídeos"
-          icon="film"
-          count={countLabel(files.videos)}
-          description="MP4 (H.264). O primeiro da lista abre a página de entrega."
-          actions={<SectionMenu slug={slug} category="videos" files={files.videos} />}
-        >
-          <Uploader slug={slug} category="videos" label="Enviar vídeos" existing={files.videos.map((f) => f.name)} />
-          {videos.length ? (
-            <div className="mt-4">
-              <VideoList slug={slug} videos={videos} />
-            </div>
-          ) : (
-            <EmptyNote>Nenhum vídeo ainda.</EmptyNote>
-          )}
-        </Section>
-
-        <Section
-          id="fotos"
-          title="Fotos"
-          icon="photos"
-          count={countLabel(files.photos)}
-          description="JPG em alta, organizadas por álbum."
+        <MediaSection
+          slug={slug}
+          photos={photos}
+          videos={videos}
+          albums={albums}
+          favorites={favorites}
+          cover={coverPhoto(meta, files.photos.map((f) => f.name))}
+          coverChosen={Boolean(meta.cover && files.photos.some((f) => f.name === meta.cover))}
+          coverOverridden={Boolean(galleryCover)}
+          totalLabel={countLabel([...files.photos, ...files.videos])}
         >
           <DimsBackfill slug={slug} missing={missingDims} />
-          <PhotosPanel
-            slug={slug}
-            albums={albums}
-            photos={photos}
-            favorites={favorites}
-            cover={coverPhoto(meta, files.photos.map((f) => f.name))}
-            coverChosen={Boolean(meta.cover && files.photos.some((f) => f.name === meta.cover))}
-            coverOverridden={Boolean(galleryCover)}
-            totalLabel={countLabel(files.photos)}
-          />
-        </Section>
+        </MediaSection>
 
         <Section
           id="downloads"

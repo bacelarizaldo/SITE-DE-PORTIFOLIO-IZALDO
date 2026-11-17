@@ -4,6 +4,9 @@ import {
   GALLERY_COVER,
   coverPhoto,
   fileKey,
+  galleryPath,
+  sortVideos,
+  videoCoverName,
   isConfigured,
   listGalleries,
   listGalleryFiles,
@@ -134,17 +137,24 @@ export default async function AdminPage() {
       // Miniatura da tabela: a capa enviada no admin ou a foto de capa
       const thumbs = new Set(files.thumbs.map((f) => f.name));
       const cover = coverPhoto(g, files.photos.map((f) => f.name));
-      const thumb = files.covers.some((f) => f.name === GALLERY_COVER)
+      // Entrega só de vídeos: a capa do primeiro vídeo (na ordem escolhida) que tiver capa
+      const coverNames = new Set(files.covers.map((f) => f.name));
+      const videoWithCover = sortVideos(g, files.videos).find((v) => coverNames.has(videoCoverName(v.name)));
+      const thumb = coverNames.has(GALLERY_COVER)
         ? await signGet(fileKey(g.slug, "covers", GALLERY_COVER))
         : cover && thumbs.has(`${cover}.jpg`)
           ? await signGet(fileKey(g.slug, "thumbs", `${cover}.jpg`))
-          : undefined;
+          : videoWithCover
+            ? await signGet(fileKey(g.slug, "covers", videoCoverName(videoWithCover.name)))
+            : undefined;
       const row: GalleryRow = {
         slug: g.slug,
         title: g.title,
         dateLabel: formatShortDate(g.date),
         createdLabel: formatShortDate(g.createdAt),
         sortDate: g.date ?? g.createdAt.slice(0, 10),
+        createdAt: g.createdAt,
+        link: galleryPath(g),
         photos: files.photos.length,
         videos: files.videos.length,
         downloads: files.downloads.length,
