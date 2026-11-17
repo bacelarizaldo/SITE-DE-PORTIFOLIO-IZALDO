@@ -53,7 +53,12 @@ export default function Footer() {
 
       <div className="border-t border-line">
         <div className="mx-auto max-w-[1600px] px-6 md:px-10 py-6 text-xs text-mist/60">
-          <p>© {year} Izaldo Bacelar — IB Films. Todos os direitos reservados.</p>
+          <p className="flex flex-wrap gap-x-6 gap-y-2">
+            <span>© {year} Izaldo Bacelar — IB Films. Todos os direitos reservados.</span>
+            <Link href="/privacidade" className="hover:text-paper transition-colors">
+              Política de Privacidade
+            </Link>
+          </p>
         </div>
       </div>
     </footer>
