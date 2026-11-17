@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useDialogFocus } from "./useDialogFocus";
 
 export type VideoItem = {
   name: string;
@@ -192,96 +193,187 @@ function MobileVideos({ videos, shapes }: { videos: VideoItem[]; shapes: Shapes 
   );
 }
 
-export default function VideoSection({ videos }: { videos: VideoItem[] }) {
-  const [current, setCurrent] = useState(0);
-  const video = videos[current];
-  const shapes = useVideoShapes(videos);
+/**
+ * Vídeo aberto por cima da galeria (computador). Fecha no ×, no Esc ou clicando fora;
+ * as setas (na tela ou no teclado) passam para o vídeo anterior e o próximo.
+ */
+function VideoViewer({
+  videos,
+  index,
+  shapes,
+  onClose,
+  onStep,
+}: {
+  videos: VideoItem[];
+  index: number;
+  shapes: Shapes;
+  onClose: () => void;
+  onStep: (dir: number) => void;
+}) {
+  const dialog = useRef<HTMLDivElement>(null);
+  const video = videos[index];
   const ratio = shapes[video.name];
   const portrait = isPortrait(ratio);
-  // Maioria vertical: a lista de vídeos vira uma fileira de cartões em pé, com a capa inteira
+  useDialogFocus(dialog, true);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+      // As setas só trocam de vídeo quando o foco não está nos controles do player (lá elas avançam o tempo)
+      if (document.activeElement?.tagName === "VIDEO") return;
+      if (e.key === "ArrowRight") onStep(1);
+      if (e.key === "ArrowLeft") onStep(-1);
+    };
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [onClose, onStep]);
+
+  return (
+    <div
+      ref={dialog}
+      role="dialog"
+      aria-modal="true"
+      aria-label={video.title}
+      className="fixed inset-0 z-50 flex flex-col bg-black/95 text-white backdrop-blur-sm"
+    >
+      <div className="flex items-center justify-between gap-4 px-6 py-4">
+        <div className="min-w-0">
+          <p className="truncate text-lg font-semibold">{video.title}</p>
+          {videos.length > 1 && (
+            <p className="text-sm text-white/60">
+              {index + 1} de {videos.length}
+            </p>
+          )}
+        </div>
+        <div className="flex shrink-0 items-center gap-2">
+          <a
+            href={video.download}
+            className="rounded-full bg-paper px-5 py-2.5 text-sm font-semibold text-ink transition hover:scale-[1.02]"
+          >
+            Baixar vídeo · {video.size}
+          </a>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Fechar vídeo"
+            className="grid h-11 w-11 place-items-center rounded-full text-3xl leading-none text-white/90 hover:bg-white/10"
+          >
+            ×
+          </button>
+        </div>
+      </div>
+
+      {/* Clicar no fundo (fora do vídeo) fecha */}
+      <div
+        className="relative flex min-h-0 flex-1 items-center justify-center px-20 pb-8"
+        onClick={(e) => e.target === e.currentTarget && onClose()}
+      >
+        <video
+          key={video.src}
+          src={video.src}
+          poster={video.poster}
+          controls
+          autoPlay
+          playsInline
+          style={{ aspectRatio: ratio === undefined ? LANDSCAPE : clampRatio(ratio) }}
+          className={`max-h-full max-w-full rounded-2xl bg-black object-contain shadow-2xl ${portrait ? "h-full" : "w-full"}`}
+        />
+        {videos.length > 1 && (
+          <>
+            <button
+              type="button"
+              onClick={() => onStep(-1)}
+              aria-label="Vídeo anterior"
+              className="absolute top-1/2 left-4 grid h-12 w-12 -translate-y-1/2 place-items-center rounded-full bg-white/10 text-3xl leading-none hover:bg-white/20"
+            >
+              ‹
+            </button>
+            <button
+              type="button"
+              onClick={() => onStep(1)}
+              aria-label="Próximo vídeo"
+              className="absolute top-1/2 right-4 grid h-12 w-12 -translate-y-1/2 place-items-center rounded-full bg-white/10 text-3xl leading-none hover:bg-white/20"
+            >
+              ›
+            </button>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default function VideoSection({ videos }: { videos: VideoItem[] }) {
+  const [open, setOpen] = useState<number | null>(null);
+  const shapes = useVideoShapes(videos);
+  // Maioria vertical: cartões em pé, mais por linha, com a capa inteira
   const portraitList = videos.filter((v) => isPortrait(shapes[v.name])).length > videos.length / 2;
+  const single = videos.length === 1;
+
+  const close = useCallback(() => setOpen(null), []);
+  const step = useCallback(
+    (dir: number) => setOpen((i) => (i === null ? i : (i + dir + videos.length) % videos.length)),
+    [videos.length]
+  );
+
+  // Colunas conforme a quantidade: poucos vídeos ficam maiores e centralizados.
+  // Em pé cabem até 5 por linha (cada um com até 280 px); deitados, até 3.
+  const cols = Math.min(videos.length, portraitList ? 5 : 3);
+  const maxWidth = portraitList ? `${cols * 280}px` : single ? "56rem" : undefined;
 
   return (
     <section id="filme" className="scroll-mt-16 bg-void px-6 py-12 text-white md:px-10 lg:py-20">
-      <div className="mx-auto max-w-6xl">
-        <p className="text-sm uppercase tracking-[0.2em] text-white/60">
-          {videos.length > 1 ? "Vídeos" : "Vídeo"}
-        </p>
+      {/* No computador, título e galeria ocupam a mesma largura, centralizados */}
+      <div className="mx-auto max-w-6xl md:[max-width:var(--video-max)]" style={{ "--video-max": maxWidth ?? "72rem" } as React.CSSProperties}>
+        <p className="text-sm uppercase tracking-[0.2em] text-white/60">{single ? "Vídeo" : "Vídeos"}</p>
+        <h2 className="mt-3 hidden text-3xl font-semibold md:block md:text-4xl">
+          {single ? videos[0].title : `${videos.length} vídeos`}
+        </h2>
 
         <MobileVideos videos={videos} shapes={shapes} />
 
-        <div className="hidden md:block">
-          <div className="mt-3 flex flex-wrap items-end justify-between gap-4">
-            <h2 className="text-3xl font-semibold md:text-4xl">{video.title}</h2>
-            <a
-              href={video.download}
-              className="rounded-2xl bg-paper px-5 py-3 text-sm font-semibold text-ink transition hover:scale-[1.02]"
-            >
-              Baixar vídeo · {video.size}
-            </a>
-          </div>
-
-          {/* Vertical: o player fica em pé, com a altura da tela; horizontal: ocupa a largura toda */}
-          <div className="mt-8 flex justify-center">
-            <div
-              style={{ aspectRatio: ratio === undefined ? LANDSCAPE : clampRatio(ratio) }}
-              className={`overflow-hidden rounded-[24px] bg-black shadow-2xl transition-[width,height] duration-300 md:rounded-[32px] ${
-                portrait ? "h-[min(78vh,860px)] max-w-full" : "w-full"
-              }`}
-            >
-              <video
-                key={video.src}
-                // Sem capa enviada, o player mostra o próprio quadro do vídeo.
-                // O "#t=0.1" faz Safari exibir esse quadro em vez de tela preta.
-                src={video.poster ? video.src : `${video.src}#t=0.1`}
-                poster={video.poster}
-                controls
-                playsInline
-                preload={video.poster ? "none" : "metadata"}
-                className="h-full w-full bg-black object-contain"
-              />
-            </div>
-          </div>
-
-          {videos.length > 1 && (
-            <div
-              className={`mt-8 grid items-start gap-4 ${
-                portraitList ? "grid-cols-3 lg:grid-cols-4 xl:grid-cols-5" : "grid-cols-2 lg:grid-cols-3"
-              }`}
-            >
-              {videos.map((v, i) => {
-                const active = i === current;
-                const shape = shapes[v.name];
-                return (
-                  <button
-                    key={v.name}
-                    type="button"
-                    onClick={() => setCurrent(i)}
-                    aria-pressed={active}
-                    className="group text-left"
+        {/* Computador: galeria de cartões no formato de cada vídeo; o clique abre o vídeo por cima */}
+        <div
+          style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` }}
+          className="mt-8 hidden items-start gap-x-4 gap-y-8 md:grid"
+        >
+          {videos.map((v, i) => {
+            const shape = shapes[v.name];
+            return (
+              <div key={v.name}>
+                <button
+                  type="button"
+                  onClick={() => setOpen(i)}
+                  aria-label={`Assistir ${v.title}`}
+                  className="group block w-full text-left"
+                >
+                  <span
+                    style={{ aspectRatio: shape === undefined ? (portraitList ? 9 / 16 : LANDSCAPE) : clampRatio(shape) }}
+                    className="relative block overflow-hidden rounded-2xl bg-white/5 ring-2 ring-transparent transition group-hover:ring-white/30 group-focus-visible:ring-accent"
                   >
-                    <span
-                      style={{ aspectRatio: shape === undefined ? (portraitList ? 9 / 16 : LANDSCAPE) : clampRatio(shape) }}
-                      className={`relative block overflow-hidden rounded-2xl bg-white/5 ring-2 transition ${
-                        active ? "ring-accent" : "ring-transparent group-hover:ring-white/30"
-                      }`}
-                    >
-                      <Cover video={v} />
-                      {active && (
-                        <span className="absolute top-3 left-3 rounded-full bg-accent px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.15em] text-ink">
-                          Tocando
-                        </span>
-                      )}
+                    <Cover video={v} />
+                    <span className="absolute inset-0 grid place-items-center bg-black/0 opacity-0 transition group-hover:bg-black/30 group-hover:opacity-100">
+                      <span className="grid h-14 w-14 place-items-center rounded-full bg-white/90 text-ink">
+                        <PlayIcon className="ml-0.5 h-6 w-6" />
+                      </span>
                     </span>
-                    <span className={`mt-3 block font-medium leading-snug ${active ? "text-accent" : "text-white"}`}>{v.title}</span>
-                    <span className="text-sm text-white/60">{v.size}</span>
-                  </button>
-                );
-              })}
-            </div>
-          )}
+                  </span>
+                  {!single && <span className="mt-3 block font-medium leading-snug text-white">{v.title}</span>}
+                </button>
+                <a href={v.download} className="mt-1 inline-block text-sm text-white/60 underline-offset-4 hover:text-white hover:underline">
+                  Baixar · {v.size}
+                </a>
+              </div>
+            );
+          })}
         </div>
       </div>
+
+      {open !== null && <VideoViewer videos={videos} index={open} shapes={shapes} onClose={close} onStep={step} />}
     </section>
   );
 }
