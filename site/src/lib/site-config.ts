@@ -11,7 +11,7 @@ export const siteConfig = {
   instagram: "https://instagram.com/izaldobacelar",
   whatsappNumber: "5581999476729",
   whatsappMessage: "Olá! Vim pelo site e gostaria de falar sobre um projeto.",
-  email: "contato@izaldobacela.com",
+  email: "contato@izaldobacelar.com",
 };
 
 export const whatsappHref = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(

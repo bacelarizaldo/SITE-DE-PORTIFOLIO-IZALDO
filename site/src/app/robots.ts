@@ -6,6 +6,8 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
+      // Painel e entregas dos clientes ficam fora dos buscadores
+      disallow: ["/admin", "/entrega/", "/api/"],
     },
     sitemap: `${siteConfig.url}/sitemap.xml`,
   };
