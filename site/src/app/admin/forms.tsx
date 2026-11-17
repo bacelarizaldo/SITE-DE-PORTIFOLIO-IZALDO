@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { adminLogin, createGallery, updateGallery, type FormState } from "./actions";
 
 export const inputClass =
@@ -36,21 +36,37 @@ function Message({ state }: { state: FormState }) {
 
 export function AdminLoginForm() {
   const [state, action, pending] = useActionState<FormState, FormData>(adminLogin, {});
+  const [visible, setVisible] = useState(false);
   return (
     <form action={action} className="space-y-4">
-      <Field label="Senha do admin">
-        <input
-          id="admin-senha"
-          name="senha"
-          type="password"
-          autoComplete="current-password"
-          required
-          autoFocus
-          className={inputClass}
-        />
-      </Field>
+      <label className="block">
+        <span className="mb-1.5 block text-sm font-semibold text-adm-ink">Senha</span>
+        <span className="relative block">
+          <input
+            id="admin-senha"
+            name="senha"
+            type={visible ? "text" : "password"}
+            autoComplete="current-password"
+            required
+            autoFocus
+            aria-invalid={Boolean(state.error)}
+            className="h-14 w-full rounded-full border border-adm-ink/80 bg-white pr-24 pl-6 text-base text-adm-ink outline-none transition focus:border-adm-ink focus:ring-4 focus:ring-adm-ink/10"
+          />
+          <button
+            type="button"
+            onClick={() => setVisible((v) => !v)}
+            aria-pressed={visible}
+            className="absolute top-1/2 right-2 h-10 -translate-y-1/2 rounded-full px-4 text-sm font-medium text-adm-muted transition hover:bg-adm-soft hover:text-adm-ink"
+          >
+            {visible ? "Ocultar" : "Mostrar"}
+          </button>
+        </span>
+      </label>
       <Message state={state} />
-      <button disabled={pending} className={`${buttonClass} w-full`}>
+      <button
+        disabled={pending}
+        className="inline-flex h-14 w-full items-center justify-center gap-2 rounded-full bg-accent text-base font-bold text-ink transition hover:bg-[#f0a46c] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-adm-ink disabled:opacity-60"
+      >
         {pending ? "Entrando..." : "Entrar"}
       </button>
     </form>

@@ -13,6 +13,7 @@ import {
 import { formatShortDate, formatSize, greeting } from "@/lib/format";
 import { AdminLoginForm } from "./forms";
 import AdminShell from "./AdminShell";
+import LoginScreen from "./LoginScreen";
 import GalleryTable, { type GalleryRow } from "./GalleryTable";
 import NewGalleryDialog from "./NewGalleryDialog";
 import { Icon, StatTile, btnPrimary, card } from "./ui";
@@ -25,20 +26,6 @@ const FREE_GB = 10;
 const PRICE_PER_GB = 0.015;
 
 const plural = (n: number, one: string, many: string) => `${n.toLocaleString("pt-BR")} ${n === 1 ? one : many}`;
-
-function LoginScreen({ children }: { children: React.ReactNode }) {
-  return (
-    <main className="grid min-h-screen place-items-center bg-adm-bg px-4 py-10">
-      <div className="w-full max-w-[400px]">
-        <div className="mb-6 text-center">
-          <p className="text-[26px] font-bold tracking-tight">IB Films</p>
-          <p className="mt-1 text-xs font-medium uppercase tracking-[0.2em] text-adm-muted">Entregas para clientes</p>
-        </div>
-        <div className={card}>{children}</div>
-      </div>
-    </main>
-  );
-}
 
 /** Barras de espaço das entregas mais recentes; a maior fica destacada. */
 function StorageChart({ items }: { items: { slug: string; label: string; bytes: number }[] }) {
@@ -115,8 +102,8 @@ export default async function AdminPage() {
   if (!isConfigured()) {
     return (
       <LoginScreen>
-        <h1 className="text-xl font-semibold">Configuração pendente</h1>
-        <p className="mt-3 text-sm leading-6 text-adm-ink-2">
+        <h1 className="text-[32px] font-bold leading-tight tracking-tight">Configuração pendente</h1>
+        <p className="mt-3 text-[15px] leading-6 text-adm-ink-2">
           Defina as variáveis R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_BUCKET, SESSION_SECRET e
           ADMIN_PASSWORD (no arquivo .env.local e na Vercel). O passo a passo está em ENTREGAS.md.
         </p>
@@ -127,8 +114,11 @@ export default async function AdminPage() {
   if (!(await isAdmin())) {
     return (
       <LoginScreen>
-        <h1 className="mb-5 text-xl font-semibold">Entrar</h1>
-        <AdminLoginForm />
+        <h1 className="text-[32px] font-bold leading-tight tracking-tight">Entrar no painel</h1>
+        <p className="mt-2 text-[15px] leading-6 text-adm-muted">Entregas, recados e arquivos dos clientes da IB Films.</p>
+        <div className="mt-8">
+          <AdminLoginForm />
+        </div>
       </LoginScreen>
     );
   }
