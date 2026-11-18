@@ -49,3 +49,10 @@ export function formatShortDate(date?: string) {
   if (Number.isNaN(d.getTime())) return date;
   return d.toLocaleDateString("pt-BR", { day: "numeric", month: "short", year: "numeric" });
 }
+
+/** "2026-11" → "Novembro de 2026" */
+export function formatMonth(month: string) {
+  const [y, m] = month.split("-").map(Number);
+  const label = new Date(y, m - 1, 15).toLocaleDateString("pt-BR", { month: "long", year: "numeric" });
+  return label.charAt(0).toUpperCase() + label.slice(1);
+}

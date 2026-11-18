@@ -2,11 +2,11 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { removeCover, setVideoTitle } from "../actions";
+import { removeCover, setVideoMonth, setVideoTitle } from "../actions";
 import { Icon, btnGhost, btnPrimary } from "../ui";
 import { uploadCover } from "./CoverPicker";
 
-export type EditableVideo = { name: string; title: string; fallback: string; cover?: string; src: string };
+export type EditableVideo = { name: string; title: string; fallback: string; cover?: string; src: string; month?: string; uploadMonth?: string };
 
 type Choice = { kind: "keep" } | { kind: "frame"; time: number } | { kind: "file"; file: File; preview: string } | { kind: "remove" };
 
@@ -22,6 +22,7 @@ export default function VideoEditDialog({ slug, video, onClose }: { slug: string
   const preview = useRef<HTMLVideoElement>(null);
   const fileInput = useRef<HTMLInputElement>(null);
   const [title, setTitle] = useState(video.title);
+  const [month, setMonth] = useState(video.month ?? "");
   const [choice, setChoice] = useState<Choice>({ kind: "keep" });
   const [duration, setDuration] = useState(0);
   const [ratio, setRatio] = useState<number>();
@@ -104,6 +105,13 @@ export default function VideoEditDialog({ slug, video, onClose }: { slug: string
         const result = await setVideoTitle(slug, video.name, name);
         if (result.error) throw new Error(result.error);
       }
+      // O mês igual ao do envio não precisa ficar salvo: assim ele segue o envio se o vídeo for trocado
+      const chosenMonth = month === video.uploadMonth ? "" : month;
+      if (month !== (video.month ?? "")) {
+        setStatus("Salvando o mês...");
+        const result = await setVideoMonth(slug, video.name, chosenMonth);
+        if (result.error) throw new Error(result.error);
+      }
       if (choice.kind === "frame") {
         const el = preview.current;
         if (!el || !el.videoWidth) throw new Error("O quadro ainda não carregou. Tente de novo.");
@@ -170,6 +178,20 @@ export default function VideoEditDialog({ slug, video, onClose }: { slug: string
           className="h-12 w-full rounded-2xl border border-adm-line-strong bg-white px-4 text-base outline-none transition focus:border-adm-ink focus:ring-4 focus:ring-adm-ink/10"
         />
         <p className="mt-1 text-xs text-adm-muted">Vazio usa o nome do arquivo.</p>
+
+        <label htmlFor="video-mes" className="mt-6 mb-1.5 block text-sm font-semibold">
+          Mês
+        </label>
+        <input
+          id="video-mes"
+          type="month"
+          value={month}
+          onChange={(e) => setMonth(e.target.value)}
+          className="h-12 w-full rounded-2xl border border-adm-line-strong bg-white px-4 text-base outline-none transition focus:border-adm-ink focus:ring-4 focus:ring-adm-ink/10"
+        />
+        <p className="mt-1 text-xs text-adm-muted">
+          Na entrega, os vídeos ficam separados por mês quando há mais de um. Vazio usa o mês em que o vídeo foi enviado.
+        </p>
 
         <p className="mt-6 mb-2 text-sm font-semibold">Capa</p>
         <div className="grid place-items-center rounded-2xl bg-adm-soft p-3">

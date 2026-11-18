@@ -6,7 +6,7 @@ import ConfirmButton from "./ConfirmButton";
 import VideoEditDialog from "./VideoEditDialog";
 import { Icon } from "../ui";
 
-export type AdminVideo = { key: string; name: string; size: string; title: string; fallback: string; cover?: string; src: string };
+export type AdminVideo = { key: string; name: string; size: string; title: string; fallback: string; cover?: string; src: string; month?: string; uploadMonth?: string; monthLabel?: string };
 
 function VideoRow({
   slug,
@@ -55,7 +55,8 @@ function VideoRow({
           )}
         </p>
         <p className="mt-0.5 truncate text-xs text-adm-muted" title={video.name}>
-          {video.size} · {video.name}
+          {video.size}
+          {video.monthLabel && ` · ${video.monthLabel}`} · {video.name}
           {!video.cover && " · sem capa"}
         </p>
       </div>

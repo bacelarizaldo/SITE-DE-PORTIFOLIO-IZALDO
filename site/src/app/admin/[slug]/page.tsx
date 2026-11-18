@@ -17,10 +17,11 @@ import {
   signGet,
   sortVideos,
   videoCoverName,
+  videoMonth,
   type Category,
   type StoredFile,
 } from "@/lib/r2";
-import { formatDate, formatDateTime, formatSize, greeting, titleFromFileName, videoTitle } from "@/lib/format";
+import { formatDate, formatDateTime, formatMonth, formatSize, greeting, titleFromFileName, videoTitle } from "@/lib/format";
 import { EditGalleryForm } from "../forms";
 import { deleteCategory, deleteFeedback, deleteFile, deleteGallery, markFeedbackSeen } from "../actions";
 import Uploader from "./Uploader";
@@ -162,15 +163,21 @@ export default async function AdminGalleryPage({ params }: { params: Promise<{ s
   const coverUrl = (name: string) => signCover(files.covers, name);
   const galleryCover = await coverUrl(GALLERY_COVER);
   const videos: AdminVideo[] = await Promise.all(
-    sortVideos(meta, files.videos).map(async (f) => ({
-      key: f.key,
-      name: f.name,
-      size: formatSize(f.size),
-      title: videoTitle(f.name, meta.videoTitles),
-      fallback: titleFromFileName(f.name),
-      cover: await coverUrl(videoCoverName(f.name)),
-      src: await signGet(f.key),
-    }))
+    sortVideos(meta, files.videos).map(async (f) => {
+      const month = videoMonth(meta, f);
+      return {
+        key: f.key,
+        name: f.name,
+        size: formatSize(f.size),
+        title: videoTitle(f.name, meta.videoTitles),
+        fallback: titleFromFileName(f.name),
+        cover: await coverUrl(videoCoverName(f.name)),
+        src: await signGet(f.key),
+        month,
+        uploadMonth: videoMonth({ ...meta, videoMonths: undefined }, f),
+        monthLabel: month ? formatMonth(month) : undefined,
+      };
+    })
   );
   // Capa que o cliente vê: a enviada; sem ela, a foto da capa; numa entrega só de vídeos, a capa do primeiro vídeo
   const webs = new Set(files.web.map((f) => f.name));

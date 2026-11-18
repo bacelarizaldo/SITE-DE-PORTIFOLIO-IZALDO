@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useDialogFocus } from "./useDialogFocus";
 
 export type VideoItem = {
@@ -13,7 +13,37 @@ export type VideoItem = {
   poster?: string;
   /** Link para baixar a capa do vídeo como arquivo */
   coverDownload?: string;
+  /** Mês do vídeo ("2026-11") e o nome dele ("Novembro de 2026") */
+  month?: string;
+  monthLabel?: string;
 };
+
+type MonthGroup = { month: string; label: string; videos: VideoItem[] };
+
+/**
+ * Separa os vídeos por mês, do mais novo para o mais antigo, mantendo a ordem do admin dentro de cada mês.
+ * Com tudo no mesmo mês (ou sem mês), não separa.
+ */
+function groupByMonth(videos: VideoItem[]): MonthGroup[] | null {
+  const groups = new Map<string, MonthGroup>();
+  for (const v of videos) {
+    const month = v.month ?? "";
+    const group = groups.get(month) ?? { month, label: v.monthLabel ?? "Outros", videos: [] };
+    group.videos.push(v);
+    groups.set(month, group);
+  }
+  if (groups.size < 2) return null;
+  // Sem mês vai para o fim
+  return [...groups.values()].sort((a, b) => (b.month || "0").localeCompare(a.month || "0"));
+}
+
+function ChevronIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      <path d="M6 9l6 6 6-6" />
+    </svg>
+  );
+}
 
 type FullscreenVideo = HTMLVideoElement & { webkitEnterFullscreen?: () => void };
 
@@ -481,7 +511,8 @@ function VideoViewer({
       </div>
 
       {videos.length > 1 ? (
-        <div className="flex justify-center gap-2 px-6 pt-4 pb-6" role="group" aria-label="Escolher vídeo">
+        // Muitos vídeos (cliente de todo mês): a fita rola de lado; poucos ficam centralizados
+        <div className="flex gap-2 overflow-x-auto px-6 pt-4 pb-6 [&>*:first-child]:ml-auto [&>*:last-child]:mr-auto" role="group" aria-label="Escolher vídeo">
           {videos.map((v, i) => (
             <button
               key={v.name}
@@ -490,7 +521,7 @@ function VideoViewer({
               aria-label={v.title}
               aria-current={i === index ? "true" : undefined}
               style={{ aspectRatio: clampRatio(shapes[v.name]) }}
-              className={`relative h-16 overflow-hidden rounded-lg transition ${
+              className={`relative h-16 shrink-0 overflow-hidden rounded-lg transition ${
                 i === index ? "ring-2 ring-white" : "opacity-50 ring-1 ring-white/20 hover:opacity-90"
               }`}
             >
@@ -505,42 +536,125 @@ function VideoViewer({
   );
 }
 
+/** Cartões no computador: o clique abre o vídeo por cima */
+function DesktopGrid({
+  videos,
+  shapes,
+  portraitList,
+  cols,
+  onOpen,
+}: {
+  videos: VideoItem[];
+  shapes: Shapes;
+  portraitList: boolean;
+  cols: number;
+  onOpen: (video: VideoItem) => void;
+}) {
+  return (
+    <div style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` }} className="mt-8 hidden items-start gap-4 md:grid">
+      {videos.map((v) => (
+        <VideoCard key={v.name} video={v} shape={shapes[v.name]} fallbackPortrait={portraitList} onOpen={() => onOpen(v)} />
+      ))}
+    </div>
+  );
+}
+
+/** Um mês da entrega: o título abre e fecha a lista de vídeos daquele mês */
+function MonthSection({
+  group,
+  open,
+  onToggle,
+  children,
+}: {
+  group: MonthGroup;
+  open: boolean;
+  onToggle: () => void;
+  children: React.ReactNode;
+}) {
+  const id = `mes-${group.month || "outros"}`;
+  return (
+    <div className="border-t border-white/10 first:border-t-0">
+      <h3>
+        <button
+          type="button"
+          onClick={onToggle}
+          aria-expanded={open}
+          aria-controls={id}
+          className="flex w-full items-center justify-between gap-4 py-5 text-left"
+        >
+          <span className="min-w-0">
+            <span className="block text-xl font-semibold md:text-2xl">{group.label}</span>
+            <span className="text-sm text-white/55">
+              {group.videos.length === 1 ? "1 vídeo" : `${group.videos.length} vídeos`}
+            </span>
+          </span>
+          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full ring-1 ring-white/20">
+            <ChevronIcon className={`h-5 w-5 transition-transform motion-reduce:transition-none ${open ? "rotate-180" : ""}`} />
+          </span>
+        </button>
+      </h3>
+      <div id={id} hidden={!open} className="pb-8">
+        {children}
+      </div>
+    </div>
+  );
+}
+
 export default function VideoSection({ videos }: { videos: VideoItem[] }) {
+  const groups = useMemo(() => groupByMonth(videos), [videos]);
+  // No visor, os vídeos seguem a ordem da tela (mês a mês)
+  const ordered = useMemo(() => (groups ? groups.flatMap((g) => g.videos) : videos), [groups, videos]);
   const [open, setOpen] = useState<number | null>(null);
+  // Só o mês mais recente começa aberto
+  const [expanded, setExpanded] = useState<Set<string>>(() => new Set(groups ? [groups[0].month] : []));
   const shapes = useVideoShapes(videos);
   // Maioria vertical: cartões em pé, mais por linha, com a capa inteira
   const portraitList = videos.filter((v) => isPortrait(shapes[v.name])).length > videos.length / 2;
   const single = videos.length === 1;
   const close = useCallback(() => setOpen(null), []);
+  const openVideo = useCallback((v: VideoItem) => setOpen(ordered.indexOf(v)), [ordered]);
 
-  // Colunas conforme a quantidade: poucos vídeos ficam maiores e centralizados.
+  // Colunas conforme a quantidade (no maior mês, quando separados): poucos vídeos ficam maiores e centralizados.
   // Em pé cabem até 5 por linha (cada um com até 280 px); deitados, até 3.
-  const cols = Math.min(videos.length, portraitList ? 5 : 3);
-  const maxWidth = portraitList ? `${cols * 280}px` : single ? "56rem" : undefined;
+  const perRow = groups ? Math.max(...groups.map((g) => g.videos.length)) : videos.length;
+  const cols = Math.min(perRow, portraitList ? 5 : 3);
+  const maxWidth = portraitList ? `${Math.max(cols, groups ? 3 : 1) * 280}px` : perRow === 1 ? "56rem" : undefined;
+
+  const toggle = (month: string) =>
+    setExpanded((s) => {
+      const next = new Set(s);
+      if (next.has(month)) next.delete(month);
+      else next.add(month);
+      return next;
+    });
 
   return (
     <section id="filme" className="scroll-mt-16 bg-void px-6 py-12 text-white md:px-10 lg:py-20">
       {/* No computador, título e galeria ocupam a mesma largura, centralizados */}
       <div className="mx-auto max-w-6xl md:[max-width:var(--video-max)]" style={{ "--video-max": maxWidth ?? "72rem" } as React.CSSProperties}>
         <p className="text-sm uppercase tracking-[0.2em] text-white/60">{single ? "Vídeo" : "Vídeos"}</p>
-        <h2 className="mt-3 hidden text-3xl font-semibold md:block md:text-4xl">
-          {single ? videos[0].title : `${videos.length} vídeos`}
+        <h2 className={`mt-3 text-3xl font-semibold md:text-4xl ${groups ? "" : "hidden md:block"}`}>
+          {single ? videos[0].title : groups ? `${videos.length} vídeos em ${groups.length} meses` : `${videos.length} vídeos`}
         </h2>
 
-        <MobileVideos videos={videos} shapes={shapes} portraitList={portraitList} />
-
-        {/* Computador: galeria de cartões no formato de cada vídeo; o clique abre o vídeo por cima */}
-        <div
-          style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` }}
-          className="mt-8 hidden items-start gap-4 md:grid"
-        >
-          {videos.map((v, i) => (
-            <VideoCard key={v.name} video={v} shape={shapes[v.name]} fallbackPortrait={portraitList} onOpen={() => setOpen(i)} />
-          ))}
-        </div>
+        {groups ? (
+          <div className="mt-6">
+            {groups.map((g) => (
+              <MonthSection key={g.month} group={g} open={expanded.has(g.month)} onToggle={() => toggle(g.month)}>
+                <MobileVideos videos={g.videos} shapes={shapes} portraitList={portraitList} />
+                <DesktopGrid videos={g.videos} shapes={shapes} portraitList={portraitList} cols={cols} onOpen={openVideo} />
+              </MonthSection>
+            ))}
+          </div>
+        ) : (
+          <>
+            <MobileVideos videos={videos} shapes={shapes} portraitList={portraitList} />
+            <DesktopGrid videos={videos} shapes={shapes} portraitList={portraitList} cols={cols} onOpen={openVideo} />
+          </>
+        )}
       </div>
 
-      {open !== null && <VideoViewer videos={videos} index={open} shapes={shapes} onClose={close} onSelect={setOpen} />}
+      {open !== null && <VideoViewer videos={ordered} index={open} shapes={shapes} onClose={close} onSelect={setOpen} />}
     </section>
   );
 }

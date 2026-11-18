@@ -14,9 +14,10 @@ import {
   signGet,
   sortVideos,
   videoCoverName,
+  videoMonth,
 } from "@/lib/r2";
 import { isAdmin } from "@/lib/auth";
-import { formatDate, formatSize, videoTitle } from "@/lib/format";
+import { formatDate, formatMonth, formatSize, videoTitle } from "@/lib/format";
 import VideoSection, { type VideoItem } from "./VideoSection";
 import PhotoGallery, { type PhotoItem } from "./PhotoGallery";
 import TopBar from "./TopBar";
@@ -64,7 +65,10 @@ export default async function GaleriaPage({ params }: { params: Promise<{ slug: 
       sortVideos(meta, files.videos).map(
         async (f): Promise<VideoItem> => {
           const src = await signGet(f.key);
+          const month = videoMonth(meta, f);
           return {
+            month,
+            monthLabel: month ? formatMonth(month) : undefined,
             name: f.name,
             title: videoTitle(f.name, meta.videoTitles),
             size: formatSize(f.size),

@@ -19,6 +19,7 @@ import {
   listGalleryFiles,
   newAccessKey,
   putMeta,
+  isMonth,
   sanitizeFileName,
   videoCoverName,
   type Category,
@@ -112,8 +113,12 @@ export async function deleteFile(formData: FormData) {
 
 async function forgetVideoTitles(slug: string, names: string[]) {
   const meta = await getMeta(slug);
-  if (!meta?.videoTitles || !names.some((n) => n in meta.videoTitles!)) return;
-  for (const n of names) delete meta.videoTitles[n];
+  const has = (map?: Record<string, string>) => map && names.some((n) => n in map);
+  if (!meta || (!has(meta.videoTitles) && !has(meta.videoMonths))) return;
+  for (const n of names) {
+    delete meta.videoTitles?.[n];
+    delete meta.videoMonths?.[n];
+  }
   await putMeta(meta);
 }
 
@@ -146,6 +151,23 @@ export async function setVideoTitle(slug: string, name: string, title: string): 
   revalidatePath(`/admin/${slug}`);
   revalidatePath(`/entrega/${slug}`);
   return { ok: "Título salvo." };
+}
+
+/** Mês do vídeo na entrega ("2026-11"); vazio volta a usar o mês do envio */
+export async function setVideoMonth(slug: string, name: string, month: string): Promise<FormState> {
+  await requireAdmin();
+  const meta = await getMeta(slug);
+  if (!meta) return { error: "Entrega não encontrada." };
+  if (!name || name !== sanitizeFileName(name)) return { error: "Vídeo inválido." };
+  if (month && !isMonth(month)) return { error: "Mês inválido." };
+  const months = { ...meta.videoMonths };
+  if (month) months[name] = month;
+  else delete months[name];
+  meta.videoMonths = months;
+  await putMeta(meta);
+  revalidatePath(`/admin/${slug}`);
+  revalidatePath(`/entrega/${slug}`);
+  return { ok: "Mês salvo." };
 }
 
 export async function deleteCategory(formData: FormData) {

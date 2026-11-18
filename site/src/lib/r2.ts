@@ -44,6 +44,8 @@ export type GalleryMeta = {
   videoTitles?: Record<string, string>;
   /** Ordem dos vídeos escolhida no admin (nomes dos arquivos); os que faltam vêm depois, por nome */
   videoOrder?: string[];
+  /** Mês de cada vídeo ("2026-11"), escolhido no admin; sem ele, o mês em que o vídeo foi enviado */
+  videoMonths?: Record<string, string>;
   /** Álbuns de fotos, na ordem de exibição. O id "" é o álbum principal (fotos na raiz de photos/) */
   albums?: Album[];
   /** Foto escolhida para a capa (caminho relativo a photos/); sem ela, a capa é automática */
@@ -87,6 +89,19 @@ export function sortVideos<T extends { name: string }>(meta: GalleryMeta, videos
   const order = new Map((meta.videoOrder ?? []).map((name, i) => [name, i]));
   const rank = (v: T) => order.get(v.name) ?? Infinity;
   return [...videos].sort((a, b) => rank(a) - rank(b));
+}
+
+export const isMonth = (month: string) => /^\d{4}-(0[1-9]|1[0-2])$/.test(month);
+
+/** Mês de um vídeo: o escolhido no admin ou o do envio (no horário do estúdio) */
+export function videoMonth(meta: GalleryMeta, file: { name: string; lastModified?: string }) {
+  const chosen = meta.videoMonths?.[file.name];
+  if (chosen && isMonth(chosen)) return chosen;
+  if (!file.lastModified) return undefined;
+  const parts = new Intl.DateTimeFormat("en-CA", { year: "numeric", month: "2-digit", timeZone: "America/Recife" }).formatToParts(new Date(file.lastModified));
+  const y = parts.find((x) => x.type === "year")?.value;
+  const m = parts.find((x) => x.type === "month")?.value;
+  return y && m ? `${y}-${m}` : undefined;
 }
 
 /** Capa geral enviada no admin, relativa a covers/ */
