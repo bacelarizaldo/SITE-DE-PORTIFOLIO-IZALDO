@@ -4,12 +4,12 @@ import {
   GALLERY_COVER,
   albumOf,
   coverPhoto,
-  fileKey,
   galleryAlbums,
   getGalleryByLink,
   getPhotoDims,
   isConfigured,
   listGalleryFiles,
+  signCover,
   signGet,
   sortVideos,
   videoCoverName,
@@ -56,8 +56,7 @@ export default async function GaleriaPage({ params }: { params: Promise<{ slug: 
   const thumbs = new Set(files.thumbs.map((f) => f.name));
   const webs = new Set(files.web.map((f) => f.name));
   const base = `galleries/${slug}`;
-  const covers = new Set(files.covers.map((f) => f.name));
-  const coverUrl = (name: string) => (covers.has(name) ? signGet(fileKey(slug, "covers", name)) : undefined);
+  const coverUrl = (name: string) => signCover(files.covers, name);
 
   const [videos, photos, downloads] = await Promise.all([
     Promise.all(

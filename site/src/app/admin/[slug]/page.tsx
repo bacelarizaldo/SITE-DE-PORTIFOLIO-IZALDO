@@ -13,6 +13,7 @@ import {
   getPhotoDims,
   listFeedback,
   listGalleryFiles,
+  signCover,
   signGet,
   sortVideos,
   videoCoverName,
@@ -158,8 +159,7 @@ export default async function AdminGalleryPage({ params }: { params: Promise<{ s
     const id = albumOf(p.name);
     if (!albums.some((a) => a.id === id)) albums.push({ id, title: id || "Fotos" });
   }
-  const covers = new Set(files.covers.map((f) => f.name));
-  const coverUrl = (name: string) => (covers.has(name) ? signGet(fileKey(slug, "covers", name)) : undefined);
+  const coverUrl = (name: string) => signCover(files.covers, name);
   const galleryCover = await coverUrl(GALLERY_COVER);
   const videos: AdminVideo[] = await Promise.all(
     sortVideos(meta, files.videos).map(async (f) => ({

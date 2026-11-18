@@ -10,6 +10,7 @@ import {
   isConfigured,
   listGalleries,
   listGalleryFiles,
+  signCover,
   signGet,
   unreadFeedback,
 } from "@/lib/r2";
@@ -141,11 +142,11 @@ export default async function AdminPage() {
       const coverNames = new Set(files.covers.map((f) => f.name));
       const videoWithCover = sortVideos(g, files.videos).find((v) => coverNames.has(videoCoverName(v.name)));
       const thumb = coverNames.has(GALLERY_COVER)
-        ? await signGet(fileKey(g.slug, "covers", GALLERY_COVER))
+        ? await signCover(files.covers, GALLERY_COVER)
         : cover && thumbs.has(`${cover}.jpg`)
           ? await signGet(fileKey(g.slug, "thumbs", `${cover}.jpg`))
           : videoWithCover
-            ? await signGet(fileKey(g.slug, "covers", videoCoverName(videoWithCover.name)))
+            ? await signCover(files.covers, videoCoverName(videoWithCover.name))
             : undefined;
       const row: GalleryRow = {
         slug: g.slug,

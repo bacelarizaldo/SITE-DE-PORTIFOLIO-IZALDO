@@ -381,14 +381,23 @@ const URL_TTL = 60 * 60 * 12; // 12 horas
 // link baixa o arquivo, enquanto <video> e <img> continuam exibindo normalmente.
 export const attachment = (name: string) => `attachment; filename="${name.replace(/"/g, "")}"`;
 
-export function signGet(key: string) {
+export function signGet(key: string, version?: string) {
   // Assinatura fixa dentro de cada hora: o link não muda a cada carregamento,
   // então o navegador reaproveita as imagens que já baixou.
   const hour = new Date(Math.floor(Date.now() / 3_600_000) * 3_600_000);
-  return getSignedUrl(s3(), new GetObjectCommand({ Bucket: bucket(), Key: key }), {
+  // A capa é regravada com o mesmo nome; a versão (data da gravação) entra no link assinado,
+  // senão o navegador seguiria mostrando a imagem antiga guardada no cache
+  const ResponseContentDisposition = version ? `inline; filename="v${version.replace(/\D/g, "")}.jpg"` : undefined;
+  return getSignedUrl(s3(), new GetObjectCommand({ Bucket: bucket(), Key: key, ResponseContentDisposition }), {
     expiresIn: URL_TTL + 3600,
     signingDate: hour,
   });
+}
+
+/** Link de uma capa: muda sempre que a capa é trocada */
+export function signCover(files: StoredFile[], name: string) {
+  const file = files.find((f) => f.name === name);
+  return file ? signGet(file.key, file.lastModified) : undefined;
 }
 
 export function signPut(key: string, contentType: string, disposition?: string) {
