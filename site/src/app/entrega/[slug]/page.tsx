@@ -10,6 +10,7 @@ import {
   isConfigured,
   listGalleryFiles,
   signCover,
+  signCoverDownload,
   signGet,
   sortVideos,
   videoCoverName,
@@ -70,6 +71,7 @@ export default async function GaleriaPage({ params }: { params: Promise<{ slug: 
             src,
             download: src,
             poster: await coverUrl(videoCoverName(f.name)),
+            coverDownload: await signCoverDownload(files.covers, videoCoverName(f.name), videoTitle(f.name, meta.videoTitles)),
           };
         }
       )
@@ -110,8 +112,34 @@ export default async function GaleriaPage({ params }: { params: Promise<{ slug: 
   const albumOrder = new Map(albums.map((a, i) => [a.id, i]));
   photos.sort((a, b) => albumOrder.get(a.album)! - albumOrder.get(b.album)!);
 
+  // Capas: a geral da entrega (se enviada) e as dos vídeos, para o cliente postar junto
+  const galleryCoverFile = files.covers.find((f) => f.name === GALLERY_COVER);
+  const coverFiles = [
+    ...(galleryCoverFile ? [{ name: `Capa - ${meta.title}.jpg`, size: galleryCoverFile.size, url: await signCoverDownload(files.covers, GALLERY_COVER, meta.title) }] : []),
+    ...videos.flatMap((v) => {
+      const f = files.covers.find((c) => c.name === videoCoverName(v.name));
+      return f && v.coverDownload ? [{ name: `Capa - ${v.title}.jpg`, size: f.size, url: v.coverDownload }] : [];
+    }),
+  ].filter((c): c is { name: string; size: number; url: string } => Boolean(c.url));
+  const coverBytes = coverFiles.reduce((a, c) => a + c.size, 0);
+  const coverOption: DownloadOption[] =
+    coverFiles.length === 1
+      ? [{ kind: "link", label: "Capa", detail: `Imagem · ${formatSize(coverBytes)}`, href: coverFiles[0].url }]
+      : coverFiles.length > 1
+        ? [
+            {
+              kind: "zip",
+              label: "Capas",
+              detail: `${coverFiles.length} imagens · ${formatSize(coverBytes)}`,
+              filename: `Capas - ${meta.title}.zip`,
+              files: coverFiles.map((c) => ({ url: c.url, size: c.size, name: c.name.replace(/[\\/:*?"<>|]/g, "") })),
+            },
+          ]
+        : [];
+
   const extraDownloads: DownloadOption[] = [
     ...videos.map((v) => ({ kind: "link" as const, label: v.title, detail: `Vídeo · ${v.size}`, href: v.download })),
+    ...coverOption,
     ...downloads.map((d) => ({ kind: "link" as const, label: d.name, detail: d.size, href: d.url })),
   ];
 

@@ -381,13 +381,17 @@ const URL_TTL = 60 * 60 * 12; // 12 horas
 // link baixa o arquivo, enquanto <video> e <img> continuam exibindo normalmente.
 export const attachment = (name: string) => `attachment; filename="${name.replace(/"/g, "")}"`;
 
-export function signGet(key: string, version?: string) {
+export function signGet(key: string, version?: string, downloadName?: string) {
   // Assinatura fixa dentro de cada hora: o link não muda a cada carregamento,
   // então o navegador reaproveita as imagens que já baixou.
   const hour = new Date(Math.floor(Date.now() / 3_600_000) * 3_600_000);
   // A capa é regravada com o mesmo nome; a versão (data da gravação) entra no link assinado,
   // senão o navegador seguiria mostrando a imagem antiga guardada no cache
-  const ResponseContentDisposition = version ? `inline; filename="v${version.replace(/\D/g, "")}.jpg"` : undefined;
+  const ResponseContentDisposition = downloadName
+    ? attachment(downloadName)
+    : version
+      ? `inline; filename="v${version.replace(/\D/g, "")}.jpg"`
+      : undefined;
   return getSignedUrl(s3(), new GetObjectCommand({ Bucket: bucket(), Key: key, ResponseContentDisposition }), {
     expiresIn: URL_TTL + 3600,
     signingDate: hour,
@@ -398,6 +402,15 @@ export function signGet(key: string, version?: string) {
 export function signCover(files: StoredFile[], name: string) {
   const file = files.find((f) => f.name === name);
   return file ? signGet(file.key, file.lastModified) : undefined;
+}
+
+/** Link para baixar uma capa (salva como arquivo, com um nome legível) */
+export function signCoverDownload(files: StoredFile[], name: string, label: string) {
+  const file = files.find((f) => f.name === name);
+  if (!file) return undefined;
+  // Só letras sem acento no nome do arquivo: o nome vai num cabeçalho da resposta
+  const safe = label.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^\w\s.&()-]/g, "").trim() || "capa";
+  return signGet(file.key, file.lastModified, `Capa - ${safe}.jpg`);
 }
 
 export function signPut(key: string, contentType: string, disposition?: string) {

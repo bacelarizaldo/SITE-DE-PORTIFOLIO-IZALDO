@@ -11,6 +11,8 @@ export type VideoItem = {
   download: string;
   /** Capa enviada no admin, mostrada antes do play */
   poster?: string;
+  /** Link para baixar a capa do vídeo como arquivo */
+  coverDownload?: string;
 };
 
 type FullscreenVideo = HTMLVideoElement & { webkitEnterFullscreen?: () => void };
@@ -441,6 +443,17 @@ function VideoViewer({
       <div className="flex items-center justify-between gap-4 px-6 py-4">
         <p className="min-w-0 truncate text-lg font-semibold">{video.title}</p>
         <div className="flex shrink-0 items-center gap-2">
+          {video.coverDownload && (
+            <a
+              href={video.coverDownload}
+              aria-label={`Baixar a capa de ${video.title}`}
+              title="Baixar a capa"
+              className="inline-flex items-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold text-white ring-1 ring-white/30 transition hover:bg-white/10"
+            >
+              <DownloadIcon className="h-4 w-4" />
+              Capa
+            </a>
+          )}
           <a
             href={video.download}
             className="inline-flex items-center gap-2 rounded-full bg-paper px-5 py-2.5 text-sm font-semibold text-ink transition hover:scale-[1.02]"
